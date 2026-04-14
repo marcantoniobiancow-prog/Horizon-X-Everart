@@ -9,8 +9,11 @@
  */
 {
   "current": {
-    "logo_height": 36,
+    "logo": "shopify://shop_images/Group_2.svg",
+    "logo_inverse": "shopify://shop_images/Group_2.svg",
+    "logo_height": 60,
     "logo_height_mobile": 28,
+    "favicon": "shopify://shop_images/Group_4.svg",
     "type_body_font": "instrument_sans_n4",
     "type_subheading_font": "instrument_sans_n5",
     "type_heading_font": "instrument_sans_n6",
@@ -119,7 +122,7 @@
       },
       "scheme-2": {
         "settings": {
-          "background": "#212121",
+          "background": "#000000",
           "foreground_heading": "#ffffff",
           "foreground": "#ffffff",
           "primary": "#d4d4d4",
