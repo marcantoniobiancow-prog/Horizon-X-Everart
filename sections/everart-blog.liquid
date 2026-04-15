@@ -1,0 +1,495 @@
+{% comment %}
+  Everart – Blog Posts
+  sections/everart-blog.liquid
+
+  Correzioni rispetto all'originale:
+  - Rimosso uso errato di {% paginate %} (apriva/chiudeva senza usare l'oggetto paginato)
+  - Fix operatore logico in visible_if di icons_shape (precedenza and/or)
+  - Sostituzione chiavi t: con stringhe dirette
+  - Aggiunta intestazione sezione editabile (eyebrow, titolo, sottotitolo)
+{% endcomment %}
+
+{%- liquid
+  assign max_items = section.settings.post_limit
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-resource-list
+    spacing-style
+    gap-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    {%- render 'gap-style', value: section.settings.gap -%}
+  "
+>
+
+  {%- comment -%} ── Intestazione sezione editabile ─────────────────── {%- endcomment -%}
+  {%- if section.settings.section_eyebrow != blank
+      or section.settings.section_heading != blank
+      or section.settings.section_subheading != blank -%}
+    <div class="everart-blog-header">
+      {%- if section.settings.section_eyebrow != blank -%}
+        <p class="everart-blog-header__eyebrow">{{ section.settings.section_eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.section_heading != blank -%}
+        <h2 class="everart-blog-header__title">{{ section.settings.section_heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.section_subheading != blank -%}
+        <div class="everart-blog-header__sub rte">{{ section.settings.section_subheading }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── Titolo blog (blocco statico del tema) ──────────── {%- endcomment -%}
+  {% content_for 'block', id: 'static-blog-title', type: '_featured-blog-posts-title' %}
+
+  {%- comment -%} ── Raccolta articoli ──────────────────────────────── {%- endcomment -%}
+  {%- if section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
+    {%- assign section_articles = section.settings.blog.articles -%}
+  {%- else -%}
+    {%- comment -%}
+      Placeholder: crea un array di stringhe vuote della dimensione di max_items
+      usato dal tema per mostrare skeleton/placeholder cards nell'editor.
+    {%- endcomment -%}
+    {%- assign section_articles = '' -%}
+    {%- for i in (1..max_items) -%}
+      {%- assign section_articles = section_articles | append: ',' -%}
+    {%- endfor -%}
+    {%- assign section_articles = section_articles | split: ',' -%}
+  {%- endif -%}
+
+  {%- comment -%} ── Costruzione lista card ─────────────────────────── {%- endcomment -%}
+  {%- capture list_items -%}
+    {%- for article in section_articles limit: max_items -%}
+      <div class="resource-list__item">
+        {% content_for 'block',
+          id: 'static-blog-post-card',
+          type: '_featured-blog-posts-card',
+          article: article,
+          closest.article: article
+        %}
+      </div>
+      {%- unless forloop.last -%}<!--@list/split-->{%- endunless -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign list_items_array = list_items | strip | split: '<!--@list/split-->' -%}
+
+  {%- render 'resource-list',
+    list_items: list_items,
+    list_items_array: list_items_array,
+    settings: section.settings,
+    carousel_ref: 'featuredBlog',
+    slide_count: max_items,
+    content_type: 'articles',
+    test_id: 'featured-blog-posts'
+  -%}
+
+</div>
+
+
+{% schema %}
+{
+  "name": "Blog Posts",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "class": "featured-blog-posts",
+  "blocks": [
+    { "type": "_featured-blog-posts-title" },
+    { "type": "_featured-blog-posts-card" },
+    { "type": "_featured-blog-posts-image" }
+  ],
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "header",
+      "content": "Intestazione sezione"
+    },
+    {
+      "type": "text",
+      "id": "section_eyebrow",
+      "label": "Eyebrow (etichetta piccola)",
+      "info": "Testo sovra-titolo, es. 'ULTIME NOTIZIE'"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Titolo sezione",
+      "info": "Lascia vuoto per usare il titolo del blog dinamico."
+    },
+    {
+      "type": "richtext",
+      "id": "section_subheading",
+      "label": "Sottotitolo / descrizione sezione"
+    },
+    {
+      "type": "header",
+      "content": "Layout card"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Tipo di layout",
+      "options": [
+        { "value": "grid",       "label": "Griglia" },
+        { "value": "carousel",   "label": "Carosello" },
+        { "value": "editorial",  "label": "Editoriale" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_on_mobile",
+      "label": "Carosello su mobile",
+      "default": true,
+      "visible_if": "{{ section.settings.layout_type != 'carousel' }}"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Numero di articoli",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Colonne",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 3,
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Colonne su mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2",
+      "visible_if": "{{ section.settings.layout_type == 'grid' and section.settings.carousel_on_mobile == false }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_card_size",
+      "label": "Dimensione card mobile",
+      "options": [
+        { "value": "60cqw", "label": "Grande (1 card)" },
+        { "value": "44cqw", "label": "Media (2 card)" }
+      ],
+      "default": "60cqw",
+      "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap",
+      "label": "Spazio orizzontale tra card",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' }}"
+    },
+    {
+      "type": "range",
+      "id": "rows_gap",
+      "label": "Spazio verticale tra card",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+    },
+    {
+      "type": "header",
+      "content": "Navigazione carosello",
+      "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "Icona freccia",
+      "options": [
+        { "value": "arrow",         "label": "Frecce" },
+        { "value": "chevron",       "label": "Chevron" },
+        { "value": "arrows_large",  "label": "Frecce grandi" },
+        { "value": "chevron_large", "label": "Chevron grande" },
+        { "value": "none",          "label": "Nessuna" }
+      ],
+      "default": "arrow",
+      "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
+    },
+    {
+      "type": "select",
+      "id": "icons_shape",
+      "label": "Sfondo icona",
+      "options": [
+        { "value": "none",   "label": "Nessuno" },
+        { "value": "circle", "label": "Cerchio" },
+        { "value": "square", "label": "Quadrato" }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.icons_style != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout sezione"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Larghezza",
+      "options": [
+        { "value": "page-width", "label": "Larghezza pagina" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap intestazione / card",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colori",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spaziatura"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog – Carosello",
+      "category": "Blog",
+      "blocks": {
+        "static-blog-title": {
+          "type": "_featured-blog-posts-title",
+          "name": "Titolo sezione",
+          "static": true,
+          "settings": {
+            "text": "<h3>{{ closest.blog.title }}</h3>",
+            "type_preset": "rte"
+          }
+        },
+        "static-blog-post-card": {
+          "type": "_featured-blog-posts-card",
+          "name": "Card articolo",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "title": {
+              "type": "_heading",
+              "name": "Titolo",
+              "static": true,
+              "settings": {
+                "text": "<h4>{{ closest.article.title }}</h4>",
+                "show_alignment": false
+              }
+            },
+            "blog-post-info-text": {
+              "type": "_blog-post-info-text",
+              "name": "Info articolo",
+              "static": true,
+              "settings": {
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "show_alignment": false
+              }
+            },
+            "blog-post-description": {
+              "type": "_blog-post-description",
+              "name": "Estratto",
+              "static": true,
+              "settings": {
+                "padding-block-start": 8,
+                "padding-block-end": 0
+              }
+            }
+          }
+        }
+      },
+      "settings": {
+        "layout_type": "carousel",
+        "post_limit": 5,
+        "columns": 3,
+        "columns_gap": 8,
+        "mobile_card_size": "60cqw",
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "gap": 12,
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    {
+      "name": "Blog – Griglia",
+      "category": "Blog",
+      "blocks": {
+        "static-blog-title": {
+          "type": "_featured-blog-posts-title",
+          "name": "Titolo sezione",
+          "static": true,
+          "settings": {
+            "text": "<h3>{{ closest.blog.title }}</h3>",
+            "type_preset": "rte"
+          }
+        },
+        "static-blog-post-card": {
+          "type": "_featured-blog-posts-card",
+          "name": "Card articolo",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "title": {
+              "type": "_heading",
+              "name": "Titolo",
+              "static": true,
+              "settings": {
+                "text": "<h4>{{ closest.article.title }}</h4>",
+                "show_alignment": false
+              }
+            },
+            "blog-post-info-text": {
+              "type": "_blog-post-info-text",
+              "name": "Info articolo",
+              "static": true,
+              "settings": {
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "show_alignment": false
+              }
+            },
+            "blog-post-description": {
+              "type": "_blog-post-description",
+              "name": "Estratto",
+              "static": true,
+              "settings": {
+                "padding-block-start": 8,
+                "padding-block-end": 0
+              }
+            }
+          }
+        }
+      },
+      "settings": {
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "columns": 3,
+        "mobile_columns": "2",
+        "columns_gap": 8,
+        "rows_gap": 8,
+        "gap": 12,
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    {
+      "name": "Blog – Editoriale",
+      "category": "Blog",
+      "blocks": {
+        "static-blog-title": {
+          "type": "_featured-blog-posts-title",
+          "name": "Titolo sezione",
+          "static": true,
+          "settings": {
+            "text": "<h3>{{ closest.blog.title }}</h3>",
+            "type_preset": "rte"
+          }
+        },
+        "static-blog-post-card": {
+          "type": "_featured-blog-posts-card",
+          "name": "Card articolo",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "title": {
+              "type": "_heading",
+              "name": "Titolo",
+              "static": true,
+              "settings": {
+                "text": "<h4>{{ closest.article.title }}</h4>",
+                "show_alignment": false
+              }
+            },
+            "blog-post-info-text": {
+              "type": "_blog-post-info-text",
+              "name": "Info articolo",
+              "static": true,
+              "settings": {
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "show_alignment": false
+              }
+            },
+            "blog-post-description": {
+              "type": "_blog-post-description",
+              "name": "Estratto",
+              "static": true,
+              "settings": {
+                "padding-block-start": 8,
+                "padding-block-end": 0
+              }
+            }
+          }
+        }
+      },
+      "settings": {
+        "layout_type": "editorial",
+        "carousel_on_mobile": false,
+        "gap": 64,
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    }
+  ]
+}
+{% endschema %}
