@@ -42,8 +42,7 @@
 
   {% capture list_items %}
     {% if section.settings.collection != blank and shop.products_count != 0 %}
-      {% paginate collection_products by max_items %}
-        {% for product in collection_products limit: max_items %}
+      {% for product in collection_products limit: max_items %}
           <div
             class="resource-list__item"
           >
@@ -56,7 +55,6 @@
             <!--@list/split-->
           {% endunless %}
         {% endfor %}
-      {% endpaginate %}
     {% else %}
       {% for i in (1..max_items) %}
         <div
