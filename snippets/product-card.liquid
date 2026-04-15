@@ -111,32 +111,9 @@
 </product-card>
 
 {% stylesheet %}
-  /* Content below image: 24px left, top border + padding, bottom padding */
+  /* 24px left padding on all content blocks below the image */
   .product-card__content > :not(.card-gallery) {
     --padding-inline-start: 24px !important;
-  }
-
-  .product-card__content > :not(.card-gallery):first-of-type {
-    border-top: 1px solid rgb(var(--color-border-rgb) / 0.25);
-    --padding-block-start: 20px !important;
-  }
-
-  .product-card__content > :not(.card-gallery):last-child {
-    --padding-block-end: 16px !important;
-  }
-
-  /* Title: bold */
-  .product-card__content product-title .text-block p,
-  .product-card__content product-title .text-block a {
-    font-weight: 700;
-  }
-
-  /* Price: large and prominent */
-  .product-card__content product-price .price {
-    font-size: clamp(2rem, 4cqw, 2.8rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.02em;
   }
 
   .product-card__placeholder-image svg {
