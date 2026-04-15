@@ -111,14 +111,14 @@
 </product-card>
 
 {% stylesheet %}
-  /* 24px left padding on price and all direct non-gallery children */
+  /* left padding on price and all direct non-gallery children */
   .product-card__content > :not(.card-gallery) {
-    --padding-inline-start: 24px !important;
+    --padding-inline-start: 0px !important;
   }
 
-  /* 24px left padding on title (wrapped in display:contents <a>) */
+  /* left padding on title (wrapped in display:contents <a>) */
   .product-card__content product-title .text-block {
-    --padding-inline-start: 24px !important;
+    --padding-inline-start: 0px !important;
   }
 
   .product-card__placeholder-image svg {
