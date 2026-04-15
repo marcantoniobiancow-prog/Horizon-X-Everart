@@ -305,7 +305,7 @@
         "section_width": "full-width",
         "horizontal_alignment": "flex-start",
         "gap": 24,
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
@@ -340,8 +340,8 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
+            "toggle_overlay": true,
+            "overlay_color": "#0c0c0c34",
             "overlay_style": "solid",
             "gradient_direction": "to top",
             "link": "",
@@ -363,6 +363,29 @@
                 "size_mobile": "percent",
                 "percent_size_mobile": 100,
                 "pixel_size_mobile": 120
+              },
+              "blocks": {}
+            },
+            "image_wpUCNP": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/FRK_logo_full.svg",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -390,26 +413,12 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "button_xzeJge": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "spacer_PHEqdw",
-            "text_4pQfB7",
-            "button_xzeJge"
+            "image_wpUCNP",
+            "text_4pQfB7"
           ]
         },
         "group_dxhm4i": {
@@ -440,8 +449,8 @@
             "border_opacity": 100,
             "border_radius": 0,
             "toggle_overlay": true,
-            "overlay_color": "#333333",
-            "overlay_style": "gradient",
+            "overlay_color": "#0c0c0c34",
+            "overlay_style": "solid",
             "gradient_direction": "to bottom",
             "link": "",
             "open_in_new_tab": false,
@@ -462,6 +471,29 @@
                 "size_mobile": "percent",
                 "percent_size_mobile": 100,
                 "pixel_size_mobile": 120
+              },
+              "blocks": {}
+            },
+            "image_QYgnKg": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/BramStoket_title.svg",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -489,26 +521,12 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "button_kzaRGa": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "spacer_nqcHnt",
-            "text_YCcDbU",
-            "button_kzaRGa"
+            "image_QYgnKg",
+            "text_YCcDbU"
           ]
         }
       },
