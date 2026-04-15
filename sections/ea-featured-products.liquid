@@ -10,82 +10,104 @@
 <section>
   <div class="wrap">
     <div class="s-head fp-s-head">
-      <div>
+      <div class="fp-head-left">
         {%- if s.label != blank -%}<div class="label">{{ s.label }}</div>{%- endif -%}
         {%- if s.heading != blank -%}<h2>{{ s.heading }}</h2>{%- endif -%}
       </div>
-      {%- if has_products -%}
-        <a href="{{ collection.url }}" class="fp-view-all">
-          <span>View Collection</span>
+      <div class="fp-controls" data-fp-id="{{ section.id }}">
+        <button class="fp-btn fp-prev" aria-label="Precedente" disabled>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
+            <polyline points="15 18 9 12 15 6"/>
           </svg>
-        </a>
-      {%- endif -%}
+        </button>
+        <span class="fp-counter">
+          <span class="fp-cur">01</span><span class="fp-sep">/</span><span class="fp-tot">01</span>
+        </span>
+        <button class="fp-btn fp-next" aria-label="Successivo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <polyline points="9 6 15 12 9 18"/>
+          </svg>
+        </button>
+        {%- if has_products -%}
+          <a href="{{ collection.url }}" class="fp-view-all">
+            <span>View All</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 
-  <div class="fp-grid">
-    {%- if has_products -%}
-      {%- for product in collection.products limit: s.products_to_show -%}
-        {%- assign idx_raw = forloop.index -%}
-        {%- if idx_raw < 10 -%}{%- assign idx = idx_raw | prepend: '0' -%}{%- else -%}{%- assign idx = idx_raw -%}{%- endif -%}
-        <a class="fp-card" href="{{ product.url }}" style="--i:{{ forloop.index0 }}">
-          <div class="fp-img-wrap ea-img">
-            {%- if product.featured_image != blank -%}
-              <img
-                src="{{ product.featured_image | image_url: width: 700 }}"
-                alt="{{ product.featured_image.alt | escape }}"
-                class="fp-img"
-                loading="lazy"
-                width="700"
-                height="875">
-            {%- else -%}
-              <span class="img-label">{{ product.title }}</span>
-            {%- endif -%}
-            <div class="fp-overlay">
-              <span class="fp-quick">Scopri</span>
+  <div class="fp-carousel-wrap">
+    <div class="fp-track" data-fp-id="{{ section.id }}">
+      {%- if has_products -%}
+        {%- for product in collection.products limit: s.products_to_show -%}
+          {%- if forloop.index < 10 -%}
+            {%- assign idx = forloop.index | prepend: '0' -%}
+          {%- else -%}
+            {%- assign idx = forloop.index -%}
+          {%- endif -%}
+          <a class="fp-card" href="{{ product.url }}" style="--i:{{ forloop.index0 }}">
+            <div class="fp-img-wrap">
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 700 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="fp-img"
+                  loading="lazy"
+                  width="700"
+                  height="875">
+              {%- else -%}
+                <div class="fp-img-placeholder ea-img">
+                  <span class="img-label">{{ product.title }}</span>
+                </div>
+              {%- endif -%}
+              <div class="fp-overlay">
+                <span class="fp-quick">Scopri</span>
+              </div>
             </div>
-          </div>
-          <div class="fp-body">
-            <span class="fp-num">{{ idx }}</span>
-            <div class="fp-info">
-              <div class="fp-name">{{ product.title }}</div>
+            <div class="fp-body">
+              <div class="fp-body-row">
+                <span class="fp-num">{{ idx }}</span>
+                <span class="fp-name">{{ product.title }}</span>
+              </div>
               {%- if product.metafields.custom.includes != blank -%}
                 <div class="fp-incl">{{ product.metafields.custom.includes }}</div>
               {%- endif -%}
+              <div class="fp-body-foot">
+                <span class="fp-price">{{ product.price | money }}</span>
+                <span class="fp-bar"></span>
+              </div>
             </div>
-            <div class="fp-price-wrap">
-              <div class="fp-price">{{ product.price | money }}</div>
-              <div class="fp-bar"></div>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..3) -%}
+          <div class="fp-card" style="--i:{{ forloop.index0 }}">
+            <div class="fp-img-wrap">
+              <div class="fp-img-placeholder ea-img">
+                <span class="img-label">Product {{ i }}</span>
+              </div>
+              <div class="fp-overlay"><span class="fp-quick">Scopri</span></div>
             </div>
-          </div>
-        </a>
-      {%- endfor -%}
-    {%- else -%}
-      {%- for i in (1..3) -%}
-        <div class="fp-card" style="--i:{{ forloop.index0 }}">
-          <div class="fp-img-wrap ea-img">
-            <span class="img-label">Product {{ i }}</span>
-            <div class="fp-overlay">
-              <span class="fp-quick">Scopri</span>
-            </div>
-          </div>
-          <div class="fp-body">
-            <span class="fp-num">0{{ i }}</span>
-            <div class="fp-info">
-              <div class="fp-name">Product name</div>
+            <div class="fp-body">
+              <div class="fp-body-row">
+                <span class="fp-num">0{{ i }}</span>
+                <span class="fp-name">Product name</span>
+              </div>
               <div class="fp-incl">Everart Studio</div>
-            </div>
-            <div class="fp-price-wrap">
-              <div class="fp-price">€—</div>
-              <div class="fp-bar"></div>
+              <div class="fp-body-foot">
+                <span class="fp-price">€—</span>
+                <span class="fp-bar"></span>
+              </div>
             </div>
           </div>
-        </div>
-      {%- endfor -%}
-    {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
   </div>
 </section>
 
