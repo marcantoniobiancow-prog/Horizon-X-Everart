@@ -125,6 +125,7 @@
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
+        "reverse_on_mobile": false,
         "horizontal_alignment": "space-between",
         "vertical_alignment": "center",
         "align_baseline": true,
@@ -393,6 +394,7 @@
       "name": "Featured collection",
       "settings": {
         "collection": "all",
+        "sort_by": "price-descending",
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 8,
