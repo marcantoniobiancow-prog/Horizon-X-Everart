@@ -352,7 +352,7 @@
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 4,
+                "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -393,8 +393,8 @@
       "name": "Featured collection",
       "settings": {
         "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
+        "layout_type": "carousel",
+        "carousel_on_mobile": true,
         "max_products": 8,
         "columns": 3,
         "mobile_columns": "2",
