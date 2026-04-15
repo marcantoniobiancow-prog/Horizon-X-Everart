@@ -1,0 +1,921 @@
+{%- comment -%}
+  EverArt Footer — Definitive v3
+  File: sections/everart-footer-def.liquid
+
+  Changes v3:
+  • Background full-width (sfondo edge-to-edge) — container_width ora controlla solo il
+    max-width del contenuto interno, NON il box del bg
+  • Social icons ripristinate: Instagram + Facebook come settings fissi + blocchi aggiuntivi
+  • Bottom bar links: Privacy + Terms come settings fissi + blocchi aggiuntivi illimitati
+  • Struttura: card = sfondo full-width | inner = contenuto opzionalmente max-width
+{%- endcomment -%}
+
+{%- liquid
+  assign s                  = section.settings
+  assign sid                = section.id
+  assign has_logo           = false
+  if s.logo != blank
+    assign has_logo = true
+  endif
+  assign logo_behavior       = s.logo_behavior
+  assign logo_overflow_scale = s.logo_overflow_scale | divided_by: 100.0
+
+  assign social_blocks = section.blocks | where: "type", "social"
+  assign legal_blocks  = section.blocks | where: "type", "legal_link"
+  assign contact_blocks = section.blocks | where: "type", "contact_item"
+-%}
+
+<style>
+/* ============================================================
+   ROOT VARIABLES
+   ============================================================ */
+#ea-footer-def-{{ sid }} {
+  --ea-bg:      {{ s.bg_color }};
+  --ea-grad:    {{ s.gradient_color }};
+  --ea-text:    {{ s.text_color }};
+  --ea-radius:  {{ s.border_radius }}px;
+  --ea-logo-w:  {{ s.logo_custom_width }}px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative; /* JS sets padding for logo overflow */
+}
+
+/* ============================================================
+   CARD — sfondo full-width (non più boxed)
+   ============================================================ */
+#ea-footer-def-{{ sid }} .eafd-card {
+  position: relative;
+  background: var(--ea-bg);
+  border-radius: var(--ea-radius);
+  overflow: visible; /* logo may escape vertically */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ── Animated gradient layer (clipped to card shape) ───────── */
+#ea-footer-def-{{ sid }} .eafd-grad-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--ea-radius);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+#ea-footer-def-{{ sid }} .eafd-grad-layer::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 40%;
+  background: linear-gradient(to top, var(--ea-grad) 0%, transparent 100%);
+  opacity: 0.6;
+  will-change: height, opacity;
+  animation: eafd-breathe-{{ sid }} 3s ease-in-out infinite;
+}
+@keyframes eafd-breathe-{{ sid }} {
+  0%, 100% { height: 40%; opacity: 0.6; }
+  50%       { height: 60%; opacity: 1;   }
+}
+
+/* ── INNER: contenuto max-width opzionale ──────────────────── */
+#ea-footer-def-{{ sid }} .eafd-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px 64px;
+  box-sizing: border-box;
+  width: 100%;
+}
+{% if s.container_width == 'page' %}
+#ea-footer-def-{{ sid }} .eafd-inner {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+{% endif %}
+
+/* ============================================================
+   LEFT CONTENT
+   ============================================================ */
+#ea-footer-def-{{ sid }} .eafd-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* — Intro —————————————————————————— */
+#ea-footer-def-{{ sid }} .eafd-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#ea-footer-def-{{ sid }} .eafd-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ea-text);
+  margin: 0;
+}
+#ea-footer-def-{{ sid }} .eafd-heading {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--ea-text);
+  margin: 0;
+  max-width: 540px;
+}
+
+/* — Nav columns ————————————————————— */
+#ea-footer-def-{{ sid }} .eafd-nav {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+#ea-footer-def-{{ sid }} .eafd-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#ea-footer-def-{{ sid }} .eafd-col-heading {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ea-text);
+  margin: 0;
+}
+#ea-footer-def-{{ sid }} .eafd-col-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#ea-footer-def-{{ sid }} .eafd-col-list a,
+#ea-footer-def-{{ sid }} .eafd-col-list span {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ea-text);
+  text-decoration: none;
+  display: block;
+}
+#ea-footer-def-{{ sid }} .eafd-col-list a:hover { text-decoration: underline; }
+
+/* — Bottom bar —————————————————————— */
+#ea-footer-def-{{ sid }} .eafd-bottom {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+#ea-footer-def-{{ sid }} .eafd-socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+#ea-footer-def-{{ sid }} .eafd-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ea-text);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+#ea-footer-def-{{ sid }} .eafd-social-link:hover { opacity: 0.7; }
+#ea-footer-def-{{ sid }} .eafd-social-link svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: block;
+}
+#ea-footer-def-{{ sid }} .eafd-legal-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ea-text);
+  opacity: 0.4;
+  margin: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+#ea-footer-def-{{ sid }} a.eafd-legal-text:hover { opacity: 0.7; }
+
+/* ============================================================
+   LOGO — DESKTOP (right, flex child, may overflow card)
+   ============================================================ */
+#ea-footer-def-{{ sid }} .eafd-logo-desktop {
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+#ea-footer-def-{{ sid }} .eafd-logo-desktop img {
+  display: block;
+  height: auto;
+  width: auto;
+}
+{% if logo_behavior == 'fill' %}
+#ea-footer-def-{{ sid }} .eafd-logo-desktop { align-self: stretch; }
+#ea-footer-def-{{ sid }} .eafd-logo-desktop img { height: 100%; width: auto; object-fit: contain; }
+{% elsif logo_behavior == 'custom' %}
+#ea-footer-def-{{ sid }} .eafd-logo-desktop img { width: var(--ea-logo-w); height: auto; }
+{% endif %}
+
+/* ============================================================
+   LOGO — MOBILE (top of section, overflow upward only)
+   ============================================================ */
+#ea-footer-def-{{ sid }} .eafd-logo-mobile {
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  z-index: 2;
+}
+#ea-footer-def-{{ sid }} .eafd-logo-mobile img {
+  display: block;
+  height: auto;
+  width: min(55vw, 260px);
+}
+{% if logo_behavior == 'custom' %}
+#ea-footer-def-{{ sid }} .eafd-logo-mobile img { width: min(var(--ea-logo-w), 72vw); }
+{% endif %}
+
+/* ============================================================
+   MOBILE — ≤ 767px
+   ============================================================ */
+@media (max-width: 767px) {
+  #ea-footer-def-{{ sid }} .eafd-logo-desktop { display: none !important; }
+  #ea-footer-def-{{ sid }} .eafd-logo-mobile  { display: flex; }
+  #ea-footer-def-{{ sid }} .eafd-inner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 28px 24px;
+    gap: 32px;
+  }
+  #ea-footer-def-{{ sid }} .eafd-heading {
+    font-size: clamp(20px, 5vw, 28px);
+    max-width: 100%;
+  }
+  #ea-footer-def-{{ sid }} .eafd-nav    { flex-direction: column; gap: 28px; }
+  #ea-footer-def-{{ sid }} .eafd-bottom { gap: 16px; row-gap: 8px; }
+}
+
+/* ============================================================
+   TABLET — 768px – 1023px
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #ea-footer-def-{{ sid }} .eafd-inner  { padding: 32px 40px; gap: 16px; }
+  #ea-footer-def-{{ sid }} .eafd-heading { font-size: 26px; }
+}
+</style>
+
+{%- comment -%}
+  ─── SVG icon helper ────────────────────────────────────────
+  Usage: assign _platform = 'instagram' then render this capture
+{%- endcomment -%}
+
+<div id="ea-footer-def-{{ sid }}"
+     data-logo-behavior="{{ logo_behavior }}"
+     data-logo-scale="{{ logo_overflow_scale }}">
+
+  {%- comment -%}— MOBILE LOGO (above card) —{%- endcomment -%}
+  {%- if has_logo -%}
+  <div class="eafd-logo-mobile" id="eafd-logo-mobile-{{ sid }}">
+    <img
+      src="{{ s.logo | image_url: width: 600 }}"
+      alt="{{ shop.name }}"
+      loading="lazy"
+      width="{{ s.logo.width }}"
+      height="{{ s.logo.height }}"
+    >
+  </div>
+  {%- endif -%}
+
+  {%- comment -%}— CARD: full-width sfondo scuro —{%- endcomment -%}
+  <div class="eafd-card" id="eafd-card-{{ sid }}">
+
+    {%- comment -%}Gradient animato (clipped nel card){%- endcomment -%}
+    <div class="eafd-grad-layer" aria-hidden="true"></div>
+
+    {%- comment -%}— INNER: contenuto (opzionalmente max-width) —{%- endcomment -%}
+    <div class="eafd-inner">
+
+      {%- comment -%}— LEFT CONTENT —{%- endcomment -%}
+      <div class="eafd-content">
+
+        {%- comment -%}INTRO{%- endcomment -%}
+        <div class="eafd-intro">
+          {%- if s.label_text != blank -%}
+            <p class="eafd-label">{{ s.label_text }}</p>
+          {%- endif -%}
+          {%- if s.heading_text != blank -%}
+            <h2 class="eafd-heading">{{ s.heading_text }}</h2>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%}NAV COLUMNS{%- endcomment -%}
+        <div class="eafd-nav">
+
+          {%- comment -%}COL 1: MENU{%- endcomment -%}
+          <div class="eafd-col">
+            {%- if s.menu_label != blank -%}
+              <p class="eafd-col-heading">{{ s.menu_label }}</p>
+            {%- endif -%}
+            {%- if s.menu != blank -%}
+              <ul class="eafd-col-list">
+                {%- for link in linklists[s.menu].links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%}COL 2: COLLECTIONS{%- endcomment -%}
+          <div class="eafd-col">
+            {%- if s.collections_label != blank -%}
+              <p class="eafd-col-heading">{{ s.collections_label }}</p>
+            {%- endif -%}
+            {%- if s.collections_menu != blank -%}
+              <ul class="eafd-col-list">
+                {%- for link in linklists[s.collections_menu].links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%}COL 3: CONTACT{%- endcomment -%}
+          <div class="eafd-col">
+            {%- if s.contact_label != blank -%}
+              <p class="eafd-col-heading">{{ s.contact_label }}</p>
+            {%- endif -%}
+            <ul class="eafd-col-list">
+              {%- if s.contact_phone != blank -%}
+                {%- assign phone_clean = s.contact_phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' -%}
+                <li><a href="tel:{{ phone_clean }}">{{ s.contact_phone }}</a></li>
+              {%- endif -%}
+              {%- if s.contact_email != blank -%}
+                <li><a href="mailto:{{ s.contact_email }}">{{ s.contact_email }}</a></li>
+              {%- endif -%}
+              {%- if s.contact_city != blank -%}
+                <li><span>{{ s.contact_city }}</span></li>
+              {%- endif -%}
+              {%- for block in contact_blocks -%}
+                {%- if block.settings.text != blank -%}
+                  <li>
+                    {%- if block.settings.link != blank -%}
+                      <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</a>
+                    {%- else -%}
+                      <span {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+                    {%- endif -%}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+
+        </div>{%- comment -%}end .eafd-nav{%- endcomment -%}
+
+        {%- comment -%}BOTTOM BAR{%- endcomment -%}
+        <div class="eafd-bottom">
+
+          {%- comment -%}SOCIAL ICONS — tutti via blocchi{%- endcomment -%}
+          {%- if social_blocks.size > 0 -%}
+          <div class="eafd-socials">
+            {%- for block in social_blocks -%}
+              {%- if block.settings.url != blank -%}
+                {%- assign _plt = block.settings.platform -%}
+                <a href="{{ block.settings.url }}"
+                   class="eafd-social-link"
+                   aria-label="{{ _plt | capitalize }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   {{ block.shopify_attributes }}>
+                  {%- case _plt -%}
+                    {%- when 'instagram' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    {%- when 'facebook' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    {%- when 'tiktok' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+                    {%- when 'twitter' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    {%- when 'youtube' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    {%- when 'linkedin' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    {%- when 'pinterest' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                    {%- when 'threads' -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.806 1.26-6.953 3.646-9.09C7.394.906 10.5.06 14.271.045h.023c2.648 0 5.37.58 7.498 2.585 1.98 1.863 2.95 4.5 2.879 7.841-.096 4.441-2.619 7.031-6.95 7.101-1.408.02-2.543-.326-3.296-.98a3.2 3.2 0 01-.42-.463 3.6 3.6 0 01-3.286 2.254c-1.944 0-3.714-1.497-3.714-4.108 0-2.782 1.802-4.517 4.703-4.517.747 0 1.505.096 2.254.284l-.001-.297c-.014-1.34-.518-2.007-1.594-2.007-.685 0-1.253.27-1.651.78l-.031.043-2.09-.563.022-.054c.57-1.395 2.01-2.224 3.85-2.224 2.519 0 3.913 1.364 3.926 3.841l.009 2.152c.01 1.944.393 2.785 1.364 2.785 1.466 0 2.37-1.454 2.37-3.791 0-2.69-.777-4.73-2.247-5.9-1.302-1.035-3.022-1.558-5.115-1.555-3.17.014-5.63.748-7.316 2.182C5.232 7.5 4.5 9.786 4.5 12.068c0 2.967.67 5.305 1.994 6.95 1.406 1.747 3.57 2.65 6.43 2.684 1.22.007 2.505-.156 3.549-.454l.245-.071.483 1.896-.22.07c-1.244.384-2.717.582-4.194.582l-.6-.745zm-.03-10.765c-1.455 0-2.267.766-2.267 2.102 0 1.218.74 1.959 1.929 1.959.935 0 1.695-.485 2.099-1.333l.007-.015-.047-2.366a7.8 7.8 0 00-1.721-.347z"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>
+                  {%- endcase -%}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+
+          {%- comment -%}Copyright{%- endcomment -%}
+          {%- if s.copyright_text != blank -%}
+            <p class="eafd-legal-text">{{ s.copyright_text }}</p>
+          {%- endif -%}
+
+          {%- comment -%}Privacy (setting fisso){%- endcomment -%}
+          {%- if s.privacy_text != blank -%}
+            {%- if s.privacy_url != blank -%}
+              <a href="{{ s.privacy_url }}" class="eafd-legal-text">{{ s.privacy_text }}</a>
+            {%- else -%}
+              <span class="eafd-legal-text">{{ s.privacy_text }}</span>
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- comment -%}Terms (setting fisso){%- endcomment -%}
+          {%- if s.terms_text != blank -%}
+            {%- if s.terms_url != blank -%}
+              <a href="{{ s.terms_url }}" class="eafd-legal-text">{{ s.terms_text }}</a>
+            {%- else -%}
+              <span class="eafd-legal-text">{{ s.terms_text }}</span>
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- comment -%}Link aggiuntivi dalla barra in basso (blocchi "legal_link"){%- endcomment -%}
+          {%- for block in legal_blocks -%}
+            {%- if block.settings.label != blank -%}
+              {%- if block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}" class="eafd-legal-text" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+              {%- else -%}
+                <span class="eafd-legal-text" {{ block.shopify_attributes }}>{{ block.settings.label }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+        </div>{%- comment -%}end .eafd-bottom{%- endcomment -%}
+
+      </div>{%- comment -%}end .eafd-content{%- endcomment -%}
+
+      {%- comment -%}— DESKTOP LOGO (right) —{%- endcomment -%}
+      {%- if has_logo -%}
+      <div class="eafd-logo-desktop" id="eafd-logo-desktop-{{ sid }}">
+        <img
+          src="{{ s.logo | image_url: width: 700 }}"
+          alt="{{ shop.name }}"
+          loading="lazy"
+          width="{{ s.logo.width }}"
+          height="{{ s.logo.height }}"
+          id="eafd-logo-desktop-img-{{ sid }}"
+        >
+      </div>
+      {%- endif -%}
+
+    </div>{%- comment -%}end .eafd-inner{%- endcomment -%}
+
+  </div>{%- comment -%}end .eafd-card{%- endcomment -%}
+
+</div>{%- comment -%}end #ea-footer-def-{{ sid }}{%- endcomment -%}
+
+<script>
+(function () {
+  'use strict';
+
+  var SID      = {{ sid | json }};
+  var BEHAVIOR = {{ logo_behavior | json }};
+  var SCALE    = {{ logo_overflow_scale }};
+
+  var outer = null, card = null;
+  var logoDesktop = null, logoDesktopImg = null;
+  var logoMobile  = null, logoMobileImg  = null;
+
+  function queryEls() {
+    outer          = document.getElementById('ea-footer-def-' + SID);
+    card           = document.getElementById('eafd-card-' + SID);
+    logoDesktop    = document.getElementById('eafd-logo-desktop-' + SID);
+    logoDesktopImg = logoDesktop ? document.getElementById('eafd-logo-desktop-img-' + SID) : null;
+    logoMobile     = document.getElementById('eafd-logo-mobile-' + SID);
+    logoMobileImg  = logoMobile ? logoMobile.querySelector('img') : null;
+  }
+
+  function reset() {
+    if (!outer) return;
+    outer.style.paddingTop    = '';
+    outer.style.paddingBottom = '';
+    if (logoMobile)     { logoMobile.style.marginTop = ''; }
+    if (logoDesktopImg) { logoDesktopImg.style.height = ''; logoDesktopImg.style.width = ''; }
+  }
+
+  function update() {
+    if (!outer || !card) return;
+    reset();
+
+    var isMobile = window.innerWidth < 768;
+
+    /* ── MOBILE: overflow upward only ────────────────────── */
+    if (isMobile) {
+      if (!logoMobile || !logoMobileImg || BEHAVIOR !== 'overflow') return;
+      var mobileH = logoMobile.offsetHeight;
+      if (mobileH <= 0) return;
+      var upward = Math.round(mobileH * (1 - 1 / SCALE));
+      if (upward <= 0) return;
+      logoMobile.style.marginTop = '-' + upward + 'px';
+      outer.style.paddingTop     = upward + 'px';
+      return;
+    }
+
+    /* ── DESKTOP: overflow above + below equally ─────────── */
+    if (BEHAVIOR !== 'overflow') return;
+    if (!logoDesktop || !logoDesktopImg) return;
+
+    var cardH = card.offsetHeight;
+    if (cardH <= 0) return;
+
+    var natW    = logoDesktopImg.naturalWidth  || 307;
+    var natH    = logoDesktopImg.naturalHeight || 456;
+    var targetH = Math.round(cardH * SCALE);
+    var targetW = Math.round(targetH * (natW / natH));
+
+    logoDesktopImg.style.height = targetH + 'px';
+    logoDesktopImg.style.width  = targetW + 'px';
+
+    var overflow = Math.round((targetH - cardH) / 2);
+    if (overflow > 0) {
+      outer.style.paddingTop    = overflow + 'px';
+      outer.style.paddingBottom = overflow + 'px';
+    }
+  }
+
+  function init() {
+    queryEls();
+    if (!outer || !card) return;
+
+    var imgs = outer.querySelectorAll('img');
+    var total = imgs.length, loaded = 0;
+
+    function onLoad() { if (++loaded >= total) update(); }
+
+    if (total === 0) { update(); return; }
+    imgs.forEach(function (img) {
+      if (img.complete && img.naturalWidth > 0) { onLoad(); }
+      else {
+        img.addEventListener('load',  onLoad);
+        img.addEventListener('error', onLoad);
+      }
+    });
+    update();
+  }
+
+  var raf;
+  window.addEventListener('resize', function () {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(update);
+  });
+
+  document.addEventListener('shopify:section:load', function (e) {
+    if (e.detail && e.detail.sectionId === SID) { setTimeout(init, 80); }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+}());
+</script>
+
+{% schema %}
+{
+  "name": "EverArt Footer",
+  "tag": "section",
+  "class": "everart-footer-def-section",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Larghezza contenuto",
+      "options": [
+        { "value": "full", "label": "Full width (contenuto ai bordi)" },
+        { "value": "page", "label": "Page width (contenuto max 1440px centrato)" }
+      ],
+      "default": "page",
+      "info": "Lo sfondo scuro va sempre a tutto schermo. Questa impostazione controlla solo la larghezza del testo e delle colonne."
+    },
+
+    {
+      "type": "header",
+      "content": "Sfondo & Colori"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Colore sfondo",
+      "default": "#101e2c"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color",
+      "label": "Colore gradiente animato",
+      "default": "#0d3555",
+      "info": "Il gradiente respira dal basso verso l'alto. Scegli un colore simile allo sfondo per un effetto sottile, o più chiaro per più contrasto."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Colore testo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Arrotondamento angoli",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+
+    {
+      "type": "header",
+      "content": "Intestazione"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label (sopra il titolo)",
+      "default": "Contact Us"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Titolo principale",
+      "default": "Are looking for incredible resin masterpieces?"
+    },
+
+    {
+      "type": "header",
+      "content": "Colonna 1 — Menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_label",
+      "label": "Titolo colonna",
+      "default": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu di navigazione"
+    },
+
+    {
+      "type": "header",
+      "content": "Colonna 2 — Collections"
+    },
+    {
+      "type": "text",
+      "id": "collections_label",
+      "label": "Titolo colonna",
+      "default": "Collections"
+    },
+    {
+      "type": "link_list",
+      "id": "collections_menu",
+      "label": "Menu Collections"
+    },
+
+    {
+      "type": "header",
+      "content": "Colonna 3 — Contatti"
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Titolo colonna",
+      "default": "Contact Us"
+    },
+    {
+      "type": "paragraph",
+      "content": "Usa i blocchi 'Voce contatti' (in basso) per aggiungere altre righe a questa colonna."
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Telefono",
+      "default": "+1 (999) 999-99-99"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email",
+      "default": "hello@logoipsum.com"
+    },
+    {
+      "type": "text",
+      "id": "contact_city",
+      "label": "Città / Luogo",
+      "default": "London"
+    },
+
+    {
+      "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "paragraph",
+      "content": "Aggiungi tutti i social che vuoi tramite i blocchi 'Icona social' in fondo alla pagina — inclusi Instagram e Facebook."
+    },
+
+    {
+      "type": "header",
+      "content": "Barra inferiore — Copyright e link fissi"
+    },
+    {
+      "type": "paragraph",
+      "content": "Per aggiungere altri link (FAQ, Cookie Policy…) usa i blocchi 'Link barra inferiore' qui sotto."
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Testo copyright",
+      "default": "© 2023 — Copyright"
+    },
+    {
+      "type": "text",
+      "id": "privacy_text",
+      "label": "Etichetta Privacy",
+      "default": "Privacy"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "URL Privacy"
+    },
+    {
+      "type": "text",
+      "id": "terms_text",
+      "label": "Etichetta Terms",
+      "default": "Terms & Services"
+    },
+    {
+      "type": "url",
+      "id": "terms_url",
+      "label": "URL Terms"
+    },
+
+    {
+      "type": "header",
+      "content": "Logo / Sticker"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Immagine logo"
+    },
+    {
+      "type": "select",
+      "id": "logo_behavior",
+      "label": "Modalità dimensione logo",
+      "options": [
+        { "value": "overflow", "label": "Overflow — esce fuori dal footer" },
+        { "value": "fill",     "label": "Fill — riempie l'altezza del footer" },
+        { "value": "custom",   "label": "Larghezza custom — contenuto" }
+      ],
+      "default": "overflow",
+      "info": "Desktop: esce sopra e sotto in egual misura. Mobile: esce solo verso l'alto."
+    },
+    {
+      "type": "range",
+      "id": "logo_overflow_scale",
+      "label": "Scala overflow",
+      "min": 100,
+      "max": 160,
+      "step": 5,
+      "unit": "%",
+      "default": 110,
+      "info": "100% = raso al footer. 110% = 5% fuori sopra e sotto su desktop. Solo modalità Overflow."
+    },
+    {
+      "type": "range",
+      "id": "logo_custom_width",
+      "label": "Larghezza logo custom",
+      "min": 80,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 280,
+      "info": "Solo per modalità 'Larghezza custom'."
+    }
+
+  ],
+
+  "blocks": [
+    {
+      "type": "contact_item",
+      "name": "Voce contatti",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Testo",
+          "default": "Nuovo contatto"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (opzionale)",
+          "info": "Per un telefono inserisci 'tel:+numero'. Per una email inserisci 'mailto:email@dominio.com'."
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Icona social",
+      "settings": [
+        {
+          "type": "select",
+          "id": "platform",
+          "label": "Piattaforma",
+          "options": [
+            { "value": "instagram", "label": "Instagram"  },
+            { "value": "facebook",  "label": "Facebook"   },
+            { "value": "tiktok",    "label": "TikTok"     },
+            { "value": "twitter",   "label": "X / Twitter" },
+            { "value": "youtube",   "label": "YouTube"    },
+            { "value": "linkedin",  "label": "LinkedIn"   },
+            { "value": "pinterest", "label": "Pinterest"  },
+            { "value": "threads",   "label": "Threads"    }
+          ],
+          "default": "instagram"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    },
+    {
+      "type": "legal_link",
+      "name": "Link barra inferiore",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etichetta link",
+          "default": "Nome pagina"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+
+  "max_blocks": 16,
+
+  "presets": [
+    {
+      "name": "EverArt Footer",
+      "blocks": [
+        { "type": "social",     "settings": { "platform": "instagram" } },
+        { "type": "social",     "settings": { "platform": "facebook"  } },
+        { "type": "legal_link", "settings": { "label": "Privacy"          } },
+        { "type": "legal_link", "settings": { "label": "Terms & Services" } },
+        { "type": "legal_link", "settings": { "label": "FAQ"              } }
+      ]
+    }
+  ]
+}
+{% endschema %}
