@@ -32,7 +32,7 @@
   {% endunless %}
 {% endcapture %}
 
-{% render 'card-gallery', children: children %}
+{% render 'card-gallery', children: children, contain_image: block.settings.contain_image %}
 
 {% # Title and price for the zoomed out grid view %}
 <div class="product-grid-view-zoom-out--details">
@@ -53,6 +53,13 @@
     {
       "type": "paragraph",
       "content": "t:content.resource_reference_product_media"
+    },
+    {
+      "type": "checkbox",
+      "id": "contain_image",
+      "label": "Immagine intera (contain)",
+      "default": false,
+      "info": "Mostra l'immagine intera senza ritaglio. Il colore di sfondo segue il tema."
     },
     {
       "type": "select",

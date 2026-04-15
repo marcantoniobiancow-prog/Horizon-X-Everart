@@ -65,7 +65,7 @@
 
 <div
   ref="cardGallery"
-  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}"
+  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}{% if contain_image %} card-gallery--contain{% endif %}"
   style="
     {% render 'border-override', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
@@ -378,6 +378,14 @@
 
   ul[product-grid-view='zoom-out'] .card-gallery > img {
     display: block;
+  }
+
+  /* Contain mode: show full image without cropping, background inherits from color scheme */
+  .card-gallery--contain .product-media-container.media-fit img {
+    object-fit: contain;
+    object-position: center center;
+    padding: 12%;
+    background: var(--color-background);
   }
 
   .card-gallery slideshow-arrows .slideshow-control {
