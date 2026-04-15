@@ -5,111 +5,369 @@
   if collection != blank and collection.products.size > 0
     assign has_products = true
   endif
+  assign limit = s.products_to_show
 -%}
 
-<section>
-  <div class="wrap">
-    <div class="s-head fp-s-head">
-      <div class="fp-head-left">
-        {%- if s.label != blank -%}<div class="label">{{ s.label }}</div>{%- endif -%}
-        {%- if s.heading != blank -%}<h2>{{ s.heading }}</h2>{%- endif -%}
-      </div>
-      <div class="fp-controls" data-fp-id="{{ section.id }}">
-        <button class="fp-btn fp-prev" aria-label="Precedente" disabled>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-        <span class="fp-counter">
-          <span class="fp-cur">01</span><span class="fp-sep">/</span><span class="fp-tot">01</span>
-        </span>
-        <button class="fp-btn fp-next" aria-label="Successivo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <polyline points="9 6 15 12 9 18"/>
-          </svg>
-        </button>
+<style>
+  #ea-fp-{{ section.id }} {
+    background: #F4F4F4;
+    padding: 80px 0;
+    overflow: hidden;
+  }
+
+  #ea-fp-{{ section.id }} .ea-fp-wrap {
+    padding: 0 clamp(20px, 16.67vw, 240px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* ── Header ── */
+  #ea-fp-{{ section.id }} .ea-fp-hdr {
+    padding: 10px 0;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-label {
+    color: #000;
+    font-size: 10px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-heading {
+    color: #000;
+    font-size: 32px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-coll-name {
+    color: #000;
+    font-size: 10px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Carousel scroll ── */
+  #ea-fp-{{ section.id }} .ea-fp-scroll {
+    overflow: hidden;
+    /* break out of right padding so cards can extend to edge */
+    margin-right: calc(-1 * clamp(20px, 16.67vw, 240px));
+  }
+  #ea-fp-{{ section.id }} .ea-fp-track {
+    display: flex;
+    gap: 48px;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+
+  /* ── Card ── */
+  #ea-fp-{{ section.id }} .ea-fp-card {
+    flex: 0 0 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: opacity 0.35s;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-card.is-peek {
+    opacity: 0.5;
+  }
+
+  /* Image */
+  #ea-fp-{{ section.id }} .ea-fp-img-link {
+    display: block;
+    width: 400px;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-img-link img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 33, 50, 0.8);
+  }
+  #ea-fp-{{ section.id }} .ea-fp-badge-wrap {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-badge {
+    padding: 8px 24px;
+    background: #EE0000;
+    border-radius: 6px;
+    color: #F4F4F4;
+    font-size: 14px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    display: inline-block;
+  }
+
+  /* Card info */
+  #ea-fp-{{ section.id }} .ea-fp-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-card-title {
+    color: #000;
+    font-size: 20px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 28px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    display: block;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-card-title:hover {
+    text-decoration: underline;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-card-sub {
+    color: #667875;
+    font-size: 10px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-prices {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-price {
+    color: #000;
+    font-size: 20px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 28px;
+    letter-spacing: 0.04em;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-compare {
+    color: #667875;
+    font-size: 16px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    text-decoration: line-through;
+    text-transform: uppercase;
+    line-height: 22px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Dots ── */
+  #ea-fp-{{ section.id }} .ea-fp-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-dot {
+    width: 10px;
+    height: 10px;
+    background: #ABABAB;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: width 0.25s, height 0.25s, background 0.25s;
+    flex-shrink: 0;
+  }
+  #ea-fp-{{ section.id }} .ea-fp-dot.is-active {
+    width: 14px;
+    height: 14px;
+    background: #000;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    #ea-fp-{{ section.id }} .ea-fp-card {
+      flex: 0 0 80vw;
+    }
+    #ea-fp-{{ section.id }} .ea-fp-img-link {
+      width: 80vw;
+      height: 80vw;
+    }
+    #ea-fp-{{ section.id }} .ea-fp-track {
+      gap: 16px;
+    }
+    #ea-fp-{{ section.id }} .ea-fp-heading {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<div id="ea-fp-{{ section.id }}">
+  <div class="ea-fp-wrap">
+
+    <!-- Header -->
+    <div class="ea-fp-hdr">
+      <div class="ea-fp-labels">
+        {%- if s.label != blank -%}
+          <p class="ea-fp-label">{{ s.label }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="ea-fp-heading">{{ s.heading }}</h2>
+        {%- endif -%}
         {%- if has_products -%}
-          <a href="{{ collection.url }}" class="fp-view-all">
-            <span>View All</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
+          <p class="ea-fp-coll-name">{{ collection.title }}</p>
         {%- endif -%}
       </div>
     </div>
-  </div>
 
-  <div class="fp-carousel-wrap">
-    <div class="fp-track" data-fp-id="{{ section.id }}">
-      {%- if has_products -%}
-        {%- for product in collection.products limit: s.products_to_show -%}
-          {%- if forloop.index < 10 -%}
-            {%- assign idx = forloop.index | prepend: '0' -%}
-          {%- else -%}
-            {%- assign idx = forloop.index -%}
-          {%- endif -%}
-          <a class="fp-card" href="{{ product.url }}" style="--i:{{ forloop.index0 }}">
-            <div class="fp-img-wrap">
-              {%- if product.featured_image != blank -%}
-                <img
-                  src="{{ product.featured_image | image_url: width: 700 }}"
-                  alt="{{ product.featured_image.alt | escape }}"
-                  class="fp-img"
-                  loading="lazy"
-                  width="700"
-                  height="875">
-              {%- else -%}
-                <div class="fp-img-placeholder ea-img">
-                  <span class="img-label">{{ product.title }}</span>
+    <!-- Carousel -->
+    <div class="ea-fp-scroll">
+      <div class="ea-fp-track" id="ea-fp-track-{{ section.id }}">
+        {%- if has_products -%}
+          {%- for product in collection.products limit: limit -%}
+            <div class="ea-fp-card">
+              <a href="{{ product.url }}" class="ea-fp-img-link">
+                {%- if product.featured_image != blank -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 800 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    loading="lazy"
+                    width="800"
+                    height="800">
+                {%- else -%}
+                  <div class="ea-fp-img-placeholder"></div>
+                {%- endif -%}
+                {%- if product.compare_at_price > product.price -%}
+                  <div class="ea-fp-badge-wrap">
+                    <span class="ea-fp-badge">SALE</span>
+                  </div>
+                {%- endif -%}
+              </a>
+              <div class="ea-fp-card-info">
+                <a href="{{ product.url }}" class="ea-fp-card-title">{{ product.title }}</a>
+                {%- if product.metafields.custom.includes != blank -%}
+                  <p class="ea-fp-card-sub">{{ product.metafields.custom.includes }}</p>
+                {%- endif -%}
+                <div class="ea-fp-prices">
+                  <span class="ea-fp-price">{{ product.price | money }}</span>
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="ea-fp-compare">{{ product.compare_at_price | money }}</span>
+                  {%- endif -%}
                 </div>
-              {%- endif -%}
-              <div class="fp-overlay">
-                <span class="fp-quick">Scopri</span>
               </div>
             </div>
-            <div class="fp-body">
-              <div class="fp-body-row">
-                <span class="fp-num">{{ idx }}</span>
-                <span class="fp-name">{{ product.title }}</span>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="ea-fp-card">
+              <div class="ea-fp-img-link">
+                <div class="ea-fp-img-placeholder"></div>
+                <div class="ea-fp-badge-wrap"><span class="ea-fp-badge">SALE</span></div>
               </div>
-              {%- if product.metafields.custom.includes != blank -%}
-                <div class="fp-incl">{{ product.metafields.custom.includes }}</div>
-              {%- endif -%}
-              <div class="fp-body-foot">
-                <span class="fp-price">{{ product.price | money }}</span>
-                <span class="fp-bar"></span>
-              </div>
-            </div>
-          </a>
-        {%- endfor -%}
-      {%- else -%}
-        {%- for i in (1..3) -%}
-          <div class="fp-card" style="--i:{{ forloop.index0 }}">
-            <div class="fp-img-wrap">
-              <div class="fp-img-placeholder ea-img">
-                <span class="img-label">Product {{ i }}</span>
-              </div>
-              <div class="fp-overlay"><span class="fp-quick">Scopri</span></div>
-            </div>
-            <div class="fp-body">
-              <div class="fp-body-row">
-                <span class="fp-num">0{{ i }}</span>
-                <span class="fp-name">Product name</span>
-              </div>
-              <div class="fp-incl">Everart Studio</div>
-              <div class="fp-body-foot">
-                <span class="fp-price">€—</span>
-                <span class="fp-bar"></span>
+              <div class="ea-fp-card-info">
+                <span class="ea-fp-card-title">Longer product title</span>
+                <p class="ea-fp-card-sub">Payment option 1 / Payment option 2</p>
+                <div class="ea-fp-prices">
+                  <span class="ea-fp-price">700€</span>
+                  <span class="ea-fp-compare">840€</span>
+                </div>
               </div>
             </div>
-          </div>
-        {%- endfor -%}
-      {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
     </div>
+
+    <!-- Dots -->
+    <div class="ea-fp-dots" id="ea-fp-dots-{{ section.id }}">
+      {%- assign dot_count = limit -%}
+      {%- if has_products -%}{%- assign dot_count = collection.products.size | at_most: limit -%}{%- endif -%}
+      {%- for i in (1..dot_count) -%}
+        <div class="ea-fp-dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+      {%- endfor -%}
+    </div>
+
   </div>
-</section>
+</div>
+
+<script>
+(function () {
+  var root  = document.getElementById('ea-fp-{{ section.id }}');
+  if (!root) return;
+
+  var track  = root.querySelector('.ea-fp-track');
+  var scroll = root.querySelector('.ea-fp-scroll');
+  var cards  = Array.from(root.querySelectorAll('.ea-fp-card'));
+  var dots   = Array.from(root.querySelectorAll('.ea-fp-dot'));
+  var current = 0;
+
+  function cardW() {
+    return cards[0] ? cards[0].offsetWidth + parseInt(getComputedStyle(track).gap) : 448;
+  }
+
+  function perView() {
+    if (!cards[0]) return 3;
+    return Math.max(1, Math.floor(scroll.offsetWidth / cards[0].offsetWidth));
+  }
+
+  function update(idx) {
+    current = Math.max(0, Math.min(idx, cards.length - 1));
+
+    track.style.transform = 'translateX(-' + (current * cardW()) + 'px)';
+
+    // dots
+    dots.forEach(function (d, i) {
+      d.classList.toggle('is-active', i === current);
+    });
+
+    // peek: first card after visible range
+    var peek = current + perView();
+    cards.forEach(function (c, i) {
+      c.classList.toggle('is-peek', i === peek);
+    });
+  }
+
+  // dot click
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      update(parseInt(d.getAttribute('data-index')));
+    });
+  });
+
+  // touch swipe
+  var tx = 0;
+  track.addEventListener('touchstart', function (e) { tx = e.changedTouches[0].screenX; }, { passive: true });
+  track.addEventListener('touchend',   function (e) {
+    var dx = e.changedTouches[0].screenX - tx;
+    if (Math.abs(dx) > 48) update(dx < 0 ? current + 1 : current - 1);
+  }, { passive: true });
+
+  window.addEventListener('resize', function () { update(0); });
+  update(0);
+})();
+</script>
 
 {% schema %}
 {
@@ -140,7 +398,7 @@
       "min": 2,
       "max": 9,
       "step": 1,
-      "default": 3
+      "default": 4
     }
   ],
   "presets": [
