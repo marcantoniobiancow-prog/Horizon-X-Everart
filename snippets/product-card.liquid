@@ -111,6 +111,11 @@
 </product-card>
 
 {% stylesheet %}
+  /* 24px left padding on all content blocks below the image */
+  .product-card__content > :not(.card-gallery) {
+    padding-inline-start: 24px;
+  }
+
   .product-card__placeholder-image svg {
     height: 100%;
   }
