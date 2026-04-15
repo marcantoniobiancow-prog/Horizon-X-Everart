@@ -528,6 +528,7 @@
         layout-panel-flex
         layout-panel-flex--{{ section.settings.content_direction }}
         {% if section.settings.vertical_on_mobile %}mobile-column{% endif %}
+        {% if section.settings.reverse_on_mobile %}hero__content-wrapper--reverse-mobile{% endif %}
         section-content-wrapper
         {{section.settings.section_width}}
         {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
@@ -654,6 +655,11 @@
     .hero--stack-mobile .hero__media-grid {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(var(--hero-media-count-mobile, 1), calc(100% / var(--hero-media-count-mobile, 1)));
+    }
+
+    /* Reverse blocks order on mobile */
+    .hero__content-wrapper--reverse-mobile {
+      flex-direction: column-reverse;
     }
   }
 
@@ -970,6 +976,12 @@
       "label": "t:settings.vertical_on_mobile",
       "default": true,
       "visible_if": "{{ section.settings.content_direction == 'row' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_on_mobile",
+      "label": "Inverti ordine elementi su mobile",
+      "default": false
     },
     {
       "type": "select",
