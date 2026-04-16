@@ -1,6 +1,7 @@
 {%- comment -%}
-  EverArt Footer — v4 (fedele al preview HTML)
-  Layout: 4 colonne (2fr 1fr 1fr 1fr) + bottom bar
+  EverArt Footer — v5
+  Layout: outer bg #212121 · card border-radius 16px
+  Struttura: sinistra (label + heading + 3 col menu + bottom bar) | destra (immagine)
 {%- endcomment -%}
 
 {%- liquid
@@ -9,223 +10,332 @@
 -%}
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500&display=swap');
 
+/* ── OUTER ── */
 #eafoot-{{ sid }} {
   background: #212121;
-  border-top: 1px solid #2a2a2a;
-  padding: 80px 48px 36px;
-  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  padding: 80px 120px;
   box-sizing: border-box;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* ── GRID ── */
-#eafoot-{{ sid }} .ef-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 56px;
-  margin-bottom: 64px;
-}
-
-/* ── COL 1: brand ── */
-#eafoot-{{ sid }} .ef-logo img {
-  height: 32px;
-  display: block;
-}
-#eafoot-{{ sid }} .ef-tagline {
-  font-size: 13px;
-  color: #888888;
-  line-height: 1.8;
-  max-width: 260px;
-  margin-top: 16px;
-  font-weight: 400;
-}
-#eafoot-{{ sid }} .ef-claim {
-  font-size: 11px;
-  color: #666666;
-  margin-top: 16px;
-  letter-spacing: .08em;
-  font-style: italic;
-}
-#eafoot-{{ sid }} .ef-social {
+/* ── CARD ── */
+#eafoot-{{ sid }} .ef-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 48px 64px;
   display: flex;
-  gap: 16px;
-  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 48px;
+  max-width: 1300px;
+  margin: 0 auto;
 }
-#eafoot-{{ sid }} .ef-social a {
-  color: #888888;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color .2s;
-}
-#eafoot-{{ sid }} .ef-social a:hover { color: #ffffff; }
 
-/* ── COLS 2-4: menu ── */
-#eafoot-{{ sid }} .ef-col-title {
+/* ── LEFT COLUMN ── */
+#eafoot-{{ sid }} .ef-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+/* — Header — */
+#eafoot-{{ sid }} .ef-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#eafoot-{{ sid }} .ef-label {
+  font-family: 'Instrument Sans', sans-serif;
   font-size: 10px;
-  letter-spacing: .24em;
+  font-weight: 500;
   text-transform: uppercase;
-  color: #ffffff;
-  margin-bottom: 20px;
-  display: block;
+  letter-spacing: 0.04em;
+  color: #888888;
+  margin: 0;
+}
+#eafoot-{{ sid }} .ef-heading {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 32px;
   font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0;
+  max-width: 540px;
+}
+
+/* — Menu columns — */
+#eafoot-{{ sid }} .ef-menus {
+  display: flex;
+  gap: 24px;
+}
+#eafoot-{{ sid }} .ef-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#eafoot-{{ sid }} .ef-col-title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.056em;
+  color: #ffffff;
+  margin: 0;
+  display: block;
 }
 #eafoot-{{ sid }} .ef-col ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-#eafoot-{{ sid }} .ef-col ul li {
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 #eafoot-{{ sid }} .ef-col ul li a,
 #eafoot-{{ sid }} .ef-col ul li span {
-  font-size: 13px;
-  color: #888888;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
   font-weight: 400;
+  color: #888888;
   text-decoration: none;
+  line-height: 1.4;
+  display: block;
   transition: color .2s;
 }
 #eafoot-{{ sid }} .ef-col ul li a:hover { color: #ffffff; }
 
-/* ── BOTTOM BAR ── */
-#eafoot-{{ sid }} .ef-bot {
+/* — Bottom bar — */
+#eafoot-{{ sid }} .ef-bottom {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: 36px;
-  border-top: 1px solid #2a2a2a;
+  gap: 32px;
+  flex-wrap: wrap;
 }
-#eafoot-{{ sid }} .ef-bot p {
-  font-size: 11px;
-  color: #888888;
-  letter-spacing: .06em;
-  font-weight: 400;
-  margin: 0;
+#eafoot-{{ sid }} .ef-socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
-#eafoot-{{ sid }} .ef-bot a {
+#eafoot-{{ sid }} .ef-social-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #888888;
   text-decoration: none;
   transition: color .2s;
+  flex-shrink: 0;
 }
-#eafoot-{{ sid }} .ef-bot a:hover { color: #ffffff; }
+#eafoot-{{ sid }} .ef-social-icon:hover { color: #ffffff; }
+#eafoot-{{ sid }} .ef-social-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: block;
+}
+#eafoot-{{ sid }} .ef-legal {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+#eafoot-{{ sid }} .ef-legal-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #888888;
+  opacity: 0.7;
+  margin: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity .2s;
+  line-height: 1.4;
+  display: inline-block;
+}
+#eafoot-{{ sid }} a.ef-legal-text:hover { opacity: 1; color: #ffffff; }
 
-/* ── TABLET ── */
-@media (max-width: 989px) {
-  #eafoot-{{ sid }} .ef-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-  #eafoot-{{ sid }} .ef-bot {
+/* ── RIGHT COLUMN (immagine) ── */
+#eafoot-{{ sid }} .ef-right {
+  flex-shrink: 0;
+  width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  align-self: stretch;
+  min-height: 360px;
+  background: #2c2c2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#eafoot-{{ sid }} .ef-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eafoot-{{ sid }} .ef-right-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  color: #555555;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  #eafoot-{{ sid }} { padding: 60px 40px; }
+  #eafoot-{{ sid }} .ef-right { width: 240px; }
+}
+@media (max-width: 767px) {
+  #eafoot-{{ sid }} { padding: 40px 20px; }
+  #eafoot-{{ sid }} .ef-card {
     flex-direction: column;
-    gap: 12px;
-    text-align: center;
+    padding: 32px 28px;
   }
-}
-
-/* ── MOBILE ── */
-@media (max-width: 479px) {
-  #eafoot-{{ sid }} {
-    padding: 60px 24px 28px;
+  #eafoot-{{ sid }} .ef-right {
+    width: 100%;
+    min-height: 240px;
   }
-  #eafoot-{{ sid }} .ef-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
+  #eafoot-{{ sid }} .ef-menus {
+    flex-wrap: wrap;
+    gap: 32px;
   }
+  #eafoot-{{ sid }} .ef-col { flex: 0 0 calc(50% - 16px); }
+  #eafoot-{{ sid }} .ef-heading { font-size: 24px; }
 }
 </style>
 
 <footer id="eafoot-{{ sid }}">
+  <div class="ef-card">
 
-  <div class="ef-grid">
+    {%- comment -%} ── LEFT ── {%- endcomment -%}
+    <div class="ef-left">
 
-    {%- comment -%} COL 1 — Brand {%- endcomment -%}
-    <div class="ef-brand">
-      {%- if s.logo != blank -%}
-        <div class="ef-logo">
-          {{- s.logo | image_url: width: 200 | image_tag: alt: s.logo.alt | default: shop.name -}}
-        </div>
-      {%- endif -%}
-      {%- if s.tagline != blank -%}
-        <div class="ef-tagline">{{ s.tagline }}</div>
-      {%- endif -%}
-      {%- if s.claim != blank -%}
-        <div class="ef-claim">{{ s.claim }}</div>
-      {%- endif -%}
-      <div class="ef-social">
-        {%- if s.instagram_url != blank -%}
-          <a href="{{ s.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+      {%- comment -%} Header {%- endcomment -%}
+      <div class="ef-header">
+        {%- if s.label != blank -%}
+          <p class="ef-label">{{ s.label }}</p>
         {%- endif -%}
-        {%- if s.facebook_url != blank -%}
-          <a href="{{ s.facebook_url }}" target="_blank" rel="noopener">Facebook</a>
+        {%- if s.heading != blank -%}
+          <h2 class="ef-heading">{{ s.heading }}</h2>
         {%- endif -%}
       </div>
+
+      {%- comment -%} Menu columns {%- endcomment -%}
+      <div class="ef-menus">
+
+        {%- comment -%} Col 1 — Menu principale {%- endcomment -%}
+        <div class="ef-col">
+          <span class="ef-col-title">{{ s.menu1_title | default: 'Menu' }}</span>
+          {%- if s.menu1 != blank -%}
+            <ul>
+              {%- for link in linklists[s.menu1].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Col 2 — Collections {%- endcomment -%}
+        <div class="ef-col">
+          <span class="ef-col-title">{{ s.menu2_title | default: 'Collections' }}</span>
+          {%- if s.menu2 != blank -%}
+            <ul>
+              {%- for link in linklists[s.menu2].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Col 3 — Contact {%- endcomment -%}
+        <div class="ef-col">
+          <span class="ef-col-title">{{ s.contact_title | default: 'Contact us' }}</span>
+          <ul>
+            {%- if s.contact_phone != blank -%}
+              <li><a href="tel:{{ s.contact_phone | remove: ' ' }}">{{ s.contact_phone }}</a></li>
+            {%- endif -%}
+            {%- if s.contact_email != blank -%}
+              <li><a href="mailto:{{ s.contact_email }}">{{ s.contact_email }}</a></li>
+            {%- endif -%}
+            {%- if s.contact_address != blank -%}
+              <li><span>{{ s.contact_address }}</span></li>
+            {%- endif -%}
+            {%- if s.contact_city != blank -%}
+              <li><span>{{ s.contact_city }}</span></li>
+            {%- endif -%}
+            {%- if s.contact_country != blank -%}
+              <li><span>{{ s.contact_country }}</span></li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+      </div>
+
+      {%- comment -%} Bottom bar {%- endcomment -%}
+      <div class="ef-bottom">
+        <div class="ef-socials">
+          {%- if s.instagram_url != blank -%}
+            <a href="{{ s.instagram_url }}" class="ef-social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if s.facebook_url != blank -%}
+            <a href="{{ s.facebook_url }}" class="ef-social-icon" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+        <div class="ef-legal">
+          <span class="ef-legal-text">{{ s.copyright | default: '© 2026 — Everart Studio' }}</span>
+          {%- if s.privacy_url != blank -%}
+            <a href="{{ s.privacy_url }}" class="ef-legal-text">Privacy</a>
+          {%- endif -%}
+          {%- if s.faq_url != blank -%}
+            <a href="{{ s.faq_url }}" class="ef-legal-text">FAQ</a>
+          {%- endif -%}
+          {%- if s.terms_url != blank -%}
+            <a href="{{ s.terms_url }}" class="ef-legal-text">Terms &amp; Services</a>
+          {%- endif -%}
+          {%- if s.returns_url != blank -%}
+            <a href="{{ s.returns_url }}" class="ef-legal-text">Returns &amp; Refund</a>
+          {%- endif -%}
+        </div>
+      </div>
+
     </div>
 
-    {%- comment -%} COL 2 — Menu principale {%- endcomment -%}
-    <div class="ef-col">
-      <span class="ef-col-title">{{ s.menu1_title | default: 'Menu' }}</span>
-      {%- if s.menu1 != blank -%}
-        <ul>
-          {%- for link in linklists[s.menu1].links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- endfor -%}
-        </ul>
+    {%- comment -%} ── RIGHT (immagine) ── {%- endcomment -%}
+    <div class="ef-right">
+      {%- if s.image != blank -%}
+        {{- s.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.image.alt | default: '' -}}
+      {%- else -%}
+        <div class="ef-right-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#555" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" fill="#555"/><path d="M21 15l-5-5L5 21" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Immagine footer</span>
+        </div>
       {%- endif -%}
-    </div>
-
-    {%- comment -%} COL 3 — Collections {%- endcomment -%}
-    <div class="ef-col">
-      <span class="ef-col-title">{{ s.menu2_title | default: 'Collections' }}</span>
-      {%- if s.menu2 != blank -%}
-        <ul>
-          {%- for link in linklists[s.menu2].links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-    </div>
-
-    {%- comment -%} COL 4 — Contact {%- endcomment -%}
-    <div class="ef-col">
-      <span class="ef-col-title">{{ s.contact_title | default: 'Contact' }}</span>
-      <ul>
-        {%- if s.contact_email != blank -%}
-          <li><a href="mailto:{{ s.contact_email }}">{{ s.contact_email }}</a></li>
-        {%- endif -%}
-        {%- if s.contact_address != blank -%}
-          <li><span>{{ s.contact_address }}</span></li>
-        {%- endif -%}
-        {%- if s.contact_city != blank -%}
-          <li><span>{{ s.contact_city }}</span></li>
-        {%- endif -%}
-        {%- if s.contact_country != blank -%}
-          <li><span>{{ s.contact_country }}</span></li>
-        {%- endif -%}
-      </ul>
     </div>
 
   </div>
-
-  {%- comment -%} BOTTOM BAR {%- endcomment -%}
-  <div class="ef-bot">
-    <p>{{ s.copyright | default: 'Everart Studio — All rights reserved · 2026' }}</p>
-    <p>
-      {%- if s.privacy_url != blank -%}
-        <a href="{{ s.privacy_url }}">Privacy</a> &nbsp;·&nbsp;
-      {%- endif -%}
-      {%- if s.terms_url != blank -%}
-        <a href="{{ s.terms_url }}">Terms &amp; Services</a> &nbsp;·&nbsp;
-      {%- endif -%}
-      {%- if s.returns_url != blank -%}
-        <a href="{{ s.returns_url }}">Returns &amp; Refund</a>
-      {%- endif -%}
-    </p>
-  </div>
-
 </footer>
 
 {% schema %}
@@ -236,34 +346,19 @@
   "settings": [
     {
       "type": "header",
-      "content": "Brand"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
+      "content": "Header"
     },
     {
       "type": "text",
-      "id": "tagline",
-      "label": "Tagline",
-      "default": "We don't make statues.\nWe make stories."
+      "id": "label",
+      "label": "Label (sopra heading)",
+      "default": "Contact us"
     },
     {
       "type": "text",
-      "id": "claim",
-      "label": "Claim (italic)",
-      "default": "\"Once gone, it's forever.\""
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
+      "id": "heading",
+      "label": "Heading",
+      "default": "Are you looking for incredible resin masterpieces?"
     },
     {
       "type": "header",
@@ -304,7 +399,13 @@
       "type": "text",
       "id": "contact_title",
       "label": "Titolo colonna",
-      "default": "Contact"
+      "default": "Contact us"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Telefono",
+      "default": "+39 081 000 0000"
     },
     {
       "type": "text",
@@ -332,18 +433,37 @@
     },
     {
       "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "header",
       "content": "Bottom bar"
     },
     {
       "type": "text",
       "id": "copyright",
       "label": "Testo copyright",
-      "default": "Everart Studio — All rights reserved · 2026"
+      "default": "© 2026 — Everart Studio"
     },
     {
       "type": "url",
       "id": "privacy_url",
       "label": "URL Privacy"
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "URL FAQ"
     },
     {
       "type": "url",
@@ -354,6 +474,15 @@
       "type": "url",
       "id": "returns_url",
       "label": "URL Returns & Refund"
+    },
+    {
+      "type": "header",
+      "content": "Immagine destra"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Immagine"
     }
   ]
 }
