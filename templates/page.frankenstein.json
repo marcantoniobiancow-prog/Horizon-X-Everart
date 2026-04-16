@@ -12,14 +12,16 @@
     "everart-coming": {
       "type": "everart-coming-page",
       "settings": {
+        "hero_image": "shopify://shop_images/Frankenstein_preview.jpg",
         "hero_label": "Masters of Madness — Chapter II",
-        "hero_title": "Mary\nShelley",
+        "hero_title": "Frankenstein by MaryShelley",
         "hero_sub": "The creature meets its creator.",
         "story_label": "The Story",
         "story_heading": "She wrote it at 18. We still haven't recovered.",
         "story_p1": "Mary Shelley published Frankenstein in 1818. She was 18 years old. Two centuries later, the creature she imagined in a dream is still with us — in cinema, in philosophy, in every conversation about science and what it means to be human.",
         "story_p2": "Our Chapter II doesn't reproduce a film version. It goes back to the original text: the creature as Shelley described him. Articulate, tragic, abandoned. Not a monster — a mirror.",
         "story_p3": "The statue is in the concept phase. Collectors on the list will have priority access before any public announcement.",
+        "story_image": "shopify://shop_images/Frankenstein_preview.jpg",
         "access_label": "Early Access",
         "access_heading": "Be the first to claim your number.",
         "access_desc": "Chapter II collectors will have reservation access 72 hours before the public announcement. The first 20 reservations receive numbers 1–20 of the series.",
@@ -27,9 +29,12 @@
         "email_btn": "Notify me",
         "access_disclaimer": "No payment required. Priority access only.",
         "wait_label": "The Collection",
-        "wait_heading": "While you wait — Chapter I."
+        "wait_heading": "While you wait — Chapter I.",
+        "wait_collection": ""
       }
     }
   },
-  "order": ["everart-coming"]
+  "order": [
+    "everart-coming"
+  ]
 }
