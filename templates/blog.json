@@ -8,19 +8,16 @@
  * ------------------------------------------------------------
  */{
   "sections": {
-    "everart-blog-page": {
-      "type": "everart-blog-page",
+    "main": {
+      "type": "main-blog",
       "settings": {
-        "eyebrow": "Studio Everart",
-        "heading": "World Seeking",
-        "description": "Stories from the studio. The craft, the culture, the collectors. We write when we have something worth saying.",
-        "featured_label": "In evidenza",
-        "latest_label": "Ultimi articoli",
-        "blog": "world-seeking"
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 48
       }
     }
   },
   "order": [
-    "everart-blog-page"
+    "main"
   ]
 }

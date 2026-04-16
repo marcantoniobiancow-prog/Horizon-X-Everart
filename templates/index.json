@@ -145,9 +145,21 @@
         "padding-block-start": 100,
         "padding-block-end": 72
       }
+    },
+    "everart-blog-page": {
+      "type": "everart-blog-page",
+      "settings": {
+        "eyebrow": "Studio Everart",
+        "heading": "World Seeking",
+        "description": "Stories from the studio. The craft, the culture, the collectors. We write when we have something worth saying.",
+        "featured_label": "In evidenza",
+        "latest_label": "Ultimi articoli",
+        "blog": "world-seeking"
+      }
     }
   },
   "order": [
-    "hero_jVaWmY"
+    "hero_jVaWmY",
+    "everart-blog-page"
   ]
 }
