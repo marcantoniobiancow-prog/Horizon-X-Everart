@@ -1,0 +1,503 @@
+{%- comment -%}
+  EverArt Coming Soon Page — v1
+  Pagina dedicata riutilizzabile per Frankenstein e Dracula.
+  Sezioni: Hero · Story (testo + immagine) · Early Access (email) · "While you wait" (prodotti)
+{%- endcomment -%}
+
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+#eacp-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── HERO ── */
+#eacp-{{ sid }} .ecp-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+#eacp-{{ sid }} .ecp-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+#eacp-{{ sid }} .ecp-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eacp-{{ sid }} .ecp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,5,5,.95) 0%, rgba(5,5,5,.3) 60%, transparent 100%);
+  z-index: 1;
+}
+#eacp-{{ sid }} .ecp-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+#eacp-{{ sid }} .ecp-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 14px;
+  display: block;
+}
+#eacp-{{ sid }} .ecp-hero-title {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .95;
+  color: #ffffff;
+  margin: 0 0 16px;
+}
+#eacp-{{ sid }} .ecp-hero-sub {
+  font-size: clamp(16px, 2vw, 22px);
+  color: #888888;
+  font-weight: 400;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── STORY ── */
+#eacp-{{ sid }} .ecp-story {
+  padding: 96px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#eacp-{{ sid }} .ecp-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  align-items: start;
+}
+#eacp-{{ sid }} .ecp-story-text h2 {
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+#eacp-{{ sid }} .ecp-story-text p {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.85;
+  font-weight: 400;
+  margin: 0 0 20px;
+}
+#eacp-{{ sid }} .ecp-story-img {
+  height: 480px;
+  background: #212121;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#eacp-{{ sid }} .ecp-story-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eacp-{{ sid }} .ecp-img-placeholder {
+  color: #444444;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ── EARLY ACCESS ── */
+#eacp-{{ sid }} .ecp-access {
+  background: #212121;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 80px 48px;
+}
+#eacp-{{ sid }} .ecp-access-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+#eacp-{{ sid }} .ecp-access-inner h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+#eacp-{{ sid }} .ecp-access-inner p {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.75;
+  margin: 0 0 36px;
+}
+#eacp-{{ sid }} .ecp-form {
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto;
+}
+#eacp-{{ sid }} .ecp-email-in {
+  flex: 1;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-right: none;
+  padding: 14px 18px;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 400;
+}
+#eacp-{{ sid }} .ecp-email-in::placeholder { color: #666666; }
+#eacp-{{ sid }} .ecp-email-btn {
+  background: #8b1a1a;
+  color: #ffffff;
+  border: none;
+  padding: 14px 22px;
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
+  transition: background .2s;
+  white-space: nowrap;
+}
+#eacp-{{ sid }} .ecp-email-btn:hover { background: #a52020; }
+#eacp-{{ sid }} .ecp-disclaimer {
+  font-size: 10px;
+  color: #666666;
+  margin-top: 12px;
+  letter-spacing: .04em;
+}
+
+/* ── WHILE YOU WAIT ── */
+#eacp-{{ sid }} .ecp-wait {
+  padding: 96px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#eacp-{{ sid }} .ecp-wait-head {
+  margin-bottom: 48px;
+}
+#eacp-{{ sid }} .ecp-wait-head h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 14px 0 0;
+}
+#eacp-{{ sid }} .ecp-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #2a2a2a;
+}
+#eacp-{{ sid }} .ecp-prod-card {
+  background: #0a0a0a;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background .2s;
+}
+#eacp-{{ sid }} .ecp-prod-card:hover { background: #111111; }
+#eacp-{{ sid }} .ecp-prod-img {
+  aspect-ratio: 1/1;
+  background: #212121;
+  overflow: hidden;
+}
+#eacp-{{ sid }} .ecp-prod-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eacp-{{ sid }} .ecp-prod-body {
+  padding: 20px 24px 28px;
+  border-top: 1px solid #2a2a2a;
+}
+#eacp-{{ sid }} .ecp-prod-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px;
+  letter-spacing: -.01em;
+}
+#eacp-{{ sid }} .ecp-prod-price {
+  font-size: 13px;
+  color: #888888;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 989px) {
+  #eacp-{{ sid }} .ecp-prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  #eacp-{{ sid }} .ecp-hero { padding: 0 24px 60px; }
+  #eacp-{{ sid }} .ecp-story { padding: 60px 24px; }
+  #eacp-{{ sid }} .ecp-story-grid { grid-template-columns: 1fr; gap: 40px; }
+  #eacp-{{ sid }} .ecp-story-img { height: 280px; }
+  #eacp-{{ sid }} .ecp-access { padding: 60px 24px; }
+  #eacp-{{ sid }} .ecp-wait { padding: 60px 24px; }
+  #eacp-{{ sid }} .ecp-prod-grid { grid-template-columns: 1fr; }
+  #eacp-{{ sid }} .ecp-form { flex-direction: column; }
+  #eacp-{{ sid }} .ecp-email-in { border-right: 1px solid #2a2a2a; border-bottom: none; }
+}
+</style>
+
+<div id="eacp-{{ sid }}">
+
+  {%- comment -%} ── HERO ── {%- endcomment -%}
+  <div class="ecp-hero">
+    {%- if s.hero_image != blank -%}
+      <div class="ecp-hero-bg">
+        {{ s.hero_image | image_url: width: 1600 | image_tag: loading: 'eager', alt: s.hero_title }}
+      </div>
+      <div class="ecp-hero-overlay"></div>
+    {%- endif -%}
+    <div class="ecp-hero-content">
+      {%- if s.hero_label != blank -%}
+        <span class="ecp-label">{{ s.hero_label }}</span>
+      {%- endif -%}
+      {%- if s.hero_title != blank -%}
+        <h1 class="ecp-hero-title">{{ s.hero_title | newline_to_br }}</h1>
+      {%- endif -%}
+      {%- if s.hero_sub != blank -%}
+        <p class="ecp-hero-sub">{{ s.hero_sub }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── STORY ── {%- endcomment -%}
+  {%- if s.story_heading != blank or s.story_image != blank -%}
+    <div class="ecp-story">
+      <div class="ecp-story-grid">
+        <div class="ecp-story-text">
+          {%- if s.story_label != blank -%}
+            <span class="ecp-label">{{ s.story_label }}</span>
+          {%- endif -%}
+          {%- if s.story_heading != blank -%}
+            <h2>{{ s.story_heading }}</h2>
+          {%- endif -%}
+          {%- if s.story_p1 != blank -%}<p>{{ s.story_p1 }}</p>{%- endif -%}
+          {%- if s.story_p2 != blank -%}<p>{{ s.story_p2 }}</p>{%- endif -%}
+          {%- if s.story_p3 != blank -%}<p>{{ s.story_p3 }}</p>{%- endif -%}
+        </div>
+        <div class="ecp-story-img">
+          {%- if s.story_image != blank -%}
+            {{ s.story_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: s.hero_title }}
+          {%- else -%}
+            <span class="ecp-img-placeholder">Concept art</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── EARLY ACCESS ── {%- endcomment -%}
+  <div class="ecp-access">
+    <div class="ecp-access-inner">
+      {%- if s.access_label != blank -%}
+        <span class="ecp-label">{{ s.access_label }}</span>
+      {%- endif -%}
+      {%- if s.access_heading != blank -%}
+        <h2>{{ s.access_heading }}</h2>
+      {%- endif -%}
+      {%- if s.access_desc != blank -%}
+        <p>{{ s.access_desc }}</p>
+      {%- endif -%}
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,{{ s.hero_label | handleize }}">
+        <div class="ecp-form">
+          <input class="ecp-email-in" type="email" name="contact[email]" placeholder="{{ s.email_placeholder | default: 'La tua email' }}" required>
+          <button class="ecp-email-btn" type="submit">{{ s.email_btn | default: 'Notify me' }}</button>
+        </div>
+      {%- endform -%}
+      {%- if s.access_disclaimer != blank -%}
+        <p class="ecp-disclaimer">{{ s.access_disclaimer }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── WHILE YOU WAIT ── {%- endcomment -%}
+  {%- if s.wait_collection != blank and s.wait_collection.products_count > 0 -%}
+    <div class="ecp-wait">
+      <div class="ecp-wait-head">
+        {%- if s.wait_label != blank -%}
+          <span class="ecp-label">{{ s.wait_label }}</span>
+        {%- endif -%}
+        {%- if s.wait_heading != blank -%}
+          <h2>{{ s.wait_heading }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="ecp-prod-grid">
+        {%- for product in s.wait_collection.products limit: 3 -%}
+          <a class="ecp-prod-card" href="{{ product.url }}">
+            <div class="ecp-prod-img">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+              {%- endif -%}
+            </div>
+            <div class="ecp-prod-body">
+              <p class="ecp-prod-name">{{ product.title }}</p>
+              <p class="ecp-prod-price">{{ product.price | money }}</p>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "EverArt Coming Soon Page",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Immagine hero (sfondo)"
+    },
+    {
+      "type": "text",
+      "id": "hero_label",
+      "label": "Label",
+      "default": "Masters of Madness — Chapter II"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Titolo (usa \\n per andare a capo)",
+      "default": "Mary\nShelley"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Sottotitolo (italic)",
+      "default": "The creature meets its creator."
+    },
+    {
+      "type": "header",
+      "content": "Story"
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Label",
+      "default": "The Story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "story_p1",
+      "label": "Paragrafo 1"
+    },
+    {
+      "type": "textarea",
+      "id": "story_p2",
+      "label": "Paragrafo 2"
+    },
+    {
+      "type": "textarea",
+      "id": "story_p3",
+      "label": "Paragrafo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Immagine destra"
+    },
+    {
+      "type": "header",
+      "content": "Early Access"
+    },
+    {
+      "type": "text",
+      "id": "access_label",
+      "label": "Label",
+      "default": "Early Access"
+    },
+    {
+      "type": "text",
+      "id": "access_heading",
+      "label": "Heading",
+      "default": "Be the first to claim your number."
+    },
+    {
+      "type": "textarea",
+      "id": "access_desc",
+      "label": "Descrizione"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Placeholder email",
+      "default": "La tua email"
+    },
+    {
+      "type": "text",
+      "id": "email_btn",
+      "label": "Testo bottone",
+      "default": "Notify me"
+    },
+    {
+      "type": "text",
+      "id": "access_disclaimer",
+      "label": "Disclaimer",
+      "default": "Nessun pagamento richiesto. Solo accesso prioritario."
+    },
+    {
+      "type": "header",
+      "content": "While you wait"
+    },
+    {
+      "type": "text",
+      "id": "wait_label",
+      "label": "Label",
+      "default": "The Collection"
+    },
+    {
+      "type": "text",
+      "id": "wait_heading",
+      "label": "Heading",
+      "default": "While you wait — Chapter I."
+    },
+    {
+      "type": "collection",
+      "id": "wait_collection",
+      "label": "Collezione prodotti da mostrare"
+    }
+  ]
+}
+{% endschema %}

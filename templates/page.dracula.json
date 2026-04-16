@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "everart-coming": {
+      "type": "everart-coming-page",
+      "settings": {
+        "hero_label": "Masters of Madness — Chapter III",
+        "hero_title": "Bram\nStoker",
+        "hero_sub": "Immortality has a price.",
+        "story_label": "The Story",
+        "story_heading": "He wrote him as a villain. We remember him as a myth.",
+        "story_p1": "Bram Stoker published Dracula in 1897. One hundred and twenty-nine years later, the Count is still alive — in cinema, in literature, in the collective imagination of every culture. No other literary character has had such a powerful parallel life.",
+        "story_p2": "Our Chapter III explores this contradiction: Stoker created a monster, but also built a character with more layers than any hero. The statue won't be the Dracula of the films — it will be the Dracula of the original novel.",
+        "story_p3": "The statue is in the concept phase. Collectors on the list will have priority access before any public announcement.",
+        "access_label": "Early Access",
+        "access_heading": "Be the first to claim your number.",
+        "access_desc": "Chapter III collectors will have reservation access 72 hours before the public announcement. The first 20 reservations receive numbers 1–20 of the series.",
+        "email_placeholder": "Your email",
+        "email_btn": "Notify me",
+        "access_disclaimer": "No payment required. Priority access only.",
+        "wait_label": "The Collection",
+        "wait_heading": "While you wait — Chapter I."
+      }
+    }
+  },
+  "order": ["everart-coming"]
+}

@@ -158,10 +158,29 @@
         "latest_label": "Ultimi articoli",
         "blog": "world-seeking"
       }
+    },
+    "everart-coming-soon": {
+      "type": "everart-coming-soon",
+      "settings": {
+        "eyebrow": "Masters of Madness — Next Chapters",
+        "heading": "The collection\ncontinues.",
+        "description": "Two masters await. Be the first to know — and secure your place before the public announcement.",
+        "card1_tag": "Masters of Madness — Chapter II",
+        "card1_name": "Frankenstein\nby Mary Shelley",
+        "card1_sub": "The creature meets its creator.",
+        "card1_btn": "Discover Chapter II",
+        "card1_url": "/pages/frankenstein",
+        "card2_tag": "Masters of Madness — Chapter III",
+        "card2_name": "Dracula\nby Bram Stoker",
+        "card2_sub": "Immortality has a price.",
+        "card2_btn": "Discover Chapter III",
+        "card2_url": "/pages/dracula"
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
+    "everart-coming-soon",
     "everart-blog-page"
   ]
 }
