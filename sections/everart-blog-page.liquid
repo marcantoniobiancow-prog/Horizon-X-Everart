@@ -1,0 +1,432 @@
+{%- comment -%}
+  EverArt Blog Page — v1
+  Layout:
+    • Header: eyebrow + titolo + descrizione
+    • Featured: 2 articoli scelti manualmente (grandi, 2 colonne)
+    • Latest: ultimi 4 articoli automatici dal blog (piccoli, 4 colonne)
+{%- endcomment -%}
+
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+
+  assign feat1 = s.featured_article_1
+  assign feat2 = s.featured_article_2
+
+  assign feat1_handle = ''
+  assign feat2_handle = ''
+  if feat1 != blank
+    assign feat1_handle = feat1.handle
+  endif
+  if feat2 != blank
+    assign feat2_handle = feat2.handle
+  endif
+
+  assign preview_count = 0
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ── WRAPPER ── */
+#eablog-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── HEADER ── */
+#eablog-{{ sid }} .eb-header {
+  padding: 96px 48px 80px;
+  border-bottom: 1px solid #2a2a2a;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#eablog-{{ sid }} .eb-eyebrow {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+#eablog-{{ sid }} .eb-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.0;
+  color: #ffffff;
+  margin: 0 0 16px;
+}
+#eablog-{{ sid }} .eb-desc {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── FEATURED — 2 colonne grandi ── */
+#eablog-{{ sid }} .eb-featured {
+  padding: 80px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#eablog-{{ sid }} .eb-featured-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 40px;
+}
+#eablog-{{ sid }} .eb-feat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #2a2a2a;
+}
+
+/* Card grande */
+#eablog-{{ sid }} .eb-card {
+  background: #0a0a0a;
+  cursor: pointer;
+  transition: background .2s;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+#eablog-{{ sid }} .eb-card:hover { background: #111111; }
+
+#eablog-{{ sid }} .eb-card-img {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#eablog-{{ sid }} .eb-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eablog-{{ sid }} .eb-card-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #444444;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+#eablog-{{ sid }} .eb-card-body {
+  padding: 32px 36px 40px;
+  border-top: 1px solid #2a2a2a;
+}
+#eablog-{{ sid }} .eb-card-tag {
+  font-size: 9px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #a52020;
+  margin-bottom: 12px;
+  display: block;
+  font-weight: 600;
+}
+#eablog-{{ sid }} .eb-card-title {
+  font-size: 21px;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+#eablog-{{ sid }} .eb-card-exc {
+  font-size: 13px;
+  color: #888888;
+  line-height: 1.75;
+  margin: 0 0 16px;
+  font-weight: 400;
+}
+#eablog-{{ sid }} .eb-card-meta {
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #666666;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+#eablog-{{ sid }} .eb-read-more {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  color: #ffffff;
+  font-weight: 700;
+}
+#eablog-{{ sid }} .eb-read-more::after {
+  content: '→';
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+/* ── LATEST — 4 colonne piccole ── */
+#eablog-{{ sid }} .eb-latest {
+  border-top: 1px solid #2a2a2a;
+}
+#eablog-{{ sid }} .eb-latest-inner {
+  padding: 64px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#eablog-{{ sid }} .eb-latest-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 40px;
+}
+#eablog-{{ sid }} .eb-latest-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #2a2a2a;
+}
+
+/* Card piccola */
+#eablog-{{ sid }} .eb-mini-card {
+  background: #0a0a0a;
+  cursor: pointer;
+  transition: background .2s;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+#eablog-{{ sid }} .eb-mini-card:hover { background: #111111; }
+
+#eablog-{{ sid }} .eb-mini-img {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #212121;
+}
+#eablog-{{ sid }} .eb-mini-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#eablog-{{ sid }} .eb-mini-body {
+  padding: 20px 24px 28px;
+  border-top: 1px solid #2a2a2a;
+}
+#eablog-{{ sid }} .eb-mini-tag {
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #a52020;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 600;
+}
+#eablog-{{ sid }} .eb-mini-title {
+  font-size: 14px;
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+#eablog-{{ sid }} .eb-mini-date {
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: #666666;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 989px) {
+  #eablog-{{ sid }} .eb-latest-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  #eablog-{{ sid }} .eb-header,
+  #eablog-{{ sid }} .eb-featured,
+  #eablog-{{ sid }} .eb-latest-inner { padding-left: 24px; padding-right: 24px; }
+  #eablog-{{ sid }} .eb-feat-grid { grid-template-columns: 1fr; }
+  #eablog-{{ sid }} .eb-latest-grid { grid-template-columns: 1fr; }
+  #eablog-{{ sid }} .eb-card-body { padding: 24px; }
+}
+</style>
+
+<div id="eablog-{{ sid }}">
+
+  {%- comment -%} ── HEADER ── {%- endcomment -%}
+  <div class="eb-header">
+    {%- if s.eyebrow != blank -%}
+      <p class="eb-eyebrow">{{ s.eyebrow }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h1 class="eb-title">{{ s.heading }}</h1>
+    {%- endif -%}
+    {%- if s.description != blank -%}
+      <p class="eb-desc">{{ s.description }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ── FEATURED ── {%- endcomment -%}
+  {%- if feat1 != blank or feat2 != blank -%}
+    <div class="eb-featured">
+      <p class="eb-featured-label">{{ s.featured_label | default: 'In evidenza' }}</p>
+      <div class="eb-feat-grid">
+
+        {%- for i in (1..2) -%}
+          {%- if i == 1 -%}{%- assign art = feat1 -%}{%- else -%}{%- assign art = feat2 -%}{%- endif -%}
+          {%- if art != blank -%}
+            <a class="eb-card" href="{{ art.url }}">
+              <div class="eb-card-img">
+                {%- if art.image -%}
+                  {{ art.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: art.image.alt | default: art.title }}
+                {%- else -%}
+                  <div class="eb-card-img-placeholder">Immagine articolo</div>
+                {%- endif -%}
+              </div>
+              <div class="eb-card-body">
+                {%- if art.tags.size > 0 -%}
+                  <span class="eb-card-tag">{{ art.tags | first }}</span>
+                {%- endif -%}
+                <h2 class="eb-card-title">{{ art.title }}</h2>
+                {%- if art.excerpt_or_content != blank -%}
+                  <p class="eb-card-exc">{{ art.excerpt_or_content | strip_html | truncate: 160 }}</p>
+                {%- endif -%}
+                <p class="eb-card-meta">{{ art.published_at | date: '%B %d, %Y' }}</p>
+                <span class="eb-read-more">Read more</span>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── LATEST 4 ── {%- endcomment -%}
+  {%- if s.blog != blank and s.blog.articles_count > 0 -%}
+    {%- assign latest_articles = s.blog.articles -%}
+    {%- assign preview_count = 0 -%}
+
+    {%- comment -%} Pre-conta quanti articoli mostreremo (escluso i featured) {%- endcomment -%}
+    {%- assign show_latest = false -%}
+    {%- for art in latest_articles -%}
+      {%- if art.handle != feat1_handle and art.handle != feat2_handle -%}
+        {%- assign preview_count = preview_count | plus: 1 -%}
+      {%- endif -%}
+      {%- if preview_count >= 4 -%}{%- break -%}{%- endif -%}
+    {%- endfor -%}
+
+    {%- if preview_count > 0 -%}
+      <div class="eb-latest">
+        <div class="eb-latest-inner">
+          <p class="eb-latest-label">{{ s.latest_label | default: 'Ultimi articoli' }}</p>
+          <div class="eb-latest-grid">
+            {%- assign rendered = 0 -%}
+            {%- for art in latest_articles -%}
+              {%- if art.handle == feat1_handle or art.handle == feat2_handle -%}
+                {%- continue -%}
+              {%- endif -%}
+              <a class="eb-mini-card" href="{{ art.url }}">
+                <div class="eb-mini-img">
+                  {%- if art.image -%}
+                    {{ art.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: art.image.alt | default: art.title }}
+                  {%- endif -%}
+                </div>
+                <div class="eb-mini-body">
+                  {%- if art.tags.size > 0 -%}
+                    <span class="eb-mini-tag">{{ art.tags | first }}</span>
+                  {%- endif -%}
+                  <h3 class="eb-mini-title">{{ art.title }}</h3>
+                  <p class="eb-mini-date">{{ art.published_at | date: '%B %d, %Y' }}</p>
+                </div>
+              </a>
+              {%- assign rendered = rendered | plus: 1 -%}
+              {%- if rendered >= 4 -%}{%- break -%}{%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "EverArt Blog Page",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header sezione"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Studio Everart"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "World Seeking"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descrizione",
+      "default": "Stories from the studio. The craft, the culture, the collectors. We write when we have something worth saying."
+    },
+    {
+      "type": "header",
+      "content": "Articoli in evidenza"
+    },
+    {
+      "type": "text",
+      "id": "featured_label",
+      "label": "Etichetta sezione featured",
+      "default": "In evidenza"
+    },
+    {
+      "type": "article",
+      "id": "featured_article_1",
+      "label": "Articolo in evidenza 1"
+    },
+    {
+      "type": "article",
+      "id": "featured_article_2",
+      "label": "Articolo in evidenza 2"
+    },
+    {
+      "type": "header",
+      "content": "Ultimi articoli"
+    },
+    {
+      "type": "text",
+      "id": "latest_label",
+      "label": "Etichetta sezione ultimi",
+      "default": "Ultimi articoli"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog (fonte ultimi 4)"
+    }
+  ]
+}
+{% endschema %}
