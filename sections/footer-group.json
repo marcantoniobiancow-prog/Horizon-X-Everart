@@ -13,7 +13,28 @@
   "sections": {
     "everart_footer": {
       "type": "everart-footer-def",
-      "settings": {}
+      "settings": {
+        "label": "Contact us",
+        "heading": "Are you looking for incredible resin masterpieces?",
+        "menu1_title": "Menu",
+        "menu1": "main-menu",
+        "menu2_title": "Collections",
+        "menu2": "collections",
+        "contact_title": "Contact us",
+        "contact_phone": "+39 081 000 0000",
+        "contact_email": "info@studioeverart.com",
+        "contact_address": "Via Carlo Pisacane 28",
+        "contact_city": "81030 — Parete (CE)",
+        "contact_country": "Italy",
+        "instagram_url": "",
+        "facebook_url": "",
+        "copyright": "© 2026 — Everart Studio",
+        "privacy_url": "",
+        "faq_url": "",
+        "terms_url": "",
+        "returns_url": "",
+        "image": "shopify://shop_images/Group_2.svg"
+      }
     }
   },
   "order": [
