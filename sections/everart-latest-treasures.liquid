@@ -131,12 +131,25 @@
   letter-spacing: -.01em;
   margin: 0 0 8px;
 }
+#ealt-{{ sid }} .elt-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+}
 #ealt-{{ sid }} .elt-price {
   font-size: 22px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -.02em;
-  margin: 0;
+}
+#ealt-{{ sid }} .elt-price-compare {
+  font-size: 16px;
+  font-weight: 300;
+  color: #ffffff;
+  opacity: 0.5;
+  letter-spacing: -.01em;
+  text-decoration: line-through;
 }
 #ealt-{{ sid }} .elt-sub {
   font-size: 10px;
@@ -292,6 +305,14 @@
             assign card_price = ''
           endif
 
+          if b.compare_price != blank
+            assign card_compare_price = b.compare_price
+          elsif p != blank and p.compare_at_price > p.price
+            assign card_compare_price = p.compare_at_price | money
+          else
+            assign card_compare_price = ''
+          endif
+
           if b.subtitle != blank
             assign card_sub = b.subtitle
           else
@@ -332,7 +353,12 @@
               <p class="elt-name">{{ card_name }}</p>
             {%- endif -%}
             {%- if card_price != blank -%}
-              <p class="elt-price">{{ card_price }}</p>
+              <div class="elt-price-wrap">
+                <span class="elt-price">{{ card_price }}</span>
+                {%- if card_compare_price != blank -%}
+                  <span class="elt-price-compare">{{ card_compare_price }}</span>
+                {%- endif -%}
+              </div>
             {%- endif -%}
             {%- if card_sub != blank -%}
               <span class="elt-sub">{{ card_sub }}</span>
@@ -473,6 +499,11 @@
           "type": "text",
           "id": "price",
           "label": "Prezzo (override, es. €700)"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Prezzo barrato (override, es. €900)"
         },
         {
           "type": "text",
