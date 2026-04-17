@@ -133,7 +133,7 @@
         "vertical_alignment_flex_direction_column": "center",
         "gap": 24,
         "section_width": "page-width",
-        "section_height": "full-screen",
+        "section_height": "large",
         "section_height_custom": 50,
         "color_scheme": "scheme-6",
         "toggle_overlay": true,
@@ -148,53 +148,34 @@
     },
     "everart-latest-treasures": {
       "type": "everart-latest-treasures",
-      "blocks": {
-        "product_card_EtUJFN": {
-          "type": "product_card",
-          "settings": {
-            "product": "h-p-lovecraft-the-forbidden-edition",
-            "name": "",
-            "price": "",
-            "subtitle": "H.P.Lovecraft statue + Necronomicon + art print",
-            "url": ""
-          }
-        },
-        "product_card_Aq8kXC": {
-          "type": "product_card",
-          "settings": {
-            "product": "the-necronomicon",
-            "name": "",
-            "price": "",
-            "subtitle": "Classic size - Large size",
-            "url": ""
-          }
-        },
-        "product_card_RWQEUU": {
-          "type": "product_card",
-          "settings": {
-            "product": "art-print-h-p-lovecraft",
-            "name": "",
-            "price": "",
-            "subtitle": "frame not included",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "product_card_EtUJFN",
-        "product_card_Aq8kXC",
-        "product_card_RWQEUU"
-      ],
       "settings": {
         "eyebrow": "The Collection",
         "heading": "Latest Treasures"
+      }
+    },
+    "everart-values": {
+      "type": "everart-values",
+      "settings": {
+        "title_1": "Strong Packaging",
+        "desc_1": "Rigid box with custom-shaped protective interior. The unboxing is part of the experience — not an afterthought.",
+        "title_2": "Hand Painted",
+        "desc_2": "Each piece painted by hand. Every shade, every transition applied with intention. No two are identical.",
+        "title_3": "Narrative Meta-Story",
+        "desc_3": "Not a collectible object. A genuine story — told through resin, paint, and the weight of craft."
+      }
+    },
+    "everart-manifesto": {
+      "type": "everart-manifesto",
+      "settings": {
+        "quote": "We don't make statues.\nWe make stories.",
+        "cite": "Studio Everart — Brand Manifesto"
       }
     },
     "everart-coming-soon": {
       "type": "everart-coming-soon",
       "settings": {
         "eyebrow": "Masters of Madness — Next Chapters",
-        "heading": "The collection continues.",
+        "heading": "The collectioncontinues.",
         "description": "Two masters await. Be the first to know — and secure your place before the public announcement.",
         "card1_image": "shopify://shop_images/Frankenstein_preview.jpg",
         "card1_tag": "Masters of Madness — Chapter II",
@@ -227,6 +208,8 @@
   "order": [
     "hero_jVaWmY",
     "everart-latest-treasures",
+    "everart-values",
+    "everart-manifesto",
     "everart-coming-soon",
     "everart-blog-page"
   ]

@@ -1,0 +1,89 @@
+{%- comment -%}
+  EverArt Manifesto — v1
+  Sezione editoriale con citazione centrata + firma.
+  Design fedele all'HTML preview (everart-site-preview.html) — classe .narrative.
+{%- endcomment -%}
+
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+#ea-manifesto-{{ sid }} {
+  background: #212121;
+  padding: 120px 48px;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+#ea-manifesto-{{ sid }} .eam-inner {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+#ea-manifesto-{{ sid }} blockquote {
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.45;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#ea-manifesto-{{ sid }} cite {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  margin-top: 28px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  #ea-manifesto-{{ sid }} {
+    padding: 80px 24px;
+  }
+}
+</style>
+
+<div id="ea-manifesto-{{ sid }}">
+  <div class="eam-inner">
+    {%- if s.quote != blank -%}
+      <blockquote>{{ s.quote }}</blockquote>
+    {%- endif -%}
+    {%- if s.cite != blank -%}
+      <cite>{{ s.cite }}</cite>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "EverArt Manifesto",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Citazione",
+      "default": "We don't make statues.\nWe make stories."
+    },
+    {
+      "type": "text",
+      "id": "cite",
+      "label": "Firma",
+      "default": "Studio Everart — Brand Manifesto"
+    }
+  ]
+}
+{% endschema %}
