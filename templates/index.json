@@ -158,10 +158,32 @@
             "subtitle": "H.P.Lovecraft statue + Necronomicon + art print",
             "url": ""
           }
+        },
+        "product_card_Aq8kXC": {
+          "type": "product_card",
+          "settings": {
+            "product": "the-necronomicon",
+            "name": "",
+            "price": "",
+            "subtitle": "",
+            "url": ""
+          }
+        },
+        "product_card_RWQEUU": {
+          "type": "product_card",
+          "settings": {
+            "product": "art-print-h-p-lovecraft",
+            "name": "",
+            "price": "",
+            "subtitle": "",
+            "url": ""
+          }
         }
       },
       "block_order": [
-        "product_card_EtUJFN"
+        "product_card_EtUJFN",
+        "product_card_Aq8kXC",
+        "product_card_RWQEUU"
       ],
       "settings": {
         "eyebrow": "The Collection",
