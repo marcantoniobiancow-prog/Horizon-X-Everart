@@ -1,0 +1,150 @@
+{%- comment -%}
+  EverArt Product Detail Shots — v1
+  Griglia immagini di dettaglio con heading sezione.
+  Blocks: shot_image (image + alt)
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+{%- if section.blocks.size > 0 or s.eyebrow != blank or s.heading != blank -%}
+
+<style>
+#epds-{{ sid }} {
+  padding: 112px 0;
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#epds-{{ sid }} .epds-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+#epds-{{ sid }} .epds-head {
+  margin-bottom: 56px;
+}
+#epds-{{ sid }} .epds-eyebrow {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 14px;
+}
+#epds-{{ sid }} .epds-heading {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 0;
+}
+#epds-{{ sid }} .epds-grid {
+  display: grid;
+  grid-template-columns: repeat({{ s.columns | default: 3 }}, 1fr);
+  gap: {{ s.gap | default: 6 }}px;
+}
+#epds-{{ sid }} .epds-cell {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #212121;
+  position: relative;
+}
+#epds-{{ sid }} .epds-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#epds-{{ sid }} .epds-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #212121;
+  color: rgba(255,255,255,.3);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+@media (max-width: 767px) {
+  #epds-{{ sid }} { padding: 72px 0; }
+  #epds-{{ sid }} .epds-wrap { padding: 0 20px; }
+  #epds-{{ sid }} .epds-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+}
+</style>
+
+<section id="epds-{{ sid }}">
+  <div class="epds-wrap">
+
+    {%- if s.eyebrow != blank or s.heading != blank -%}
+      <div class="epds-head">
+        {%- if s.eyebrow != blank -%}
+          <span class="epds-eyebrow">{{ s.eyebrow }}</span>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="epds-heading">{{ s.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="epds-grid">
+        {%- for block in section.blocks -%}
+          <div class="epds-cell" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 800 }}"
+                   alt="{{ block.settings.alt | default: 'Detail shot' }}"
+                   width="800"
+                   loading="lazy">
+            {%- else -%}
+              <div class="epds-placeholder">{{ block.settings.alt | default: 'Image' }}</div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Detail Shots",
+  "tag": "section",
+  "templates": ["product"],
+  "blocks": [
+    {
+      "type": "shot_image",
+      "name": "Immagine dettaglio",
+      "limit": 12,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Immagine" },
+        { "type": "text",         "id": "alt",   "label": "Alt / didascalia" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text",   "id": "eyebrow",  "label": "Eyebrow",  "default": "Crafting the Cosmic Creature" },
+    { "type": "text",   "id": "heading",  "label": "Heading",  "default": "Take a look closer." },
+    { "type": "select", "id": "columns",  "label": "Colonne",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "3"
+    },
+    { "type": "range",  "id": "gap", "label": "Gap (px)", "min": 0, "max": 24, "step": 2, "default": 6 }
+  ],
+  "presets": [{ "name": "Detail Shots" }]
+}
+{% endschema %}

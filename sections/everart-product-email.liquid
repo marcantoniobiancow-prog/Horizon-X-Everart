@@ -1,0 +1,202 @@
+{%- comment -%}
+  EverArt Product Email — v1
+  Sezione newsletter/lead magnet con lead box e form iscrizione.
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+<style>
+#epe-{{ sid }} {
+  background: #121212;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 112px 0;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#epe-{{ sid }} .epe-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+#epe-{{ sid }} .epe-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+#epe-{{ sid }} .epe-eyebrow {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 12px;
+}
+#epe-{{ sid }} .epe-heading {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 0 0 10px;
+}
+#epe-{{ sid }} .epe-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.7;
+  font-weight: 400;
+  margin: 0;
+}
+#epe-{{ sid }} .epe-lead-box {
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+  margin: 28px 0;
+}
+#epe-{{ sid }} .epe-lead-icon {
+  width: 68px;
+  min-width: 68px;
+  height: 68px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+#epe-{{ sid }} .epe-lead-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: -.01em;
+}
+#epe-{{ sid }} .epe-lead-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.7;
+  font-weight: 400;
+}
+#epe-{{ sid }} .epe-form {
+  display: flex;
+  max-width: 420px;
+  margin: 0 auto;
+}
+#epe-{{ sid }} .epe-input {
+  flex: 1;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,.1);
+  border-right: none;
+  padding: 14px 18px;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+#epe-{{ sid }} .epe-input::placeholder { color: rgba(255,255,255,.4); }
+#epe-{{ sid }} .epe-btn {
+  background: #8b1a1a;
+  color: #ffffff;
+  border: none;
+  padding: 14px 22px;
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  transition: background .2s;
+  white-space: nowrap;
+}
+#epe-{{ sid }} .epe-btn:hover { background: #a52020; }
+#epe-{{ sid }} .epe-disc {
+  font-size: 10px;
+  color: rgba(255,255,255,.35);
+  margin-top: 12px;
+  letter-spacing: .04em;
+}
+@media (max-width: 767px) {
+  #epe-{{ sid }} { padding: 72px 0; }
+  #epe-{{ sid }} .epe-wrap { padding: 0 20px; }
+  #epe-{{ sid }} .epe-form { flex-direction: column; gap: 8px; }
+  #epe-{{ sid }} .epe-input { border-right: 1px solid rgba(255,255,255,.1); }
+  #epe-{{ sid }} .epe-btn { width: 100%; }
+  #epe-{{ sid }} .epe-lead-box { flex-direction: column; text-align: center; }
+}
+</style>
+
+<section id="epe-{{ sid }}">
+  <div class="epe-wrap">
+    <div class="epe-inner">
+
+      {%- if s.eyebrow != blank -%}
+        <span class="epe-eyebrow">{{ s.eyebrow }}</span>
+      {%- endif -%}
+
+      {%- if s.heading != blank -%}
+        <h2 class="epe-heading">{{ s.heading }}</h2>
+      {%- endif -%}
+
+      {%- if s.description != blank -%}
+        <p class="epe-desc">{{ s.description }}</p>
+      {%- endif -%}
+
+      {%- if s.lead_title != blank or s.lead_desc != blank -%}
+        <div class="epe-lead-box">
+          <div class="epe-lead-icon">{{ s.lead_icon | default: '📄' }}</div>
+          <div>
+            {%- if s.lead_title != blank -%}
+              <div class="epe-lead-title">{{ s.lead_title }}</div>
+            {%- endif -%}
+            {%- if s.lead_desc != blank -%}
+              <div class="epe-lead-desc">{{ s.lead_desc }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <form class="epe-form" action="/contact#contact_form" method="post" id="epe-form-{{ sid }}">
+        <input type="hidden" name="form_type" value="customer">
+        <input type="hidden" name="utf8" value="✓">
+        <input class="epe-input"
+               type="email"
+               name="contact[email]"
+               placeholder="{{ s.input_placeholder | default: 'Your email address' }}"
+               required>
+        <button type="submit" class="epe-btn">{{ s.btn_text | default: 'Get it free' }}</button>
+      </form>
+
+      {%- if s.disclaimer != blank -%}
+        <p class="epe-disc">{{ s.disclaimer }}</p>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Email Lead Magnet",
+  "tag": "section",
+  "templates": ["product", "page"],
+  "settings": [
+    { "type": "text",     "id": "eyebrow",           "label": "Eyebrow",            "default": "For real collectors" },
+    { "type": "text",     "id": "heading",            "label": "Heading",            "default": "Behind the madness." },
+    { "type": "textarea", "id": "description",        "label": "Descrizione",        "default": "40 pages. The full making of Chapter I — free, for our collector list." },
+    { "type": "header",   "content": "Lead box" },
+    { "type": "text",     "id": "lead_icon",          "label": "Emoji icona",        "default": "📄" },
+    { "type": "text",     "id": "lead_title",         "label": "Titolo lead box",    "default": "The Making of Chapter I — PDF" },
+    { "type": "textarea", "id": "lead_desc",          "label": "Descrizione lead",   "default": "Concept sketches, sculpting, painting, the narrative choices. Exclusive to our collector list." },
+    { "type": "header",   "content": "Form" },
+    { "type": "text",     "id": "input_placeholder",  "label": "Placeholder input",  "default": "Your email address" },
+    { "type": "text",     "id": "btn_text",           "label": "Testo bottone",      "default": "Get it free" },
+    { "type": "text",     "id": "disclaimer",         "label": "Disclaimer",         "default": "No spam. Unsubscribe at any time." }
+  ],
+  "presets": [{ "name": "Email Lead Magnet" }]
+}
+{% endschema %}
