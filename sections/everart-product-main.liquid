@@ -694,7 +694,6 @@
                        name="id"
                        value="{{ v.id }}"
                        data-price="{{ v.price }}"
-                       data-price-fmt="{{ v.price | money }}"
                        {% if v.id == variant.id %}checked{% endif %}
                        {% unless v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
@@ -804,11 +803,16 @@
   window.epmToggleAcc_{{ sid }} = epmToggleAcc_{{ sid }};
 
   /* ── Variant price sync ── */
+  var epmPriceMap_{{ sid }} = {
+    {%- for v in p.variants -%}
+      '{{ v.id }}': '{{ v.price | money }}'{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  };
   var epmForm_{{ sid }} = document.getElementById('epm-form-{{ sid }}');
   if (epmForm_{{ sid }}) {
     epmForm_{{ sid }}.addEventListener('change', function(e) {
       if (e.target.name !== 'id') return;
-      var fmt = e.target.dataset.priceFmt;
+      var fmt = epmPriceMap_{{ sid }}[e.target.value];
       if (!fmt) return;
       var totalEl  = document.getElementById('epm-total-price-{{ sid }}');
       var stickyEl = document.getElementById('epm-sticky-price-{{ sid }}');
