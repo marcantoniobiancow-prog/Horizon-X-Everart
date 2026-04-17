@@ -94,6 +94,7 @@
         "bundle_save_note": "Preorder offer — you pay only the statue price, extras included · EU shipping: €20",
         "btn_text": "Preorder — Secure Your Number",
         "atc_note": "Once gone, it's forever.",
+        "balance_note": "",
         "show_sticky": true
       }
     },
@@ -144,7 +145,7 @@
         "eyebrow": "Real. Unfiltered.",
         "heading": "See what arrives at your door.",
         "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
-        "youtube_url": "",
+        "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
         "cell1_label": "Packaging",
         "cell1_value": "Custom protective box",
         "cell2_label": "Shipping",
