@@ -805,21 +805,22 @@
   /* ── Variant price sync ── */
   var epmPriceMap_{{ sid }} = {
     {%- for v in p.variants -%}
-      '{{ v.id }}': '{{ v.price | money }}'{% unless forloop.last %},{% endunless %}
+      {{ v.id }}: {{ v.price | money | json }}{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   };
-  var epmForm_{{ sid }} = document.getElementById('epm-form-{{ sid }}');
-  if (epmForm_{{ sid }}) {
-    epmForm_{{ sid }}.addEventListener('change', function(e) {
-      if (e.target.name !== 'id') return;
-      var fmt = epmPriceMap_{{ sid }}[e.target.value];
-      if (!fmt) return;
-      var totalEl  = document.getElementById('epm-total-price-{{ sid }}');
-      var stickyEl = document.getElementById('epm-sticky-price-{{ sid }}');
-      if (totalEl)  totalEl.textContent  = fmt;
-      if (stickyEl) stickyEl.textContent = fmt;
-    });
+  function epmSyncPrice_{{ sid }}(variantId) {
+    var fmt = epmPriceMap_{{ sid }}[variantId];
+    if (!fmt) return;
+    var totalEl  = document.getElementById('epm-total-price-{{ sid }}');
+    var stickyEl = document.getElementById('epm-sticky-price-{{ sid }}');
+    if (totalEl)  totalEl.textContent  = fmt;
+    if (stickyEl) stickyEl.textContent = fmt;
   }
+  document.querySelectorAll('#epm-form-{{ sid }} input[name="id"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      if (this.checked) epmSyncPrice_{{ sid }}(Number(this.value));
+    });
+  });
 
   var sticky = document.getElementById('epm-sticky-{{ sid }}');
   var atcBtn = document.getElementById('epm-atc-{{ sid }}');
