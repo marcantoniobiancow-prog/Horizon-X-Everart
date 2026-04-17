@@ -193,6 +193,24 @@
         "heading": "Latest Treasures"
       }
     },
+    "everart-values": {
+      "type": "everart-values",
+      "settings": {
+        "title_1": "Strong Packaging",
+        "desc_1": "Rigid box with custom-shaped protective interior. The unboxing is part of the experience — not an afterthought.",
+        "title_2": "Hand Painted",
+        "desc_2": "Each piece painted by hand. Every shade, every transition applied with intention. No two are identical.",
+        "title_3": "Narrative Meta-Story",
+        "desc_3": "Not a collectible object. A genuine story — told through resin, paint, and the weight of craft."
+      }
+    },
+    "everart-manifesto": {
+      "type": "everart-manifesto",
+      "settings": {
+        "quote": "We don't make statues.\nWe make stories.",
+        "cite": "Studio Everart — Brand Manifesto"
+      }
+    },
     "everart-coming-soon": {
       "type": "everart-coming-soon",
       "settings": {
@@ -230,6 +248,8 @@
   "order": [
     "hero_jVaWmY",
     "everart-latest-treasures",
+    "everart-values",
+    "everart-manifesto",
     "everart-coming-soon",
     "everart-blog-page"
   ]
