@@ -192,108 +192,92 @@
     background: var(--epm-surf);
     padding: 0;
     margin-bottom: 24px;
-
-    .epm-bundle-acc-h {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 16px 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: var(--epm-font);
-      font-size: 9.5px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--epm-muted);
-      font-weight: 600;
-      text-align: left;
-      transition: color .2s;
-
-      &:hover { color: var(--epm-fg); }
-    }
-
-    .epm-bundle-acc-arrow {
-      font-size: 16px;
-      font-weight: 300;
-      color: var(--epm-muted);
-      transition: transform .2s;
-      flex-shrink: 0;
-      line-height: 1;
-
-      &.open { transform: rotate(180deg); }
-    }
-
-    .epm-bundle-acc-b {
-      display: none;
-      padding: 0 24px 4px;
-
-      &.open { display: block; }
-    }
-
-    .epm-bundle-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--epm-bdr);
-      font-size: 13px;
-
-      &:last-of-type { border: none; }
-    }
-
-    .epm-bundle-item { color: rgb(var(--color-foreground-rgb, 255 255 255) / 0.8); font-weight: 400; }
-    .epm-bundle-price { color: var(--epm-muted); font-weight: 500; font-size: 14px; }
-
-    .epm-bundle-footer {
-      padding: 0 24px 20px;
-      border-top: 1px solid var(--epm-bdr);
-    }
-
-    .epm-bundle-discount {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0 0;
-      font-size: 13px;
-
-      .epm-bundle-item { color: #c44; }
-      .epm-bundle-price { color: #c44; }
-    }
-
-    .epm-bundle-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 14px 0 0;
-      margin-top: 4px;
-      border-top: 1px solid var(--epm-bdr);
-
-      .epm-bundle-total-lbl {
-        font-size: 10px;
-        letter-spacing: .2em;
-        text-transform: uppercase;
-        font-weight: 700;
-        color: var(--epm-fg);
-      }
-
-      .epm-bundle-total-price {
-        font-size: 36px;
-        font-weight: 800;
-        color: var(--epm-fg);
-        letter-spacing: -.03em;
-      }
-    }
-
-    .epm-bundle-save {
-      font-size: 10px;
-      color: var(--epm-green);
-      margin-top: 6px;
-      text-align: right;
-      letter-spacing: .05em;
-      font-weight: 500;
-    }
+  }
+  .epm-bundle-acc-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--epm-font);
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--epm-muted);
+    font-weight: 600;
+    text-align: left;
+    transition: color .2s;
+  }
+  .epm-bundle-acc-h:hover { color: var(--epm-fg); }
+  .epm-bundle-acc-arrow {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--epm-muted);
+    transition: transform .2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .epm-bundle-acc-arrow.open { transform: rotate(180deg); }
+  .epm-bundle-acc-b {
+    display: none;
+    padding: 0 24px 4px;
+  }
+  .epm-bundle-acc-b.open { display: block; }
+  .epm-bundle-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--epm-bdr);
+    font-size: 13px;
+  }
+  .epm-bundle-line:last-of-type { border: none; }
+  .epm-bundle-item { color: rgb(var(--color-foreground-rgb, 255 255 255) / 0.8); font-weight: 400; }
+  .epm-bundle-price { color: var(--epm-muted); font-weight: 500; font-size: 14px; }
+  .epm-bundle-footer {
+    padding: 0 24px 20px;
+    border-top: 1px solid var(--epm-bdr);
+  }
+  .epm-bundle-discount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 0;
+    font-size: 13px;
+  }
+  .epm-bundle-discount .epm-bundle-item { color: #c44; }
+  .epm-bundle-discount .epm-bundle-price { color: #c44; }
+  .epm-bundle-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0 0;
+    margin-top: 4px;
+    border-top: 1px solid var(--epm-bdr);
+  }
+  .epm-bundle-total-lbl {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--epm-fg);
+  }
+  .epm-bundle-total-price {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--epm-fg);
+    letter-spacing: -.03em;
+  }
+  .epm-bundle-save {
+    font-size: 10px;
+    color: var(--epm-green);
+    margin-top: 6px;
+    text-align: right;
+    letter-spacing: .05em;
+    font-weight: 500;
   }
 
   /* ── Varianti ── */
@@ -767,8 +751,8 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Varianti {%- endcomment -%}
-      {%- unless p.has_only_default_variant -%}
+      {%- comment -%} Varianti native — nascoste se esistono pay_opts {%- endcomment -%}
+      {%- unless p.has_only_default_variant or pay_opts.size > 0 -%}
         <div class="epm-variants">
           {%- for option in p.options_with_values -%}
             <span class="epm-variant-label">{{ option.name }}</span>
@@ -790,13 +774,16 @@
         </div>
       {%- endunless -%}
 
-      {%- comment -%} Payment options {%- endcomment -%}
+      {%- comment -%} Payment options — collegati alle varianti Shopify per indice {%- endcomment -%}
       {%- if pay_opts.size > 0 -%}
         <span class="epm-pay-label">Payment options</span>
         <div class="epm-pay-opts" id="epm-pay-{{ sid }}">
           {%- for block in pay_opts -%}
+            {%- assign linked_variant = p.variants[forloop.index0] -%}
             <div class="epm-pay-opt {% if forloop.first %}sel{% endif %}"
                  onclick="epmSelectPay_{{ sid }}(this)"
+                 data-variant-id="{{ linked_variant.id }}"
+                 data-variant-available="{{ linked_variant.available }}"
                  {{ block.shopify_attributes }}>
               <div class="epm-po-lbl">{{ block.settings.label }}</div>
               <div class="epm-po-amount">{{ block.settings.amount }}</div>
@@ -892,6 +879,14 @@
       o.classList.remove('sel');
     });
     el.classList.add('sel');
+    var vid = el.dataset.variantId;
+    if (vid) {
+      var inp = document.getElementById('epm-variant-id-{{ sid }}');
+      if (inp) inp.value = vid;
+    }
+    var avail = el.dataset.variantAvailable !== 'false';
+    var atc = document.getElementById('epm-atc-{{ sid }}');
+    if (atc) atc.disabled = !avail;
   }
   window.epmSelectPay_{{ sid }} = epmSelectPay_{{ sid }};
 
