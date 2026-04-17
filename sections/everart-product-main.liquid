@@ -670,7 +670,7 @@
             {%- endif -%}
             <div class="epm-bundle-total">
               <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
-              <span class="epm-bundle-total-price">{{ variant.price | money }}</span>
+              <span class="epm-bundle-total-price" id="epm-total-price-{{ sid }}">{{ variant.price | money }}</span>
             </div>
             {%- if s.bundle_save_note != blank -%}
               <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
@@ -693,6 +693,8 @@
                        id="epm-var-{{ sid }}-{{ forloop.index0 }}"
                        name="id"
                        value="{{ v.id }}"
+                       data-price="{{ v.price }}"
+                       data-price-fmt="{{ v.price | money }}"
                        {% if v.id == variant.id %}checked{% endif %}
                        {% unless v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
@@ -761,7 +763,7 @@
 <div class="epm-sticky" id="epm-sticky-{{ sid }}">
   <div>
     <div class="sc-name">{{ p.title }}</div>
-    <div class="sc-price">{{ variant.price | money }}</div>
+    <div class="sc-price" id="epm-sticky-price-{{ sid }}">{{ variant.price | money }}</div>
     {%- if s.show_edition and s.edition_total > 0 -%}
       <div class="sc-ed">{{ s.edition_claimed }} / {{ s.edition_total }} claimed</div>
     {%- endif -%}
@@ -800,6 +802,20 @@
     if (arrow) arrow.classList.toggle('open', !open);
   }
   window.epmToggleAcc_{{ sid }} = epmToggleAcc_{{ sid }};
+
+  /* ── Variant price sync ── */
+  var epmForm_{{ sid }} = document.getElementById('epm-form-{{ sid }}');
+  if (epmForm_{{ sid }}) {
+    epmForm_{{ sid }}.addEventListener('change', function(e) {
+      if (e.target.name !== 'id') return;
+      var fmt = e.target.dataset.priceFmt;
+      if (!fmt) return;
+      var totalEl  = document.getElementById('epm-total-price-{{ sid }}');
+      var stickyEl = document.getElementById('epm-sticky-price-{{ sid }}');
+      if (totalEl)  totalEl.textContent  = fmt;
+      if (stickyEl) stickyEl.textContent = fmt;
+    });
+  }
 
   var sticky = document.getElementById('epm-sticky-{{ sid }}');
   var atcBtn = document.getElementById('epm-atc-{{ sid }}');
