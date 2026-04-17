@@ -1,10 +1,22 @@
 {%- comment -%}
-  EverArt Product Video — v1
-  Unboxing video + 3 info cells
+  EverArt Product Video — v2
+  Accetta qualsiasi formato URL YouTube + copertina cliccabile opzionale.
 {%- endcomment -%}
 
 {%- assign s   = section.settings -%}
 {%- assign sid = section.id -%}
+
+{%- comment -%} Estrai video ID da qualsiasi formato YouTube {%- endcomment -%}
+{%- assign yt_url = s.youtube_url | strip -%}
+{%- assign yt_id  = '' -%}
+{%- if yt_url contains 'embed/' -%}
+  {%- assign yt_id = yt_url | split: 'embed/' | last | split: '?' | first | strip -%}
+{%- elsif yt_url contains 'youtu.be/' -%}
+  {%- assign yt_id = yt_url | split: 'youtu.be/' | last | split: '?' | first | strip -%}
+{%- elsif yt_url contains 'v=' -%}
+  {%- assign yt_id = yt_url | split: 'v=' | last | split: '&' | first | strip -%}
+{%- endif -%}
+{%- assign yt_embed = 'https://www.youtube.com/embed/' | append: yt_id -%}
 
 <style>
 #epv-{{ sid }} {
@@ -64,6 +76,45 @@
   top: 0; left: 0;
   width: 100%; height: 100%;
   border: 0;
+}
+#epv-{{ sid }} .epv-cover {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#epv-{{ sid }} .epv-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#epv-{{ sid }} .epv-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+}
+#epv-{{ sid }} .epv-play-btn {
+  position: relative;
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #8b1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, transform .2s;
+  flex-shrink: 0;
+}
+#epv-{{ sid }} .epv-cover:hover .epv-play-btn {
+  background: #a52020;
+  transform: scale(1.07);
 }
 #epv-{{ sid }} .epv-placeholder {
   position: absolute;
@@ -130,13 +181,34 @@
 
     <div class="epv-video-wrap">
       <div class="epv-ratio">
-        {%- if s.youtube_url != blank -%}
-          <iframe
-            src="{{ s.youtube_url }}"
-            title="{{ s.heading | default: 'Unboxing Video' }}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+
+        {%- if yt_id != blank -%}
+
+          {%- if s.cover_image != blank -%}
+            {%- comment -%} Copertina cliccabile → carica iframe al click {%- endcomment -%}
+            <div class="epv-cover" id="epv-cover-{{ sid }}"
+                 data-embed="{{ yt_embed }}?autoplay=1&rel=0">
+              <img src="{{ s.cover_image | image_url: width: 1200 }}"
+                   alt="{{ s.cover_image.alt | default: s.heading }}"
+                   width="1200"
+                   loading="lazy">
+              <div class="epv-cover-overlay"></div>
+              <div class="epv-play-btn">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <polygon points="9,5 21,12 9,19" fill="white"/>
+                </svg>
+              </div>
+            </div>
+          {%- else -%}
+            {%- comment -%} Nessuna copertina: iframe diretto {%- endcomment -%}
+            <iframe
+              src="{{ yt_embed }}?rel=0"
+              title="{{ s.heading | default: 'Video' }}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          {%- endif -%}
+
         {%- else -%}
           <div class="epv-placeholder">
             <div class="epv-play-icon">
@@ -147,6 +219,7 @@
             <span class="epv-play-label">Unboxing Video</span>
           </div>
         {%- endif -%}
+
       </div>
 
       <div class="epv-cells">
@@ -173,22 +246,41 @@
   </div>
 </div>
 
+<script>
+(function() {
+  var cover = document.getElementById('epv-cover-{{ sid }}');
+  if (!cover) return;
+  cover.addEventListener('click', function() {
+    var embed = cover.dataset.embed;
+    var ratio = cover.parentElement;
+    var iframe = document.createElement('iframe');
+    iframe.src = embed;
+    iframe.title = cover.querySelector('img') ? cover.querySelector('img').alt : 'Video';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0';
+    ratio.replaceChild(iframe, cover);
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "Prodotto — Video",
   "tag": "section",
   "templates": ["product"],
   "settings": [
-    { "type": "text",     "id": "eyebrow",     "label": "Eyebrow", "default": "Real. Unfiltered." },
-    { "type": "text",     "id": "heading",     "label": "Titolo",  "default": "See what arrives at your door." },
-    { "type": "textarea", "id": "description", "label": "Descrizione" },
-    { "type": "text",     "id": "youtube_url", "label": "YouTube embed URL (https://www.youtube.com/embed/VIDEO_ID)" },
-    { "type": "header",   "content": "Celle informative" },
-    { "type": "text", "id": "cell1_label", "label": "Cella 1 — label", "default": "Packaging" },
+    { "type": "text",         "id": "eyebrow",     "label": "Eyebrow",      "default": "Real. Unfiltered." },
+    { "type": "text",         "id": "heading",     "label": "Titolo",       "default": "See what arrives at your door." },
+    { "type": "textarea",     "id": "description", "label": "Descrizione" },
+    { "type": "text",         "id": "youtube_url", "label": "URL YouTube (qualsiasi formato: watch, youtu.be, embed)" },
+    { "type": "image_picker", "id": "cover_image", "label": "Copertina video (opzionale — click per avviare)" },
+    { "type": "header",       "content": "Celle informative" },
+    { "type": "text", "id": "cell1_label", "label": "Cella 1 — label",  "default": "Packaging" },
     { "type": "text", "id": "cell1_value", "label": "Cella 1 — valore", "default": "Custom protective box" },
-    { "type": "text", "id": "cell2_label", "label": "Cella 2 — label", "default": "Shipping" },
+    { "type": "text", "id": "cell2_label", "label": "Cella 2 — label",  "default": "Shipping" },
     { "type": "text", "id": "cell2_value", "label": "Cella 2 — valore", "default": "Insured & tracked" },
-    { "type": "text", "id": "cell3_label", "label": "Cella 3 — label", "default": "Condition" },
+    { "type": "text", "id": "cell3_label", "label": "Cella 3 — label",  "default": "Condition" },
     { "type": "text", "id": "cell3_value", "label": "Cella 3 — valore", "default": "Inspected before dispatch" }
   ],
   "presets": [{ "name": "Prodotto — Video" }]
