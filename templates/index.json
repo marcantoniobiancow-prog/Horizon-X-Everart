@@ -148,6 +148,21 @@
     },
     "everart-latest-treasures": {
       "type": "everart-latest-treasures",
+      "blocks": {
+        "product_card_EtUJFN": {
+          "type": "product_card",
+          "settings": {
+            "product": "h-p-lovecraft-the-forbidden-edition",
+            "name": "",
+            "price": "",
+            "subtitle": "H.P.Lovecraft statue + Necronomicon + art print",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_card_EtUJFN"
+      ],
       "settings": {
         "eyebrow": "The Collection",
         "heading": "Latest Treasures"
