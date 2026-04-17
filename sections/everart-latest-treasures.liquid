@@ -56,30 +56,22 @@
 }
 #ealt-{{ sid }} .elt-track {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: #2a2a2a;
 }
 
-/* Desktop statico (≤ 3 card) */
-{% unless desktop_slider %}
-#ealt-{{ sid }} .elt-track {
-  grid-template-columns: repeat({{ count | at_least: 1 }}, 1fr);
-}
-{% endunless %}
-
-/* Desktop slider (> 3 card) */
-{% if desktop_slider %}
-#ealt-{{ sid }} .elt-track {
-  grid-template-columns: repeat({{ count }}, calc((100% - 2px) / 3));
+/* Desktop slider (> 3 card) — attivato via JS class */
+#ealt-{{ sid }} .elt-track.is-slider {
+  grid-template-columns: repeat({{ count | at_least: 1 }}, calc((100% - 2px) / 3));
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
 }
-#ealt-{{ sid }} .elt-track::-webkit-scrollbar { display: none; }
-#ealt-{{ sid }} .elt-card { scroll-snap-align: start; }
-{% endif %}
+#ealt-{{ sid }} .elt-track.is-slider::-webkit-scrollbar { display: none; }
+#ealt-{{ sid }} .elt-track.is-slider .elt-card { scroll-snap-align: start; }
 
 /* ══ CARD ══ */
 #ealt-{{ sid }} .elt-card {
@@ -165,10 +157,8 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-/* Mostrato su desktop solo se slider attivo */
-{% if desktop_slider %}
-#ealt-{{ sid }} .elt-nav { display: flex; }
-{% endif %}
+/* Mostrato quando slider è attivo (classe aggiunta via JS) */
+#ealt-{{ sid }} .elt-nav.is-active { display: flex; }
 
 #ealt-{{ sid }} .elt-nav-line {
   flex: 1;
@@ -325,6 +315,7 @@
 <script>
 (function() {
   var track    = document.getElementById('elt-track-{{ sid }}');
+  var nav      = document.getElementById('elt-nav-{{ sid }}');
   var progress = document.getElementById('elt-progress-{{ sid }}');
   var btnPrev  = document.getElementById('elt-prev-{{ sid }}');
   var btnNext  = document.getElementById('elt-next-{{ sid }}');
@@ -335,47 +326,60 @@
   var cardCount = cards.length;
   if (cardCount === 0) return;
 
-  var isMobile = function() { return window.innerWidth < 768; };
+  function isMobile() { return window.innerWidth < 768; }
 
-  /* ── Calcola larghezza visibile ── */
-  function visibleCards() {
-    return isMobile() ? 1 : 3;
+  /* ── Inizializza lo stato slider ── */
+  function init() {
+    if (isMobile()) {
+      /* Mobile: sempre slider */
+      track.classList.add('is-slider');
+      if (nav) nav.classList.add('is-active');
+    } else {
+      /* Desktop: slider solo se > 3 card */
+      if (cardCount > 3) {
+        track.classList.add('is-slider');
+        if (nav) nav.classList.add('is-active');
+      } else {
+        track.classList.remove('is-slider');
+        if (nav) nav.classList.remove('is-active');
+      }
+    }
+    updateProgress();
   }
 
   /* ── Aggiorna progress bar ── */
   function updateProgress() {
     var maxScroll = track.scrollWidth - track.clientWidth;
-    if (maxScroll <= 0) {
+    if (maxScroll <= 1) {
       progress.style.width = '100%';
       if (btnPrev) btnPrev.disabled = true;
       if (btnNext) btnNext.disabled = true;
       return;
     }
-    var ratio     = track.scrollLeft / maxScroll;
-    var visible   = visibleCards();
-    var segments  = cardCount - visible + 1;
-    var segW      = 100 / segments;
-    var pct       = Math.min(ratio * 100 + segW, 100);
+    var visible  = isMobile() ? 1 : 3;
+    var segments = Math.max(cardCount - visible + 1, 1);
+    var segW     = 100 / segments;
+    var ratio    = track.scrollLeft / maxScroll;
+    var pct      = Math.min(ratio * (100 - segW) + segW, 100);
     progress.style.width = pct + '%';
 
     if (btnPrev) btnPrev.disabled = track.scrollLeft <= 1;
     if (btnNext) btnNext.disabled = track.scrollLeft >= maxScroll - 1;
   }
 
-  /* ── Scroll di N cards ── */
+  /* ── Scroll di 1 card ── */
   function scrollBy(dir) {
-    var cardW = cards[0] ? cards[0].offsetWidth + 1 : track.clientWidth / visibleCards();
+    var cardW = cards[0] ? cards[0].offsetWidth + 1 : track.clientWidth;
     track.scrollLeft += dir * cardW;
   }
 
   track.addEventListener('scroll', updateProgress, { passive: true });
-  window.addEventListener('resize', updateProgress);
+  window.addEventListener('resize', init);
 
   if (btnPrev) btnPrev.addEventListener('click', function() { scrollBy(-1); });
   if (btnNext) btnNext.addEventListener('click', function() { scrollBy(1); });
 
-  /* Init */
-  updateProgress();
+  init();
 })();
 </script>
 
