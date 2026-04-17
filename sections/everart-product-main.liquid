@@ -190,16 +190,46 @@
   /* ── Bundle box ── */
   .epm-bundle {
     background: var(--epm-surf);
-    padding: 24px;
+    padding: 0;
     margin-bottom: 24px;
 
-    .epm-bundle-title {
+    .epm-bundle-acc-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 16px 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--epm-font);
       font-size: 9.5px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--epm-muted);
-      margin-bottom: 16px;
       font-weight: 600;
+      text-align: left;
+      transition: color .2s;
+
+      &:hover { color: var(--epm-fg); }
+    }
+
+    .epm-bundle-acc-arrow {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--epm-muted);
+      transition: transform .2s;
+      flex-shrink: 0;
+      line-height: 1;
+
+      &.open { transform: rotate(180deg); }
+    }
+
+    .epm-bundle-acc-b {
+      display: none;
+      padding: 0 24px 4px;
+
+      &.open { display: block; }
     }
 
     .epm-bundle-line {
@@ -216,12 +246,28 @@
     .epm-bundle-item { color: rgb(var(--color-foreground-rgb, 255 255 255) / 0.8); font-weight: 400; }
     .epm-bundle-price { color: var(--epm-muted); font-weight: 500; font-size: 14px; }
 
+    .epm-bundle-footer {
+      padding: 0 24px 20px;
+      border-top: 1px solid var(--epm-bdr);
+    }
+
+    .epm-bundle-discount {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 0;
+      font-size: 13px;
+
+      .epm-bundle-item { color: #c44; }
+      .epm-bundle-price { color: #c44; }
+    }
+
     .epm-bundle-total {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 16px 0 0;
-      margin-top: 8px;
+      padding: 14px 0 0;
+      margin-top: 4px;
       border-top: 1px solid var(--epm-bdr);
 
       .epm-bundle-total-lbl {
@@ -676,34 +722,48 @@
       {%- comment -%} Bundle box {%- endcomment -%}
       {%- if bundle_items.size > 0 -%}
         <div class="epm-bundle">
-          {%- if s.bundle_title != blank -%}
-            <div class="epm-bundle-title">{{ s.bundle_title }}</div>
-          {%- endif -%}
-          {%- for block in bundle_items -%}
-            <div class="epm-bundle-line" {{ block.shopify_attributes }}>
-              <span class="epm-bundle-item">{{ block.settings.item }}</span>
-              <span class="epm-bundle-price">{{ block.settings.price }}</span>
-            </div>
-          {%- endfor -%}
-          {%- if s.bundle_original_price != blank -%}
-            <div class="epm-bundle-line" style="border-top:1px solid var(--epm-bdr);margin-top:4px;padding-top:12px">
-              <span class="epm-bundle-item" style="color:var(--epm-muted)">Bundle value</span>
-              <span class="epm-bundle-price" style="text-decoration:line-through">{{ s.bundle_original_price }}</span>
-            </div>
-          {%- endif -%}
-          {%- if s.bundle_discount_label != blank -%}
-            <div class="epm-bundle-line" style="padding-top:4px">
-              <span class="epm-bundle-item" style="color:#c44">{{ s.bundle_discount_label }}</span>
-              <span class="epm-bundle-price" style="color:#c44">{{ s.bundle_discount_amount }}</span>
-            </div>
-          {%- endif -%}
-          <div class="epm-bundle-total">
-            <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
-            <span class="epm-bundle-total-price">{{ variant.price | money }}</span>
+
+          {%- comment -%} Accordion header {%- endcomment -%}
+          <button class="epm-bundle-acc-h"
+                  onclick="epmBundleAcc_{{ sid }}(this)"
+                  aria-expanded="false">
+            {{ s.bundle_title | default: "What's Included" }}
+            <span class="epm-bundle-acc-arrow">&#8964;</span>
+          </button>
+
+          {%- comment -%} Accordion body — voci bundle + valore totale {%- endcomment -%}
+          <div class="epm-bundle-acc-b" id="epm-bundle-body-{{ sid }}">
+            {%- for block in bundle_items -%}
+              <div class="epm-bundle-line" {{ block.shopify_attributes }}>
+                <span class="epm-bundle-item">{{ block.settings.item }}</span>
+                <span class="epm-bundle-price">{{ block.settings.price }}</span>
+              </div>
+            {%- endfor -%}
+            {%- if s.bundle_original_price != blank -%}
+              <div class="epm-bundle-line" style="border-top:1px solid var(--epm-bdr);margin-top:4px;padding-top:12px">
+                <span class="epm-bundle-item" style="color:var(--epm-muted)">Bundle value</span>
+                <span class="epm-bundle-price" style="text-decoration:line-through">{{ s.bundle_original_price }}</span>
+              </div>
+            {%- endif -%}
           </div>
-          {%- if s.bundle_save_note != blank -%}
-            <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
-          {%- endif -%}
+
+          {%- comment -%} Sempre visibile: sconto + prezzo finale {%- endcomment -%}
+          <div class="epm-bundle-footer">
+            {%- if s.bundle_discount_label != blank -%}
+              <div class="epm-bundle-discount">
+                <span class="epm-bundle-item">{{ s.bundle_discount_label }}</span>
+                <span class="epm-bundle-price">{{ s.bundle_discount_amount }}</span>
+              </div>
+            {%- endif -%}
+            <div class="epm-bundle-total">
+              <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
+              <span class="epm-bundle-total-price">{{ variant.price | money }}</span>
+            </div>
+            {%- if s.bundle_save_note != blank -%}
+              <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
+            {%- endif -%}
+          </div>
+
         </div>
       {%- endif -%}
 
@@ -858,6 +918,16 @@
     }
   }
   window.epmVariant_{{ sid }} = epmVariant_{{ sid }};
+
+  function epmBundleAcc_{{ sid }}(btn) {
+    var body  = document.getElementById('epm-bundle-body-{{ sid }}');
+    var arrow = btn.querySelector('.epm-bundle-acc-arrow');
+    var open  = body.classList.contains('open');
+    body.classList.toggle('open', !open);
+    if (arrow) arrow.classList.toggle('open', !open);
+    btn.setAttribute('aria-expanded', String(!open));
+  }
+  window.epmBundleAcc_{{ sid }} = epmBundleAcc_{{ sid }};
 
   function epmToggleAcc_{{ sid }}(header) {
     var arrow = header.querySelector('.epm-acc-arrow');
