@@ -1,0 +1,446 @@
+{%- comment -%}
+  EverArt Latest Treasures — v1
+  • Cards manuali via blocks (ordine = ordine dei blocchi)
+  • Desktop ≤ 3 cards → grid statico · > 3 cards → slider 3-per-volta
+  • Mobile → slider 1.5 cards visibili · navigatore = linea
+  • Hover desktop → seconda immagine prodotto (fade)
+{%- endcomment -%}
+
+{%- liquid
+  assign s         = section.settings
+  assign sid       = section.id
+  assign count     = section.blocks.size
+  assign desktop_slider = false
+  if count > 3
+    assign desktop_slider = true
+  endif
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ══ WRAPPER ══ */
+#ealt-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  padding: 96px 0;
+}
+
+/* ── HEADER ── */
+#ealt-{{ sid }} .elt-head {
+  padding: 0 48px;
+  max-width: 1200px;
+  margin: 0 auto 56px;
+}
+#ealt-{{ sid }} .elt-eyebrow {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 14px;
+  display: block;
+}
+#ealt-{{ sid }} .elt-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ══ TRACK (scroll container) ══ */
+#ealt-{{ sid }} .elt-track-wrap {
+  position: relative;
+}
+#ealt-{{ sid }} .elt-track {
+  display: grid;
+  gap: 1px;
+  background: #2a2a2a;
+}
+
+/* Desktop statico (≤ 3 card) */
+{% unless desktop_slider %}
+#ealt-{{ sid }} .elt-track {
+  grid-template-columns: repeat({{ count | at_least: 1 }}, 1fr);
+}
+{% endunless %}
+
+/* Desktop slider (> 3 card) */
+{% if desktop_slider %}
+#ealt-{{ sid }} .elt-track {
+  grid-template-columns: repeat({{ count }}, calc((100% - 2px) / 3));
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+#ealt-{{ sid }} .elt-track::-webkit-scrollbar { display: none; }
+#ealt-{{ sid }} .elt-card { scroll-snap-align: start; }
+{% endif %}
+
+/* ══ CARD ══ */
+#ealt-{{ sid }} .elt-card {
+  background: #0a0a0a;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background .2s;
+}
+#ealt-{{ sid }} .elt-card:hover { background: #0f0f0f; }
+
+/* — Immagine con hover — */
+#ealt-{{ sid }} .elt-img-wrap {
+  aspect-ratio: 4/5;
+  position: relative;
+  overflow: hidden;
+  background: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#ealt-{{ sid }} .elt-img-1,
+#ealt-{{ sid }} .elt-img-2 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity .4s ease;
+}
+#ealt-{{ sid }} .elt-img-2 { opacity: 0; }
+#ealt-{{ sid }} .elt-card:hover .elt-img-1 { opacity: 0; }
+#ealt-{{ sid }} .elt-card:hover .elt-img-2 { opacity: 1; }
+#ealt-{{ sid }} .elt-img-placeholder {
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #444444;
+  text-align: center;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* — Body — */
+#ealt-{{ sid }} .elt-body {
+  padding: 24px 28px 32px;
+  border-top: 1px solid #2a2a2a;
+}
+#ealt-{{ sid }} .elt-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  margin: 0 0 8px;
+}
+#ealt-{{ sid }} .elt-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+#ealt-{{ sid }} .elt-sub {
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #888888;
+  margin-top: 6px;
+  display: block;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+/* ══ NAVIGATORE — linea ══ */
+#ealt-{{ sid }} .elt-nav {
+  display: none;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 48px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* Mostrato su desktop solo se slider attivo */
+{% if desktop_slider %}
+#ealt-{{ sid }} .elt-nav { display: flex; }
+{% endif %}
+
+#ealt-{{ sid }} .elt-nav-line {
+  flex: 1;
+  height: 2px;
+  background: #2a2a2a;
+  position: relative;
+  border-radius: 1px;
+  overflow: hidden;
+}
+#ealt-{{ sid }} .elt-nav-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 1px;
+  transition: width .3s ease;
+  width: 33.33%;
+}
+#ealt-{{ sid }} .elt-nav-btn {
+  background: none;
+  border: 1px solid #2a2a2a;
+  color: #888888;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: border-color .2s, color .2s;
+  flex-shrink: 0;
+  font-family: 'Instrument Sans', sans-serif;
+}
+#ealt-{{ sid }} .elt-nav-btn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+#ealt-{{ sid }} .elt-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 767px) {
+  #ealt-{{ sid }} { padding: 72px 0; }
+  #ealt-{{ sid }} .elt-head { padding: 0 24px; margin-bottom: 40px; }
+
+  /* Sempre slider su mobile */
+  #ealt-{{ sid }} .elt-track {
+    display: flex !important;
+    overflow-x: scroll !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    gap: 1px;
+    background: #2a2a2a;
+    grid-template-columns: unset !important;
+  }
+  #ealt-{{ sid }} .elt-track::-webkit-scrollbar { display: none; }
+  #ealt-{{ sid }} .elt-card {
+    flex: 0 0 calc(((100vw - 24px) / 1.5));
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+
+  /* Navigatore sempre visibile su mobile */
+  #ealt-{{ sid }} .elt-nav {
+    display: flex !important;
+    padding: 20px 24px 0;
+  }
+  /* Nascondi frecce su mobile, solo linea */
+  #ealt-{{ sid }} .elt-nav-btn { display: none; }
+}
+</style>
+
+<div id="ealt-{{ sid }}">
+
+  {%- comment -%} HEADER {%- endcomment -%}
+  <div class="elt-head">
+    {%- if s.eyebrow != blank -%}
+      <span class="elt-eyebrow">{{ s.eyebrow }}</span>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="elt-title">{{ s.heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} CARDS {%- endcomment -%}
+  <div class="elt-track-wrap">
+    <div class="elt-track" id="elt-track-{{ sid }}">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        <a class="elt-card"
+           href="{{ b.url | default: '#' }}"
+           {{ block.shopify_attributes }}>
+          <div class="elt-img-wrap">
+            {%- if b.image_1 != blank -%}
+              {{ b.image_1 | image_url: width: 800 | image_tag:
+                  class: 'elt-img-1',
+                  loading: 'lazy',
+                  alt: b.image_1.alt | default: b.name }}
+            {%- else -%}
+              <span class="elt-img-placeholder">{{ b.name | default: 'Prodotto' }}</span>
+            {%- endif -%}
+            {%- if b.image_2 != blank -%}
+              {{ b.image_2 | image_url: width: 800 | image_tag:
+                  class: 'elt-img-2',
+                  loading: 'lazy',
+                  alt: b.image_2.alt | default: b.name }}
+            {%- endif -%}
+          </div>
+          <div class="elt-body">
+            {%- if b.name != blank -%}
+              <p class="elt-name">{{ b.name }}</p>
+            {%- endif -%}
+            {%- if b.price != blank -%}
+              <p class="elt-price">{{ b.price }}</p>
+            {%- endif -%}
+            {%- if b.subtitle != blank -%}
+              <span class="elt-sub">{{ b.subtitle }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- else -%}
+        {%- comment -%} Placeholder nell'editor quando non ci sono blocchi {%- endcomment -%}
+        {%- for i in (1..3) -%}
+          <div class="elt-card">
+            <div class="elt-img-wrap">
+              <span class="elt-img-placeholder">Aggiungi un prodotto</span>
+            </div>
+            <div class="elt-body">
+              <p class="elt-name">Nome prodotto</p>
+              <p class="elt-price">€000</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} NAVIGATORE {%- endcomment -%}
+  <div class="elt-nav" id="elt-nav-{{ sid }}">
+    <button class="elt-nav-btn" id="elt-prev-{{ sid }}" aria-label="Precedente" disabled>←</button>
+    <div class="elt-nav-line">
+      <div class="elt-nav-progress" id="elt-progress-{{ sid }}"></div>
+    </div>
+    <button class="elt-nav-btn" id="elt-next-{{ sid }}" aria-label="Successivo">→</button>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var track    = document.getElementById('elt-track-{{ sid }}');
+  var progress = document.getElementById('elt-progress-{{ sid }}');
+  var btnPrev  = document.getElementById('elt-prev-{{ sid }}');
+  var btnNext  = document.getElementById('elt-next-{{ sid }}');
+
+  if (!track || !progress) return;
+
+  var cards     = track.querySelectorAll('.elt-card');
+  var cardCount = cards.length;
+  if (cardCount === 0) return;
+
+  var isMobile = function() { return window.innerWidth < 768; };
+
+  /* ── Calcola larghezza visibile ── */
+  function visibleCards() {
+    return isMobile() ? 1 : 3;
+  }
+
+  /* ── Aggiorna progress bar ── */
+  function updateProgress() {
+    var maxScroll = track.scrollWidth - track.clientWidth;
+    if (maxScroll <= 0) {
+      progress.style.width = '100%';
+      if (btnPrev) btnPrev.disabled = true;
+      if (btnNext) btnNext.disabled = true;
+      return;
+    }
+    var ratio     = track.scrollLeft / maxScroll;
+    var visible   = visibleCards();
+    var segments  = cardCount - visible + 1;
+    var segW      = 100 / segments;
+    var pct       = Math.min(ratio * 100 + segW, 100);
+    progress.style.width = pct + '%';
+
+    if (btnPrev) btnPrev.disabled = track.scrollLeft <= 1;
+    if (btnNext) btnNext.disabled = track.scrollLeft >= maxScroll - 1;
+  }
+
+  /* ── Scroll di N cards ── */
+  function scrollBy(dir) {
+    var cardW = cards[0] ? cards[0].offsetWidth + 1 : track.clientWidth / visibleCards();
+    track.scrollLeft += dir * cardW;
+  }
+
+  track.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+
+  if (btnPrev) btnPrev.addEventListener('click', function() { scrollBy(-1); });
+  if (btnNext) btnNext.addEventListener('click', function() { scrollBy(1); });
+
+  /* Init */
+  updateProgress();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Latest Treasures",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Prodotto",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Immagine principale"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Immagine hover (seconda)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nome prodotto"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Prezzo (es. €700)"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sottotitolo (sotto il prezzo)"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link prodotto"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Latest Treasures"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest Treasures"
+    }
+  ]
+}
+{% endschema %}

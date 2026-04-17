@@ -146,6 +146,13 @@
         "padding-block-end": 72
       }
     },
+    "everart-latest-treasures": {
+      "type": "everart-latest-treasures",
+      "settings": {
+        "eyebrow": "The Collection",
+        "heading": "Latest Treasures"
+      }
+    },
     "everart-coming-soon": {
       "type": "everart-coming-soon",
       "settings": {
@@ -182,6 +189,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "everart-latest-treasures",
     "everart-coming-soon",
     "everart-blog-page"
   ]
