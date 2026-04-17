@@ -1,7 +1,7 @@
 {%- comment -%}
-  EverArt Product Main — v1
-  Gallery + breadcrumb + info panel + sticky CTA
-  Blocks: bundle_item, accordion_item
+  EverArt Product Main — v2
+  Gallery griglia 2 colonne + info panel sticky + varianti + quantità
+  Blocks: bundle_item, accordion_item, payment_option
 {%- endcomment -%}
 
 {%- assign s       = section.settings -%}
@@ -16,9 +16,9 @@
     assign col_title = p.collections[0].title
   endif
 
-  assign bundle_items = section.blocks | where: 'type', 'bundle_item'
+  assign bundle_items    = section.blocks | where: 'type', 'bundle_item'
   assign accordion_items = section.blocks | where: 'type', 'accordion_item'
-  assign pay_opts = section.blocks | where: 'type', 'payment_option'
+  assign pay_opts        = section.blocks | where: 'type', 'payment_option'
 -%}
 
 <style>
@@ -49,7 +49,6 @@
   transition: color .2s;
 }
 #epm-{{ sid }} .epm-breadcrumb a:hover { color: #ffffff; }
-#epm-{{ sid }} .epm-breadcrumb span { color: #888888; }
 #epm-{{ sid }} .epm-breadcrumb .epm-bc-current { color: #cccccc; }
 
 /* ── Page grid ── */
@@ -57,58 +56,47 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
-/* ── Gallery ── */
+/* ── Gallery — griglia immagini ── */
 #epm-{{ sid }} .epm-gallery {
-  padding: 48px 56px 48px 48px;
   border-right: 1px solid #2a2a2a;
-  position: sticky;
-  top: 0;
 }
-#epm-{{ sid }} .epm-gallery-main {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #212121;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#epm-{{ sid }} .epm-gallery-main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-#epm-{{ sid }} .epm-gallery-thumbs {
+#epm-{{ sid }} .epm-img-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  background: #2a2a2a;
 }
-#epm-{{ sid }} .epm-thumb {
+#epm-{{ sid }} .epm-img-grid.single {
+  grid-template-columns: 1fr;
+}
+#epm-{{ sid }} .epm-img-cell {
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  cursor: pointer;
-  opacity: 0.45;
-  transition: opacity .2s;
   background: #212121;
 }
-#epm-{{ sid }} .epm-thumb:hover,
-#epm-{{ sid }} .epm-thumb.sel { opacity: 1; }
-#epm-{{ sid }} .epm-thumb img {
+#epm-{{ sid }} .epm-img-cell img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* ── Info panel ── */
+/* ── Info panel (sticky) ── */
 #epm-{{ sid }} .epm-info {
-  padding: 48px 48px 48px 56px;
+  padding: 48px 56px;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
+#epm-{{ sid }} .epm-info::-webkit-scrollbar { display: none; }
+
+/* ── Tag / title / sub ── */
 #epm-{{ sid }} .epm-tag {
   font-size: 9.5px;
   letter-spacing: .26em;
@@ -130,7 +118,7 @@
   font-size: 13px;
   color: #888888;
   font-style: italic;
-  margin-bottom: 36px;
+  margin: 0 0 36px;
   font-weight: 400;
   letter-spacing: .04em;
 }
@@ -157,9 +145,7 @@
   color: #888888;
   font-weight: 500;
 }
-#epm-{{ sid }} .epm-edition-count strong {
-  color: #ffffff;
-}
+#epm-{{ sid }} .epm-edition-count strong { color: #ffffff; }
 #epm-{{ sid }} .epm-edition-track {
   height: 3px;
   background: #2a2a2a;
@@ -229,6 +215,100 @@
   font-weight: 500;
 }
 
+/* ── Varianti ── */
+#epm-{{ sid }} .epm-variants {
+  margin-bottom: 20px;
+}
+#epm-{{ sid }} .epm-variant-label {
+  font-size: 9.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #888888;
+  margin-bottom: 10px;
+  font-weight: 600;
+  display: block;
+}
+#epm-{{ sid }} .epm-variant-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#epm-{{ sid }} .epm-variant-btn {
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  color: #888888;
+  padding: 10px 18px;
+  font-size: 12px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  letter-spacing: .04em;
+}
+#epm-{{ sid }} .epm-variant-btn:hover,
+#epm-{{ sid }} .epm-variant-btn.sel {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+#epm-{{ sid }} .epm-variant-btn.unavail {
+  opacity: 0.35;
+  cursor: default;
+  text-decoration: line-through;
+}
+
+/* ── Quantità ── */
+#epm-{{ sid }} .epm-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+#epm-{{ sid }} .epm-qty-lbl {
+  font-size: 9.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 600;
+}
+#epm-{{ sid }} .epm-qty-ctrl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #2a2a2a;
+}
+#epm-{{ sid }} .epm-qty-btn {
+  background: none;
+  border: none;
+  color: #888888;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s;
+}
+#epm-{{ sid }} .epm-qty-btn:hover { color: #ffffff; }
+#epm-{{ sid }} .epm-qty-input {
+  background: none;
+  border: none;
+  border-left: 1px solid #2a2a2a;
+  border-right: 1px solid #2a2a2a;
+  color: #ffffff;
+  width: 48px;
+  height: 36px;
+  text-align: center;
+  font-size: 14px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  outline: none;
+  -moz-appearance: textfield;
+}
+#epm-{{ sid }} .epm-qty-input::-webkit-outer-spin-button,
+#epm-{{ sid }} .epm-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
 /* ── Payment options ── */
 #epm-{{ sid }} .epm-pay-label {
   font-size: 9.5px;
@@ -274,7 +354,7 @@
   font-weight: 400;
 }
 
-/* ── ATC button ── */
+/* ── ATC ── */
 #epm-{{ sid }} .epm-atc-btn {
   width: 100%;
   background: #8b1a1a;
@@ -291,13 +371,14 @@
   font-family: 'Instrument Sans', sans-serif;
 }
 #epm-{{ sid }} .epm-atc-btn:hover { background: #a52020; }
-#epm-{{ sid }} .epm-atc-btn:disabled { opacity: .45; cursor: default; }
+#epm-{{ sid }} .epm-atc-btn:disabled { opacity: .45; cursor: default; background: #8b1a1a; }
 #epm-{{ sid }} .epm-atc-note {
   font-size: 11px;
   color: #888888;
   text-align: center;
   letter-spacing: .05em;
   font-weight: 400;
+  margin-bottom: 0;
 }
 
 /* ── Accordion ── */
@@ -305,9 +386,7 @@
   border-top: 1px solid #2a2a2a;
   margin-top: 32px;
 }
-#epm-{{ sid }} .epm-acc-item {
-  border-bottom: 1px solid #2a2a2a;
-}
+#epm-{{ sid }} .epm-acc-item { border-bottom: 1px solid #2a2a2a; }
 #epm-{{ sid }} .epm-acc-h {
   display: flex;
   justify-content: space-between;
@@ -320,6 +399,11 @@
   color: #cccccc;
   font-weight: 600;
   user-select: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Instrument Sans', sans-serif;
 }
 #epm-{{ sid }} .epm-acc-h:hover { color: #ffffff; }
 #epm-{{ sid }} .epm-acc-arrow {
@@ -350,9 +434,7 @@
 /* ── Sticky CTA ── */
 #epm-sticky-{{ sid }} {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   background: rgba(10,10,10,.97);
   backdrop-filter: blur(12px);
   border-top: 1px solid #2a2a2a;
@@ -367,7 +449,7 @@
 #epm-sticky-{{ sid }}.vis { transform: translateY(0); }
 #epm-sticky-{{ sid }} .sc-name { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 #epm-sticky-{{ sid }} .sc-price { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
-#epm-sticky-{{ sid }} .sc-ed { font-size: 10px; color: #888888; letter-spacing: .06em; margin-top: 2px; font-weight: 400; }
+#epm-sticky-{{ sid }} .sc-ed { font-size: 10px; color: #888888; letter-spacing: .06em; margin-top: 2px; }
 #epm-sticky-{{ sid }} .sc-btn {
   background: #8b1a1a;
   color: #ffffff;
@@ -388,175 +470,200 @@
 @media (max-width: 767px) {
   #epm-{{ sid }} .epm-breadcrumb { padding: 14px 20px; }
   #epm-{{ sid }} .epm-grid { grid-template-columns: 1fr; }
-  #epm-{{ sid }} .epm-gallery { padding: 0; border-right: none; position: static; }
-  #epm-{{ sid }} .epm-gallery-main { aspect-ratio: 1 / 1; margin-bottom: 4px; }
-  #epm-{{ sid }} .epm-gallery-thumbs { gap: 3px; }
-  #epm-{{ sid }} .epm-info { padding: 32px 20px 48px; }
+  #epm-{{ sid }} .epm-gallery { border-right: none; }
+  #epm-{{ sid }} .epm-info { padding: 32px 20px 56px; position: static; max-height: none; overflow-y: visible; }
   #epm-{{ sid }} .epm-pay-opts { grid-template-columns: 1fr; }
   #epm-sticky-{{ sid }} { padding: 12px 20px; }
   #epm-sticky-{{ sid }} .sc-price { font-size: 20px; }
 }
 </style>
 
-{%- comment -%} Breadcrumb {%- endcomment -%}
 <div id="epm-{{ sid }}">
-<div class="epm-breadcrumb">
-  <a href="/">Home</a>
-  <span>/</span>
-  {%- if p.collections.size > 0 -%}
-    <a href="{{ p.collections[0].url }}">{{ p.collections[0].title }}</a>
+
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <div class="epm-breadcrumb">
+    <a href="/">Home</a>
     <span>/</span>
-  {%- endif -%}
-  <span class="epm-bc-current">{{ p.title }}</span>
-</div>
+    {%- if p.collections.size > 0 -%}
+      <a href="{{ p.collections[0].url }}">{{ p.collections[0].title }}</a>
+      <span>/</span>
+    {%- endif -%}
+    <span class="epm-bc-current">{{ p.title }}</span>
+  </div>
 
-{%- comment -%} Main grid {%- endcomment -%}
-<div class="epm-grid">
+  <div class="epm-grid">
 
-  {%- comment -%} Gallery {%- endcomment -%}
-  <div class="epm-gallery">
-    <div class="epm-gallery-main">
-      {%- if media.size > 0 -%}
-        <img id="epm-main-img-{{ sid }}"
-             src="{{ media[0] | image_url: width: 1000 }}"
-             alt="{{ media[0].alt | default: p.title }}"
-             width="1000"
-             loading="eager">
-      {%- endif -%}
+    {%- comment -%} ── GALLERY griglia immagini ── {%- endcomment -%}
+    <div class="epm-gallery">
+      <div class="epm-img-grid {% if media.size <= 1 %}single{% endif %}">
+        {%- for m in media -%}
+          {%- if m.media_type == 'image' -%}
+            <div class="epm-img-cell">
+              <img src="{{ m | image_url: width: 900 }}"
+                   alt="{{ m.alt | default: p.title }}"
+                   width="900"
+                   loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
-    {%- if media.size > 1 -%}
-      <div class="epm-gallery-thumbs">
-        {%- for m in media limit: 4 -%}
-          <div class="epm-thumb {% if forloop.first %}sel{% endif %}"
-               data-full="{{ m | image_url: width: 1000 }}"
-               onclick="epmSelectThumb_{{ sid }}(this, {{ forloop.index0 }})">
-            <img src="{{ m | image_url: width: 200 }}"
-                 alt="{{ m.alt | default: p.title }}"
-                 width="200"
-                 loading="lazy">
+
+    {%- comment -%} ── INFO PANEL ── {%- endcomment -%}
+    <div class="epm-info">
+
+      {%- if col_title != blank -%}
+        <span class="epm-tag">{{ col_title }}</span>
+      {%- endif -%}
+      <h1 class="epm-title">{{ p.title }}</h1>
+      {%- assign sub = s.subtitle | default: p.type -%}
+      {%- if sub != blank -%}
+        <div class="epm-sub">{{ sub }}</div>
+      {%- endif -%}
+
+      {%- comment -%} Edition counter {%- endcomment -%}
+      {%- if s.show_edition and s.edition_total > 0 -%}
+        {%- assign pct = s.edition_claimed | times: 100.0 | divided_by: s.edition_total | round -%}
+        <div class="epm-edition">
+          <div class="epm-edition-label">
+            <span class="epm-edition-lbl">Edition Progress</span>
+            <span class="epm-edition-count">
+              <strong>{{ s.edition_claimed }}</strong> / {{ s.edition_total }} claimed
+              {%- if s.edition_ships != blank %} · {{ s.edition_ships }}{%- endif -%}
+            </span>
           </div>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-  </div>
-
-  {%- comment -%} Info panel {%- endcomment -%}
-  <div class="epm-info">
-    {%- if col_title != blank -%}
-      <span class="epm-tag">{{ col_title }}</span>
-    {%- endif -%}
-    <h1 class="epm-title">{{ p.title }}</h1>
-    {%- assign sub = s.subtitle | default: p.type -%}
-    {%- if sub != blank -%}
-      <div class="epm-sub">{{ sub }}</div>
-    {%- endif -%}
-
-    {%- comment -%} Edition counter {%- endcomment -%}
-    {%- if s.show_edition and s.edition_total > 0 -%}
-      {%- assign pct = s.edition_claimed | times: 100.0 | divided_by: s.edition_total | round -%}
-      <div class="epm-edition">
-        <div class="epm-edition-label">
-          <span class="epm-edition-lbl">Edition Progress</span>
-          <span class="epm-edition-count">
-            <strong>{{ s.edition_claimed }}</strong> / {{ s.edition_total }} claimed
-            {%- if s.edition_ships != blank %} · {{ s.edition_ships }}{%- endif -%}
-          </span>
+          <div class="epm-edition-track">
+            <div class="epm-edition-fill" style="width:{{ pct }}%"></div>
+          </div>
         </div>
-        <div class="epm-edition-track">
-          <div class="epm-edition-fill" style="width:{{ pct }}%"></div>
-        </div>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
 
-    {%- comment -%} Bundle box {%- endcomment -%}
-    {%- if bundle_items.size > 0 -%}
-      <div class="epm-bundle">
-        {%- if s.bundle_title != blank -%}
-          <div class="epm-bundle-title">{{ s.bundle_title }}</div>
-        {%- endif -%}
-        {%- for block in bundle_items -%}
-          <div class="epm-bundle-line" {{ block.shopify_attributes }}>
-            <span class="epm-bundle-item">{{ block.settings.item }}</span>
-            <span class="epm-bundle-price">{{ block.settings.price }}</span>
-          </div>
-        {%- endfor -%}
-        {%- if s.bundle_original_price != blank or s.bundle_discount_label != blank -%}
-          <div class="epm-bundle-line" style="border-top:1px solid #2a2a2a;margin-top:4px;padding-top:12px">
-            <span class="epm-bundle-item" style="color:#888888">Bundle value</span>
-            <span class="epm-bundle-price" style="text-decoration:line-through">{{ s.bundle_original_price }}</span>
-          </div>
-        {%- endif -%}
-        {%- if s.bundle_discount_label != blank -%}
-          <div class="epm-bundle-line" style="padding-top:4px">
-            <span class="epm-bundle-item" style="color:#c44;">{{ s.bundle_discount_label }}</span>
-            <span class="epm-bundle-price" style="color:#c44;">{{ s.bundle_discount_amount }}</span>
-          </div>
-        {%- endif -%}
-        <div class="epm-bundle-total">
-          <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
-          <span class="epm-bundle-total-price">{{ variant.price | money }}</span>
-        </div>
-        {%- if s.bundle_save_note != blank -%}
-          <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} Payment options {%- endcomment -%}
-    {%- if pay_opts.size > 0 -%}
-      <span class="epm-pay-label">Payment options</span>
-      <div class="epm-pay-opts" id="epm-pay-{{ sid }}">
-        {%- for block in pay_opts -%}
-          <div class="epm-pay-opt {% if forloop.first %}sel{% endif %}"
-               onclick="epmSelectPay_{{ sid }}(this)"
-               {{ block.shopify_attributes }}>
-            <div class="epm-po-lbl">{{ block.settings.label }}</div>
-            <div class="epm-po-amount">{{ block.settings.amount }}</div>
-            {%- if block.settings.note != blank -%}
-              <div class="epm-po-note">{{ block.settings.note }}</div>
-            {%- endif -%}
-          </div>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} ATC form {%- endcomment -%}
-    {%- form 'product', p, id: "epm-form-{{ sid }}" -%}
-      <input type="hidden" name="id" value="{{ variant.id }}">
-      <button type="submit"
-              class="epm-atc-btn"
-              id="epm-atc-{{ sid }}"
-              {% unless p.available %}disabled{% endunless %}>
-        {%- if p.available -%}
-          {{ s.btn_text | default: 'Add to Cart' }}
-        {%- else -%}
-          Sold Out
-        {%- endif -%}
-      </button>
-    {%- endform -%}
-    {%- if s.atc_note != blank -%}
-      <div class="epm-atc-note">{{ s.atc_note }}</div>
-    {%- endif -%}
-
-    {%- comment -%} Accordion {%- endcomment -%}
-    {%- if accordion_items.size > 0 -%}
-      <div class="epm-accordion">
-        {%- for block in accordion_items -%}
-          <div class="epm-acc-item" {{ block.shopify_attributes }}>
-            <div class="epm-acc-h" onclick="epmToggleAcc_{{ sid }}(this)">
-              {{ block.settings.heading }}
-              <span class="epm-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
+      {%- comment -%} Bundle box {%- endcomment -%}
+      {%- if bundle_items.size > 0 -%}
+        <div class="epm-bundle">
+          {%- if s.bundle_title != blank -%}
+            <div class="epm-bundle-title">{{ s.bundle_title }}</div>
+          {%- endif -%}
+          {%- for block in bundle_items -%}
+            <div class="epm-bundle-line" {{ block.shopify_attributes }}>
+              <span class="epm-bundle-item">{{ block.settings.item }}</span>
+              <span class="epm-bundle-price">{{ block.settings.price }}</span>
             </div>
-            <div class="epm-acc-b {% if forloop.first %}open{% endif %}">
-              {{ block.settings.content }}
+          {%- endfor -%}
+          {%- if s.bundle_original_price != blank -%}
+            <div class="epm-bundle-line" style="border-top:1px solid #2a2a2a;margin-top:4px;padding-top:12px">
+              <span class="epm-bundle-item" style="color:#888">Bundle value</span>
+              <span class="epm-bundle-price" style="text-decoration:line-through">{{ s.bundle_original_price }}</span>
             </div>
+          {%- endif -%}
+          {%- if s.bundle_discount_label != blank -%}
+            <div class="epm-bundle-line" style="padding-top:4px">
+              <span class="epm-bundle-item" style="color:#c44">{{ s.bundle_discount_label }}</span>
+              <span class="epm-bundle-price" style="color:#c44">{{ s.bundle_discount_amount }}</span>
+            </div>
+          {%- endif -%}
+          <div class="epm-bundle-total">
+            <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
+            <span class="epm-bundle-total-price">{{ variant.price | money }}</span>
           </div>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
+          {%- if s.bundle_save_note != blank -%}
+            <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
 
+      {%- comment -%} Varianti {%- endcomment -%}
+      {%- unless p.has_only_default_variant -%}
+        <div class="epm-variants">
+          {%- for option in p.options_with_values -%}
+            <span class="epm-variant-label">{{ option.name }}</span>
+            <div class="epm-variant-btns" id="epm-opt-{{ sid }}-{{ forloop.index0 }}">
+              {%- for value in option.values -%}
+                {%- assign is_sel = false -%}
+                {%- if variant.options[forloop.parentloop.index0] == value -%}
+                  {%- assign is_sel = true -%}
+                {%- endif -%}
+                <button class="epm-variant-btn {% if is_sel %}sel{% endif %}"
+                        data-option="{{ forloop.parentloop.index0 }}"
+                        data-value="{{ value | escape }}"
+                        onclick="epmVariant_{{ sid }}(this)">
+                  {{ value }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      {%- comment -%} Payment options {%- endcomment -%}
+      {%- if pay_opts.size > 0 -%}
+        <span class="epm-pay-label">Payment options</span>
+        <div class="epm-pay-opts" id="epm-pay-{{ sid }}">
+          {%- for block in pay_opts -%}
+            <div class="epm-pay-opt {% if forloop.first %}sel{% endif %}"
+                 onclick="epmSelectPay_{{ sid }}(this)"
+                 {{ block.shopify_attributes }}>
+              <div class="epm-po-lbl">{{ block.settings.label }}</div>
+              <div class="epm-po-amount">{{ block.settings.amount }}</div>
+              {%- if block.settings.note != blank -%}
+                <div class="epm-po-note">{{ block.settings.note }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Quantità + ATC {%- endcomment -%}
+      {%- form 'product', p, id: "epm-form-{{ sid }}" -%}
+        <input type="hidden" name="id" value="{{ variant.id }}" id="epm-variant-id-{{ sid }}">
+
+        <div class="epm-qty-row">
+          <span class="epm-qty-lbl">Qty</span>
+          <div class="epm-qty-ctrl">
+            <button type="button" class="epm-qty-btn"
+                    onclick="epmQty_{{ sid }}(-1)" aria-label="Diminuisci">−</button>
+            <input type="number" name="quantity" min="1" value="1"
+                   id="epm-qty-{{ sid }}" class="epm-qty-input">
+            <button type="button" class="epm-qty-btn"
+                    onclick="epmQty_{{ sid }}(1)" aria-label="Aumenta">+</button>
+          </div>
+        </div>
+
+        <button type="submit"
+                class="epm-atc-btn"
+                id="epm-atc-{{ sid }}"
+                {% unless p.available %}disabled{% endunless %}>
+          {%- if p.available -%}
+            {{ s.btn_text | default: 'Add to Cart' }}
+          {%- else -%}
+            Sold Out
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      {%- if s.atc_note != blank -%}
+        <div class="epm-atc-note">{{ s.atc_note }}</div>
+      {%- endif -%}
+
+      {%- comment -%} Accordion {%- endcomment -%}
+      {%- if accordion_items.size > 0 -%}
+        <div class="epm-accordion">
+          {%- for block in accordion_items -%}
+            <div class="epm-acc-item" {{ block.shopify_attributes }}>
+              <button class="epm-acc-h" onclick="epmToggleAcc_{{ sid }}(this)">
+                {{ block.settings.heading }}
+                <span class="epm-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
+              </button>
+              <div class="epm-acc-b {% if forloop.first %}open{% endif %}">
+                {{ block.settings.content }}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
   </div>
-</div>
 </div>
 
 {%- comment -%} Sticky CTA {%- endcomment -%}
@@ -569,7 +676,8 @@
       <div class="sc-ed">{{ s.edition_claimed }} / {{ s.edition_total }} claimed</div>
     {%- endif -%}
   </div>
-  <button class="sc-btn" onclick="document.getElementById('epm-form-{{ sid }}').submit()">
+  <button class="sc-btn"
+          onclick="document.getElementById('epm-form-{{ sid }}').querySelector('[type=submit]').click()">
     {{ s.btn_text | default: 'Add to Cart' }}
   </button>
 </div>
@@ -577,15 +685,14 @@
 
 <script>
 (function() {
-  /* Gallery thumbnails */
-  function epmSelectThumb_{{ sid }}(el, idx) {
-    var mainImg = document.getElementById('epm-main-img-{{ sid }}');
-    var thumbs  = document.querySelectorAll('#epm-{{ sid }} .epm-thumb');
-    thumbs.forEach(function(t) { t.classList.remove('sel'); });
-    el.classList.add('sel');
-    if (mainImg) mainImg.src = el.dataset.full;
+  /* Quantità */
+  function epmQty_{{ sid }}(delta) {
+    var inp = document.getElementById('epm-qty-{{ sid }}');
+    if (!inp) return;
+    var val = parseInt(inp.value, 10) || 1;
+    inp.value = Math.max(1, val + delta);
   }
-  window.epmSelectThumb_{{ sid }} = epmSelectThumb_{{ sid }};
+  window.epmQty_{{ sid }} = epmQty_{{ sid }};
 
   /* Payment option toggle */
   function epmSelectPay_{{ sid }}(el) {
@@ -595,13 +702,40 @@
   }
   window.epmSelectPay_{{ sid }} = epmSelectPay_{{ sid }};
 
+  /* Varianti */
+  var variantData = {{ p.variants | json }};
+  function epmVariant_{{ sid }}(btn) {
+    var optIdx = parseInt(btn.dataset.option, 10);
+    /* aggiorna sel nel gruppo */
+    var group = document.getElementById('epm-opt-{{ sid }}-' + optIdx);
+    if (group) group.querySelectorAll('.epm-variant-btn').forEach(function(b) { b.classList.remove('sel'); });
+    btn.classList.add('sel');
+    /* trova variante corrispondente */
+    var selected = [];
+    for (var i = 0; i < {{ p.options.size }}; i++) {
+      var grp = document.getElementById('epm-opt-{{ sid }}-' + i);
+      if (grp) {
+        var selBtn = grp.querySelector('.epm-variant-btn.sel');
+        selected.push(selBtn ? selBtn.dataset.value : '');
+      }
+    }
+    var match = variantData.find(function(v) {
+      return v.options.join('|') === selected.join('|');
+    });
+    if (match) {
+      var idInput = document.getElementById('epm-variant-id-{{ sid }}');
+      if (idInput) idInput.value = match.id;
+    }
+  }
+  window.epmVariant_{{ sid }} = epmVariant_{{ sid }};
+
   /* Accordion */
   function epmToggleAcc_{{ sid }}(header) {
     var arrow = header.querySelector('.epm-acc-arrow');
     var body  = header.nextElementSibling;
-    var isOpen = body.classList.contains('open');
-    body.classList.toggle('open', !isOpen);
-    arrow.classList.toggle('open', !isOpen);
+    var open  = body.classList.contains('open');
+    body.classList.toggle('open', !open);
+    if (arrow) arrow.classList.toggle('open', !open);
   }
   window.epmToggleAcc_{{ sid }} = epmToggleAcc_{{ sid }};
 
@@ -628,7 +762,7 @@
       "name": "Voce bundle",
       "limit": 10,
       "settings": [
-        { "type": "text", "id": "item", "label": "Descrizione voce" },
+        { "type": "text", "id": "item",  "label": "Descrizione" },
         { "type": "text", "id": "price", "label": "Prezzo / nota (es. €760 o incl.)" }
       ]
     },
@@ -637,7 +771,7 @@
       "name": "Accordion",
       "limit": 6,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Titolo", "default": "Product Details" },
+        { "type": "text",     "id": "heading", "label": "Titolo",    "default": "Product Details" },
         { "type": "richtext", "id": "content", "label": "Contenuto" }
       ]
     },
@@ -646,31 +780,31 @@
       "name": "Opzione pagamento",
       "limit": 2,
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Pay in full" },
-        { "type": "text", "id": "amount", "label": "Importo", "default": "€700" },
-        { "type": "text", "id": "note", "label": "Nota sotto importo" }
+        { "type": "text", "id": "label",  "label": "Label",  "default": "Pay in full" },
+        { "type": "text", "id": "amount", "label": "Importo","default": "€700" },
+        { "type": "text", "id": "note",   "label": "Nota" }
       ]
     }
   ],
   "settings": [
-    { "type": "text",     "id": "collection_label", "label": "Label collezione (override auto)" },
-    { "type": "text",     "id": "subtitle",         "label": "Sottotitolo (italic)" },
+    { "type": "text",     "id": "collection_label",      "label": "Label collezione (override auto)" },
+    { "type": "text",     "id": "subtitle",              "label": "Sottotitolo (italic)" },
     { "type": "header",   "content": "Edition counter" },
-    { "type": "checkbox", "id": "show_edition",     "label": "Mostra edition counter", "default": false },
-    { "type": "number",   "id": "edition_claimed",  "label": "Pezzi reclamati", "default": 0 },
-    { "type": "number",   "id": "edition_total",    "label": "Edizione totale", "default": 100 },
-    { "type": "text",     "id": "edition_ships",    "label": "Testo spedizione (es. Ships June 2026)" },
+    { "type": "checkbox", "id": "show_edition",          "label": "Mostra edition counter", "default": false },
+    { "type": "number",   "id": "edition_claimed",       "label": "Pezzi reclamati",        "default": 0 },
+    { "type": "number",   "id": "edition_total",         "label": "Edizione totale",        "default": 100 },
+    { "type": "text",     "id": "edition_ships",         "label": "Testo spedizione" },
     { "type": "header",   "content": "Bundle box" },
-    { "type": "text",     "id": "bundle_title",     "label": "Titolo box (es. What's Included)" },
+    { "type": "text",     "id": "bundle_title",          "label": "Titolo box" },
     { "type": "text",     "id": "bundle_original_price", "label": "Valore bundle (barrato)" },
-    { "type": "text",     "id": "bundle_discount_label", "label": "Label sconto (es. Preorder discount)" },
-    { "type": "text",     "id": "bundle_discount_amount","label": "Importo sconto (es. −€60)" },
-    { "type": "text",     "id": "bundle_total_label","label": "Label prezzo totale", "default": "Your price today" },
-    { "type": "text",     "id": "bundle_save_note", "label": "Nota verde sotto totale" },
-    { "type": "header",   "content": "Bottone acquisto" },
-    { "type": "text",     "id": "btn_text",         "label": "Testo bottone", "default": "Add to Cart" },
-    { "type": "text",     "id": "atc_note",         "label": "Nota sotto bottone" },
-    { "type": "checkbox", "id": "show_sticky",      "label": "Mostra sticky CTA", "default": true }
+    { "type": "text",     "id": "bundle_discount_label", "label": "Label sconto" },
+    { "type": "text",     "id": "bundle_discount_amount","label": "Importo sconto" },
+    { "type": "text",     "id": "bundle_total_label",    "label": "Label prezzo totale",    "default": "Your price today" },
+    { "type": "text",     "id": "bundle_save_note",      "label": "Nota verde" },
+    { "type": "header",   "content": "Acquisto" },
+    { "type": "text",     "id": "btn_text",              "label": "Testo bottone",          "default": "Add to Cart" },
+    { "type": "text",     "id": "atc_note",              "label": "Nota sotto bottone" },
+    { "type": "checkbox", "id": "show_sticky",           "label": "Mostra sticky CTA",     "default": true }
   ],
   "presets": [{ "name": "Prodotto — Main" }]
 }
