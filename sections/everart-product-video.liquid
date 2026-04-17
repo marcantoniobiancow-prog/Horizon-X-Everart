@@ -11,6 +11,8 @@
 {%- assign yt_id  = '' -%}
 {%- if yt_url contains 'embed/' -%}
   {%- assign yt_id = yt_url | split: 'embed/' | last | split: '?' | first | strip -%}
+{%- elsif yt_url contains 'shorts/' -%}
+  {%- assign yt_id = yt_url | split: 'shorts/' | last | split: '?' | first | strip -%}
 {%- elsif yt_url contains 'youtu.be/' -%}
   {%- assign yt_id = yt_url | split: 'youtu.be/' | last | split: '?' | first | strip -%}
 {%- elsif yt_url contains 'v=' -%}
