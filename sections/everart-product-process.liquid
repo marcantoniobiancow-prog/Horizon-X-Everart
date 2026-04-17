@@ -1,0 +1,166 @@
+{%- comment -%}
+  EverArt Product Process — v1
+  Headline + testo + immagine + 4 step strip (blocks)
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+<style>
+#epp-{{ sid }} {
+  background: #121212;
+  border-top: 1px solid #2a2a2a;
+  padding: 96px 0;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#epp-{{ sid }} .epp-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+#epp-{{ sid }} .epp-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 56px;
+}
+#epp-{{ sid }} .epp-label {
+  font-size: 9.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 14px;
+}
+#epp-{{ sid }} .epp-hl {
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.0;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: #ffffff;
+  margin: 0 0 20px;
+}
+#epp-{{ sid }} .epp-desc {
+  max-width: 400px;
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 400;
+}
+#epp-{{ sid }} .epp-img {
+  height: 360px;
+  overflow: hidden;
+  background: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#epp-{{ sid }} .epp-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#epp-{{ sid }} .epp-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #2a2a2a;
+}
+#epp-{{ sid }} .epp-step {
+  background: #0a0a0a;
+  padding: 32px 28px;
+}
+#epp-{{ sid }} .epp-n {
+  font-size: 40px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 14px;
+  letter-spacing: -.03em;
+}
+#epp-{{ sid }} .epp-step-title {
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+#epp-{{ sid }} .epp-step-desc {
+  font-size: 12px;
+  color: #888888;
+  line-height: 1.7;
+  font-weight: 400;
+}
+@media (max-width: 767px) {
+  #epp-{{ sid }} { padding: 60px 0; }
+  #epp-{{ sid }} .epp-inner { padding: 0 20px; }
+  #epp-{{ sid }} .epp-top { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; }
+  #epp-{{ sid }} .epp-img { height: 280px; }
+  #epp-{{ sid }} .epp-strip { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<div id="epp-{{ sid }}">
+  <div class="epp-inner">
+    <div class="epp-top">
+      <div>
+        {%- if s.eyebrow != blank -%}<span class="epp-label">{{ s.eyebrow }}</span>{%- endif -%}
+        {%- if s.headline != blank -%}<h2 class="epp-hl">{{ s.headline }}</h2>{%- endif -%}
+        {%- if s.description != blank -%}<p class="epp-desc">{{ s.description }}</p>{%- endif -%}
+      </div>
+      <div class="epp-img">
+        {%- if s.image != blank -%}
+          <img src="{{ s.image | image_url: width: 900 }}"
+               alt="{{ s.image.alt | default: s.eyebrow }}"
+               width="900"
+               loading="lazy">
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="epp-strip">
+        {%- for block in section.blocks -%}
+          <div class="epp-step" {{ block.shopify_attributes }}>
+            <div class="epp-n">{{ block.settings.number | default: forloop.index | prepend: '0' }}</div>
+            <div class="epp-step-title">{{ block.settings.title }}</div>
+            {%- if block.settings.description != blank -%}
+              <div class="epp-step-desc">{{ block.settings.description }}</div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Prodotto — Process",
+  "tag": "section",
+  "templates": ["product"],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "number",      "label": "Numero (es. 01)" },
+        { "type": "text", "id": "title",       "label": "Titolo step" },
+        { "type": "textarea", "id": "description", "label": "Descrizione" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text",       "id": "eyebrow",     "label": "Eyebrow" },
+    { "type": "textarea",   "id": "headline",    "label": "Headline grande (usa \\n per andare a capo)" },
+    { "type": "textarea",   "id": "description", "label": "Testo descrizione" },
+    { "type": "image_picker","id": "image",      "label": "Immagine destra" }
+  ],
+  "presets": [{ "name": "Prodotto — Process" }]
+}
+{% endschema %}

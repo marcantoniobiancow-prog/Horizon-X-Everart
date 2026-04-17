@@ -1,0 +1,139 @@
+{%- comment -%}
+  EverArt Product Features — v1
+  Griglia 2×N di feature card (immagine + testo alternato)
+  Blocks: feature_card
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+{%- if section.blocks.size > 0 -%}
+<style>
+#epf-{{ sid }} {
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  background: #0a0a0a;
+}
+#epf-{{ sid }} .epf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #2a2a2a;
+}
+#epf-{{ sid }} .epf-card {
+  background: #121212;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 300px;
+}
+#epf-{{ sid }} .epf-card.rev {
+  direction: rtl;
+}
+#epf-{{ sid }} .epf-card.rev > * {
+  direction: ltr;
+}
+#epf-{{ sid }} .epf-img {
+  overflow: hidden;
+  background: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#epf-{{ sid }} .epf-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#epf-{{ sid }} .epf-body {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#epf-{{ sid }} .epf-tag {
+  font-size: 9px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #a52020;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: 700;
+}
+#epf-{{ sid }} .epf-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  color: #ffffff;
+}
+#epf-{{ sid }} .epf-desc {
+  font-size: 13px;
+  color: #888888;
+  line-height: 1.7;
+  font-weight: 400;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  #epf-{{ sid }} .epf-grid { grid-template-columns: 1fr; }
+  #epf-{{ sid }} .epf-card { grid-template-columns: 1fr; direction: ltr !important; min-height: auto; }
+  #epf-{{ sid }} .epf-card > * { direction: ltr !important; }
+  #epf-{{ sid }} .epf-img { height: 240px; }
+  #epf-{{ sid }} .epf-body { padding: 32px 24px; }
+}
+</style>
+
+<div id="epf-{{ sid }}">
+  <div class="epf-grid">
+    {%- for block in section.blocks -%}
+      {%- assign rev = false -%}
+      {%- assign remainder = forloop.index0 | modulo: 2 -%}
+      {%- if remainder == 1 -%}{%- assign rev = true -%}{%- endif -%}
+      <div class="epf-card {% if rev %}rev{% endif %}" {{ block.shopify_attributes }}>
+        <div class="epf-img">
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 700 }}"
+                 alt="{{ block.settings.image.alt | default: block.settings.title }}"
+                 width="700"
+                 loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="epf-body">
+          {%- if block.settings.tag != blank -%}
+            <span class="epf-tag">{{ block.settings.tag }}</span>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <div class="epf-title">{{ block.settings.title }}</div>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="epf-desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Prodotto — Features",
+  "tag": "section",
+  "templates": ["product"],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature card",
+      "limit": 8,
+      "settings": [
+        { "type": "image_picker", "id": "image",       "label": "Immagine" },
+        { "type": "text",         "id": "tag",         "label": "Tag (rosso, es. Exclusive Feature)" },
+        { "type": "text",         "id": "title",       "label": "Titolo" },
+        { "type": "textarea",     "id": "description", "label": "Descrizione" }
+      ]
+    }
+  ],
+  "settings": [],
+  "presets": [{ "name": "Prodotto — Features" }]
+}
+{% endschema %}

@@ -1,0 +1,146 @@
+{%- comment -%}
+  EverArt Product Reviews — v1
+  Griglia 3 recensioni (blocks)
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+{%- if section.blocks.size > 0 -%}
+<style>
+#epr-{{ sid }} {
+  background: #121212;
+  border-top: 1px solid #2a2a2a;
+  padding: 80px 0;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#epr-{{ sid }} .epr-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+#epr-{{ sid }} .epr-head {
+  margin-bottom: 48px;
+}
+#epr-{{ sid }} .epr-label {
+  font-size: 9.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 14px;
+}
+#epr-{{ sid }} .epr-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+}
+#epr-{{ sid }} .epr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #2a2a2a;
+}
+#epr-{{ sid }} .epr-card {
+  background: #121212;
+  padding: 36px;
+}
+#epr-{{ sid }} .epr-stars {
+  color: #c4a030;
+  font-size: 11px;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+}
+#epr-{{ sid }} .epr-text {
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.75;
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+#epr-{{ sid }} .epr-author {
+  font-size: 10.5px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 600;
+}
+#epr-{{ sid }} .epr-via {
+  font-size: 10px;
+  color: #444444;
+  margin-top: 3px;
+  font-weight: 400;
+}
+@media (max-width: 767px) {
+  #epr-{{ sid }} { padding: 60px 0; }
+  #epr-{{ sid }} .epr-inner { padding: 0 20px; }
+  #epr-{{ sid }} .epr-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  #epr-{{ sid }} .epr-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<div id="epr-{{ sid }}">
+  <div class="epr-inner">
+    <div class="epr-head">
+      {%- if s.eyebrow != blank -%}
+        <span class="epr-label">{{ s.eyebrow }}</span>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="epr-title">{{ s.heading }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="epr-grid">
+      {%- for block in section.blocks -%}
+        <div class="epr-card" {{ block.shopify_attributes }}>
+          {%- assign stars = block.settings.stars | default: 5 -%}
+          <div class="epr-stars">
+            {%- for i in (1..stars) -%}★{%- endfor -%}
+          </div>
+          {%- if block.settings.text != blank -%}
+            <div class="epr-text">"{{ block.settings.text }}"</div>
+          {%- endif -%}
+          {%- if block.settings.author != blank -%}
+            <div class="epr-author">{{ block.settings.author }}</div>
+          {%- endif -%}
+          {%- if block.settings.via != blank -%}
+            <div class="epr-via">{{ block.settings.via }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Prodotto — Recensioni",
+  "tag": "section",
+  "templates": ["product"],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Recensione",
+      "limit": 6,
+      "settings": [
+        { "type": "range", "id": "stars", "label": "Stelle", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Testo recensione" },
+        { "type": "text", "id": "author", "label": "Nome — Paese", "default": "Marco A. — Italy" },
+        { "type": "text", "id": "via", "label": "Via (es. Verified collector · Facebook)" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Verified Collectors" },
+    { "type": "text", "id": "heading", "label": "Titolo", "default": "What they said when they unboxed it." }
+  ],
+  "presets": [{ "name": "Prodotto — Recensioni" }]
+}
+{% endschema %}
