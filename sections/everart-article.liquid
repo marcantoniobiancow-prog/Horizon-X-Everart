@@ -1,0 +1,319 @@
+{%- comment -%}
+  EverArt Article — v1
+  Design fedele all'HTML preview (everart-site-preview.html):
+    • Post hero: category + h1 title + date · reading time
+    • Post body: article.content formattato + featured image + CTA inline
+    • Post nav: ← All Stories | next article →
+{%- endcomment -%}
+
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+
+  assign words       = article.content | strip_html | split: ' '
+  assign word_count  = words | size
+  assign read_min    = word_count | divided_by: 200 | plus: 1
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+#ea-art-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* ── POST HERO ── */
+#ea-art-{{ sid }} .ea-post-hero {
+  background: #212121;
+  padding: 96px 48px 72px;
+  border-bottom: 1px solid #2a2a2a;
+}
+#ea-art-{{ sid }} .ea-post-hero .ea-wrap {
+  max-width: 840px;
+  margin: 0 auto;
+}
+#ea-art-{{ sid }} .ea-post-cat {
+  font-size: 9.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #a52020;
+  margin-bottom: 18px;
+  display: block;
+  font-weight: 700;
+}
+#ea-art-{{ sid }} .ea-post-title {
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+#ea-art-{{ sid }} .ea-post-meta {
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  color: #888888;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── POST BODY ── */
+#ea-art-{{ sid }} .ea-post-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 48px 120px;
+}
+#ea-art-{{ sid }} .ea-post-body h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 52px 0 16px;
+  color: #ffffff;
+}
+#ea-art-{{ sid }} .ea-post-body h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 36px 0 12px;
+  color: #ffffff;
+}
+#ea-art-{{ sid }} .ea-post-body p {
+  margin-bottom: 22px;
+  line-height: 1.9;
+  font-size: 15px;
+  color: #b8b5b0;
+}
+#ea-art-{{ sid }} .ea-post-body ul,
+#ea-art-{{ sid }} .ea-post-body ol {
+  padding-left: 20px;
+  margin-bottom: 22px;
+}
+#ea-art-{{ sid }} .ea-post-body li {
+  color: #b8b5b0;
+  margin-bottom: 10px;
+  line-height: 1.85;
+  font-size: 14px;
+}
+#ea-art-{{ sid }} .ea-post-body strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+#ea-art-{{ sid }} .ea-post-body a {
+  color: #a52020;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#ea-art-{{ sid }} .ea-post-body blockquote {
+  border-left: 2px solid #8b1a1a;
+  padding-left: 24px;
+  margin: 40px 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+/* ── FEATURED IMAGE ── */
+#ea-art-{{ sid }} .ea-post-img {
+  aspect-ratio: 16/8;
+  margin: 48px 0;
+  overflow: hidden;
+  background: #212121;
+}
+#ea-art-{{ sid }} .ea-post-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── CTA INLINE ── */
+#ea-art-{{ sid }} .ea-post-cta {
+  background: #212121;
+  border-left: 2px solid #8b1a1a;
+  padding: 32px 36px;
+  margin: 56px 0;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: space-between;
+}
+#ea-art-{{ sid }} .ea-post-cta-text h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #ffffff;
+  letter-spacing: -.01em;
+  margin-top: 0;
+}
+#ea-art-{{ sid }} .ea-post-cta-text p {
+  font-size: 13px;
+  color: #888888;
+  margin: 0;
+}
+#ea-art-{{ sid }} .ea-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Instrument Sans', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+#ea-art-{{ sid }} .ea-btn-primary {
+  background: #8b1a1a;
+  color: #ffffff;
+}
+#ea-art-{{ sid }} .ea-btn-primary:hover { background: #a52020; }
+#ea-art-{{ sid }} .ea-btn-ghost {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #b8b5b0;
+}
+#ea-art-{{ sid }} .ea-btn-ghost:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+/* ── POST NAV ── */
+#ea-art-{{ sid }} .ea-post-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 56px;
+  padding-top: 56px;
+  border-top: 1px solid #2a2a2a;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 767px) {
+  #ea-art-{{ sid }} .ea-post-hero { padding: 64px 24px 48px; }
+  #ea-art-{{ sid }} .ea-post-body { padding: 48px 24px 80px; }
+  #ea-art-{{ sid }} .ea-post-cta { flex-direction: column; gap: 20px; align-items: flex-start; }
+  #ea-art-{{ sid }} .ea-post-nav { flex-direction: column; gap: 16px; }
+}
+</style>
+
+<div id="ea-art-{{ sid }}">
+
+  {%- comment -%} ── POST HERO ── {%- endcomment -%}
+  <div class="ea-post-hero">
+    <div class="ea-wrap">
+
+      {%- comment -%} Category (primo tag o custom label) {%- endcomment -%}
+      {%- if article.tags.size > 0 -%}
+        <span class="ea-post-cat">{{ article.tags | first }}</span>
+      {%- elsif s.default_category != blank -%}
+        <span class="ea-post-cat">{{ s.default_category }}</span>
+      {%- endif -%}
+
+      <h1 class="ea-post-title">{{ article.title }}</h1>
+
+      <p class="ea-post-meta">
+        {{ article.published_at | date: '%B %d, %Y' }}
+        &nbsp;·&nbsp;
+        {{ read_min }} min read
+      </p>
+
+    </div>
+  </div>
+
+  {%- comment -%} ── POST BODY ── {%- endcomment -%}
+  <div class="ea-post-body">
+
+    {%- comment -%} Featured image {%- endcomment -%}
+    {%- if article.image -%}
+      <div class="ea-post-img">
+        {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: article.image.alt | default: article.title }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Article content {%- endcomment -%}
+    <div class="rte">
+      {{ article.content }}
+    </div>
+
+    {%- comment -%} Optional inline CTA {%- endcomment -%}
+    {%- if s.cta_heading != blank -%}
+      <div class="ea-post-cta">
+        <div class="ea-post-cta-text">
+          <h3>{{ s.cta_heading }}</h3>
+          {%- if s.cta_subtext != blank -%}
+            <p>{{ s.cta_subtext }}</p>
+          {%- endif -%}
+        </div>
+        {%- if s.cta_link != blank and s.cta_label != blank -%}
+          <a class="ea-btn ea-btn-primary" href="{{ s.cta_link }}">{{ s.cta_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ── POST NAV ── {%- endcomment -%}
+    <div class="ea-post-nav">
+      <a class="ea-btn ea-btn-ghost" href="{{ blog.url }}">← All Stories</a>
+      {%- if blog.next_article -%}
+        <a class="ea-btn ea-btn-ghost" href="{{ blog.next_article.url }}">{{ blog.next_article.title | truncate: 40 }} →</a>
+      {%- elsif blog.previous_article -%}
+        <a class="ea-btn ea-btn-ghost" href="{{ blog.previous_article.url }}">{{ blog.previous_article.title | truncate: 40 }} →</a>
+      {%- endif -%}
+    </div>
+
+  </div>
+
+</div>
+
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "EverArt Article",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Categoria di default"
+    },
+    {
+      "type": "text",
+      "id": "default_category",
+      "label": "Categoria (se nessun tag)",
+      "default": "Studio Everart"
+    },
+    {
+      "type": "header",
+      "content": "CTA inline (opzionale)"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Titolo CTA",
+      "info": "Lascia vuoto per nascondere il blocco CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_subtext",
+      "label": "Testo CTA"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Label bottone CTA",
+      "default": "Scopri la collezione"
+    }
+  ]
+}
+{% endschema %}
