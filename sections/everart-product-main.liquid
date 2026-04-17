@@ -7,7 +7,7 @@
 {%- endcomment -%}
 
 {%- assign s       = section.settings -%}
-{%- assign sid     = section.id -%}
+{%- assign sid     = section.id | replace: '-', '_' -%}
 {%- assign p       = product -%}
 {%- assign variant = p.selected_or_first_available_variant -%}
 {%- assign media   = p.media -%}
