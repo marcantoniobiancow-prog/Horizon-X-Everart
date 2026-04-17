@@ -108,11 +108,7 @@
     padding: 48px 56px;
     position: sticky;
     top: 0;
-    max-height: 100vh;
-    overflow-y: auto;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar { display: none; }
+    align-self: start;
   }
 
   /* ── Tag / title / sub ── */
@@ -564,7 +560,7 @@
 
 {% endstylesheet %}
 
-<div class="epm-wrapper">
+<div class="epm-wrapper" id="epm-wrapper-{{ sid }}">
 
   {%- comment -%} Breadcrumb {%- endcomment -%}
   <div class="epm-breadcrumb">
@@ -816,11 +812,14 @@
     if (totalEl)  totalEl.textContent  = fmt;
     if (stickyEl) stickyEl.textContent = fmt;
   }
-  document.querySelectorAll('#epm-form-{{ sid }} input[name="id"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-      if (this.checked) epmSyncPrice_{{ sid }}(Number(this.value));
+  var epmWrapper_{{ sid }} = document.getElementById('epm-wrapper-{{ sid }}');
+  if (epmWrapper_{{ sid }}) {
+    epmWrapper_{{ sid }}.querySelectorAll('input[name="id"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.checked) epmSyncPrice_{{ sid }}(Number(this.value));
+      });
     });
-  });
+  }
 
   var sticky = document.getElementById('epm-sticky-{{ sid }}');
   var atcBtn = document.getElementById('epm-atc-{{ sid }}');
