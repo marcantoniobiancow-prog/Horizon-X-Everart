@@ -252,35 +252,90 @@
   <div class="elt-track-wrap">
     <div class="elt-track" id="elt-track-{{ sid }}">
       {%- for block in section.blocks -%}
-        {%- assign b = block.settings -%}
+        {%- liquid
+          assign b = block.settings
+          assign p = b.product
+
+          if b.image_1 != blank
+            assign card_img1_src = b.image_1 | image_url: width: 800
+            assign card_img1_alt = b.image_1.alt | default: b.name
+          elsif p != blank and p.featured_image != blank
+            assign card_img1_src = p.featured_image | image_url: width: 800
+            assign card_img1_alt = p.featured_image.alt | default: p.title
+          else
+            assign card_img1_src = ''
+          endif
+
+          if b.image_2 != blank
+            assign card_img2_src = b.image_2 | image_url: width: 800
+            assign card_img2_alt = b.image_2.alt | default: b.name
+          elsif p != blank and p.images.size > 1
+            assign card_img2_src = p.images[1] | image_url: width: 800
+            assign card_img2_alt = p.images[1].alt | default: p.title
+          else
+            assign card_img2_src = ''
+          endif
+
+          if b.name != blank
+            assign card_name = b.name
+          elsif p != blank
+            assign card_name = p.title
+          else
+            assign card_name = ''
+          endif
+
+          if b.price != blank
+            assign card_price = b.price
+          elsif p != blank
+            assign card_price = p.price | money
+          else
+            assign card_price = ''
+          endif
+
+          if b.subtitle != blank
+            assign card_sub = b.subtitle
+          else
+            assign card_sub = ''
+          endif
+
+          if b.url != blank
+            assign card_url = b.url
+          elsif p != blank
+            assign card_url = p.url
+          else
+            assign card_url = '#'
+          endif
+        -%}
         <a class="elt-card"
-           href="{{ b.url | default: '#' }}"
+           href="{{ card_url }}"
            {{ block.shopify_attributes }}>
           <div class="elt-img-wrap">
-            {%- if b.image_1 != blank -%}
-              {{ b.image_1 | image_url: width: 800 | image_tag:
-                  class: 'elt-img-1',
-                  loading: 'lazy',
-                  alt: b.image_1.alt | default: b.name }}
+            {%- if card_img1_src != blank -%}
+              <img class="elt-img-1"
+                   src="{{ card_img1_src }}"
+                   loading="lazy"
+                   alt="{{ card_img1_alt }}"
+                   width="800">
             {%- else -%}
-              <span class="elt-img-placeholder">{{ b.name | default: 'Prodotto' }}</span>
+              <span class="elt-img-placeholder">{{ card_name | default: 'Prodotto' }}</span>
             {%- endif -%}
-            {%- if b.image_2 != blank -%}
-              {{ b.image_2 | image_url: width: 800 | image_tag:
-                  class: 'elt-img-2',
-                  loading: 'lazy',
-                  alt: b.image_2.alt | default: b.name }}
+            {%- if card_img2_src != blank -%}
+              <img class="elt-img-2"
+                   src="{{ card_img2_src }}"
+                   loading="lazy"
+                   alt="{{ card_img2_alt }}"
+                   width="800">
             {%- endif -%}
           </div>
           <div class="elt-body">
-            {%- if b.name != blank -%}
-              <p class="elt-name">{{ b.name }}</p>
+            {%- if card_name != blank -%}
+              <p class="elt-name">{{ card_name }}</p>
             {%- endif -%}
-            {%- if b.price != blank -%}
-              <p class="elt-price">{{ b.price }}</p>
+            {%- if card_price != blank -%}
+              <p class="elt-price">{{ card_price }}</p>
             {%- endif -%}
-            {%- if b.subtitle != blank -%}
-              <span class="elt-sub">{{ b.subtitle }}</span>
+            {%- if card_sub != blank -%}
+              <span class="elt-sub">{{ card_sub }}</span>
             {%- endif -%}
           </div>
         </a>
@@ -395,24 +450,29 @@
       "limit": 12,
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "Prodotto (dal catalogo)"
+        },
+        {
           "type": "image_picker",
           "id": "image_1",
-          "label": "Immagine principale"
+          "label": "Immagine principale (override)"
         },
         {
           "type": "image_picker",
           "id": "image_2",
-          "label": "Immagine hover (seconda)"
+          "label": "Immagine hover (override)"
         },
         {
           "type": "text",
           "id": "name",
-          "label": "Nome prodotto"
+          "label": "Nome (override)"
         },
         {
           "type": "text",
           "id": "price",
-          "label": "Prezzo (es. €700)"
+          "label": "Prezzo (override, es. €700)"
         },
         {
           "type": "text",
@@ -422,7 +482,7 @@
         {
           "type": "url",
           "id": "url",
-          "label": "Link prodotto"
+          "label": "Link (override)"
         }
       ]
     }
