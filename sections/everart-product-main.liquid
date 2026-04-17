@@ -680,31 +680,32 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Variant cards — input radio nativi Shopify {%- endcomment -%}
-      {%- unless p.has_only_default_variant -%}
-        <span class="epm-vc-label">Payment options</span>
-        <div class="epm-vc-grid">
-          {%- for v in p.variants -%}
-            <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
-              <input type="radio"
-                     id="epm-var-{{ sid }}-{{ forloop.index0 }}"
-                     name="id"
-                     value="{{ v.id }}"
-                     form="epm-form-{{ sid }}"
-                     {% if v.id == variant.id %}checked{% endif %}
-                     {% unless v.available %}disabled{% endunless %}>
-              <span class="epm-vc-title">{{ v.title }}</span>
-              <span class="epm-vc-price">{{ v.price | money }}</span>
-              {%- unless v.available -%}
-                <span class="epm-vc-note">Sold out</span>
-              {%- endunless -%}
-            </label>
-          {%- endfor -%}
-        </div>
-      {%- endunless -%}
-
       {%- comment -%} Quantità + ATC {%- endcomment -%}
       {%- form 'product', p, id: "epm-form-{{ sid }}" -%}
+
+        {%- comment -%} Variant cards — dentro il form così name="id" viene inviato {%- endcomment -%}
+        {%- unless p.has_only_default_variant -%}
+          <span class="epm-vc-label">Payment options</span>
+          <div class="epm-vc-grid">
+            {%- for v in p.variants -%}
+              <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
+                <input type="radio"
+                       id="epm-var-{{ sid }}-{{ forloop.index0 }}"
+                       name="id"
+                       value="{{ v.id }}"
+                       {% if v.id == variant.id %}checked{% endif %}
+                       {% unless v.available %}disabled{% endunless %}>
+                <span class="epm-vc-title">{{ v.title }}</span>
+                <span class="epm-vc-price">{{ v.price | money }}</span>
+                {%- unless v.available -%}
+                  <span class="epm-vc-note">Sold out</span>
+                {%- endunless -%}
+              </label>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+        {%- endunless -%}
 
         <div class="epm-qty-row">
           <span class="epm-qty-lbl">Qty</span>
