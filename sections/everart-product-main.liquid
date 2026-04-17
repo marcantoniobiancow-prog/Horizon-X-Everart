@@ -506,9 +506,54 @@
   @media (max-width: 767px) {
     .epm-breadcrumb { padding: 14px 20px; }
     .epm-grid { grid-template-columns: 1fr; }
-    .epm-gallery { border-right: none; }
+    .epm-gallery {
+      border-right: none;
+      position: relative;
+    }
+    .epm-img-grid {
+      display: flex !important;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      gap: 0 !important;
+      background: transparent !important;
+    }
+    .epm-img-grid::-webkit-scrollbar { display: none; }
+    .epm-img-cell {
+      flex: 0 0 100%;
+      width: 100%;
+      aspect-ratio: 1 !important;
+      scroll-snap-align: start;
+    }
+    .epm-dots {
+      display: flex !important;
+    }
     .epm-info { padding: 32px 20px 56px; position: static; max-height: none; overflow-y: visible; }
     .epm-pay-opts { grid-template-columns: 1fr; }
+  }
+
+  /* ── Dots (nascosti su desktop) ── */
+  .epm-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0;
+    background: var(--epm-bg);
+
+    .epm-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      transition: background .2s, transform .2s;
+      flex-shrink: 0;
+
+      &.active {
+        background: #ffffff;
+        transform: scale(1.25);
+      }
+    }
   }
 }
 
@@ -576,19 +621,27 @@
   <div class="epm-grid">
 
     {%- comment -%} ── GALLERY ── {%- endcomment -%}
+    {%- assign images = media | where: 'media_type', 'image' -%}
     <div class="epm-gallery">
-      <div class="epm-img-grid {% if media.size <= 1 %}single{% endif %}">
-        {%- for m in media -%}
-          {%- if m.media_type == 'image' -%}
-            <div class="epm-img-cell">
-              <img src="{{ m | image_url: width: 900 }}"
-                   alt="{{ m.alt | default: p.title }}"
-                   width="900"
-                   loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-            </div>
-          {%- endif -%}
+      <div class="epm-img-grid {% if images.size <= 1 %}single{% endif %}"
+           id="epm-gallery-{{ sid }}">
+        {%- for m in images -%}
+          <div class="epm-img-cell">
+            <img src="{{ m | image_url: width: 900 }}"
+                 alt="{{ m.alt | default: p.title }}"
+                 width="900"
+                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          </div>
         {%- endfor -%}
       </div>
+      {%- if images.size > 1 -%}
+        <div class="epm-dots" id="epm-dots-{{ sid }}">
+          {%- for m in images -%}
+            <div class="epm-dot {% if forloop.first %}active{% endif %}"
+                 data-index="{{ forloop.index0 }}"></div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
 
     {%- comment -%} ── INFO PANEL ── {%- endcomment -%}
@@ -821,6 +874,31 @@
     new IntersectionObserver(function(entries) {
       sticky.classList.toggle('vis', !entries[0].isIntersecting);
     }, { threshold: 0 }).observe(atcBtn);
+  }
+
+  /* ── Mobile slider dots ── */
+  var gallery = document.getElementById('epm-gallery-{{ sid }}');
+  var dotsWrap = document.getElementById('epm-dots-{{ sid }}');
+  if (gallery && dotsWrap) {
+    var dots = dotsWrap.querySelectorAll('.epm-dot');
+    var ticking = false;
+    gallery.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var idx = Math.round(gallery.scrollLeft / gallery.offsetWidth);
+        dots.forEach(function(d, i) {
+          d.classList.toggle('active', i === idx);
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var i = parseInt(dot.dataset.index, 10);
+        gallery.scrollTo({ left: i * gallery.offsetWidth, behavior: 'smooth' });
+      });
+    });
   }
 })();
 </script>
