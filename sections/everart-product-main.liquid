@@ -267,6 +267,13 @@
     color: var(--epm-fg);
     letter-spacing: -.03em;
   }
+  .epm-balance-note {
+    font-size: 11px;
+    color: var(--epm-muted);
+    letter-spacing: .04em;
+    margin-top: 4px;
+    font-weight: 400;
+  }
   .epm-bundle-save {
     font-size: 10px;
     color: var(--epm-green);
@@ -668,6 +675,9 @@
               <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
               <span class="epm-bundle-total-price" id="epm-total-price-{{ sid }}">{{ variant.price | money }}</span>
             </div>
+            <div class="epm-balance-note" id="epm-balance-note-{{ sid }}" style="display:none">
+              {{ s.balance_note }}
+            </div>
             {%- if s.bundle_save_note != blank -%}
               <div class="epm-bundle-save">{{ s.bundle_save_note }}</div>
             {%- endif -%}
@@ -804,13 +814,18 @@
       {{ v.id }}: {{ v.price | money | json }}{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   };
+  var epmBalanceTrigger_{{ sid }} = {{ s.balance_note_price | default: 0 }};
   function epmSyncPrice_{{ sid }}(variantId) {
     var fmt = epmPriceMap_{{ sid }}[variantId];
     if (!fmt) return;
-    var totalEl  = document.getElementById('epm-total-price-{{ sid }}');
-    var stickyEl = document.getElementById('epm-sticky-price-{{ sid }}');
+    var totalEl   = document.getElementById('epm-total-price-{{ sid }}');
+    var stickyEl  = document.getElementById('epm-sticky-price-{{ sid }}');
+    var balanceEl = document.getElementById('epm-balance-note-{{ sid }}');
     if (totalEl)  totalEl.textContent  = fmt;
     if (stickyEl) stickyEl.textContent = fmt;
+    if (balanceEl && epmBalanceTrigger_{{ sid }} > 0) {
+      balanceEl.style.display = (variantId === epmBalanceTrigger_{{ sid }}) ? 'block' : 'none';
+    }
   }
   var epmWrapper_{{ sid }} = document.getElementById('epm-wrapper-{{ sid }}');
   if (epmWrapper_{{ sid }}) {
@@ -909,6 +924,8 @@
     { "type": "header",   "content": "Acquisto" },
     { "type": "text",     "id": "btn_text",              "label": "Testo bottone",          "default": "Add to Cart" },
     { "type": "text",     "id": "atc_note",              "label": "Nota sotto bottone" },
+    { "type": "number",   "id": "balance_note_price",    "label": "ID variante che mostra nota saldo (Shopify variant ID)" },
+    { "type": "text",     "id": "balance_note",          "label": "Testo nota saldo (es. Pay €540 before shipping)" },
     { "type": "checkbox", "id": "show_sticky",           "label": "Mostra sticky CTA",     "default": true }
   ],
   "presets": [{ "name": "Prodotto — Main" }]
