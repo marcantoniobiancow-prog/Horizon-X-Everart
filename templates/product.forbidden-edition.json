@@ -47,22 +47,6 @@
             "price": "incl."
           }
         },
-        "pay-1": {
-          "type": "payment_option",
-          "settings": {
-            "label": "Pay in full",
-            "amount": "€700",
-            "note": "Charged now"
-          }
-        },
-        "pay-2": {
-          "type": "payment_option",
-          "settings": {
-            "label": "Reserve now",
-            "amount": "€220",
-            "note": "+ €480 before shipping"
-          }
-        },
         "acc-1": {
           "type": "accordion_item",
           "settings": {
@@ -91,8 +75,6 @@
         "bundle-3",
         "bundle-4",
         "bundle-5",
-        "pay-1",
-        "pay-2",
         "acc-1",
         "acc-2",
         "acc-3"

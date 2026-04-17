@@ -280,113 +280,8 @@
     font-weight: 500;
   }
 
-  /* ── Varianti ── */
-  .epm-variants {
-    margin-bottom: 20px;
-
-    .epm-variant-label {
-      font-size: 9.5px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--epm-muted);
-      margin-bottom: 10px;
-      font-weight: 600;
-      display: block;
-    }
-
-    .epm-variant-btns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .epm-variant-btn {
-      background: var(--epm-bg);
-      border: 1px solid var(--epm-bdr);
-      color: var(--epm-muted);
-      padding: 10px 18px;
-      font-size: 12px;
-      font-family: var(--epm-font);
-      font-weight: 500;
-      cursor: pointer;
-      transition: border-color .2s, color .2s;
-      letter-spacing: .04em;
-
-      &:hover,
-      &.sel {
-        border-color: var(--epm-fg);
-        color: var(--epm-fg);
-      }
-
-      &.unavail {
-        opacity: 0.35;
-        cursor: default;
-        text-decoration: line-through;
-      }
-    }
-  }
-
-  /* ── Quantità ── */
-  .epm-qty-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-
-    .epm-qty-lbl {
-      font-size: 9.5px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--epm-muted);
-      font-weight: 600;
-    }
-
-    .epm-qty-ctrl {
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--epm-bdr);
-    }
-
-    .epm-qty-btn {
-      background: none;
-      border: none;
-      color: var(--epm-muted);
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      cursor: pointer;
-      font-family: var(--epm-font);
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color .2s;
-
-      &:hover { color: var(--epm-fg); }
-    }
-
-    .epm-qty-input {
-      background: none;
-      border: none;
-      border-left: 1px solid var(--epm-bdr);
-      border-right: 1px solid var(--epm-bdr);
-      color: var(--epm-fg);
-      width: 48px;
-      height: 36px;
-      text-align: center;
-      font-size: 14px;
-      font-family: var(--epm-font);
-      font-weight: 600;
-      outline: none;
-      -moz-appearance: textfield;
-
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button { -webkit-appearance: none; }
-    }
-  }
-
-  /* ── Payment options ── */
-  .epm-pay-label {
+  /* ── Variant cards (selettore nativo Shopify) ── */
+  .epm-vc-label {
     font-size: 9.5px;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -395,46 +290,105 @@
     font-weight: 600;
     display: block;
   }
-
-  .epm-pay-opts {
+  .epm-vc-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
     margin-bottom: 16px;
-
-    .epm-pay-opt {
-      border: 1px solid var(--epm-bdr);
-      padding: 16px 18px;
-      cursor: pointer;
-      transition: border-color .2s;
-      background: var(--epm-bg);
-
-      &.sel { border-color: var(--epm-fg); }
-    }
-
-    .epm-po-lbl {
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--epm-muted);
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
-    .epm-po-amount {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--epm-fg);
-      letter-spacing: -.02em;
-    }
-
-    .epm-po-note {
-      font-size: 10px;
-      color: var(--epm-muted);
-      margin-top: 2px;
-      font-weight: 400;
-    }
   }
+  .epm-vc-card {
+    border: 1px solid var(--epm-bdr);
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: border-color .2s;
+    background: var(--epm-bg);
+    display: block;
+  }
+  .epm-vc-card:has(input:checked) { border-color: var(--epm-fg); }
+  .epm-vc-card:has(input:disabled) { opacity: .4; cursor: default; }
+  .epm-vc-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+  .epm-vc-title {
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--epm-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+    display: block;
+  }
+  .epm-vc-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--epm-fg);
+    letter-spacing: -.02em;
+    display: block;
+  }
+  .epm-vc-note {
+    font-size: 10px;
+    color: var(--epm-muted);
+    margin-top: 2px;
+    font-weight: 400;
+    display: block;
+  }
+
+  /* ── Quantità ── */
+  .epm-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .epm-qty-lbl {
+    font-size: 9.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--epm-muted);
+    font-weight: 600;
+  }
+  .epm-qty-ctrl {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--epm-bdr);
+  }
+  .epm-qty-btn {
+    background: none;
+    border: none;
+    color: var(--epm-muted);
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: var(--epm-font);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .2s;
+  }
+  .epm-qty-btn:hover { color: var(--epm-fg); }
+  .epm-qty-input {
+    background: none;
+    border: none;
+    border-left: 1px solid var(--epm-bdr);
+    border-right: 1px solid var(--epm-bdr);
+    color: var(--epm-fg);
+    width: 48px;
+    height: 36px;
+    text-align: center;
+    font-size: 14px;
+    font-family: var(--epm-font);
+    font-weight: 600;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .epm-qty-input::-webkit-outer-spin-button,
+  .epm-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
   /* ── ATC ── */
   .epm-atc-btn {
@@ -451,11 +405,9 @@
     transition: background .2s;
     border: none;
     font-family: var(--epm-font);
-
-    &:hover { background: var(--epm-red2); }
-    &:disabled { opacity: .45; cursor: default; background: var(--epm-red); }
   }
-
+  .epm-atc-btn:hover { background: var(--epm-red2); }
+  .epm-atc-btn:disabled { opacity: .45; cursor: default; background: var(--epm-red); }
   .epm-atc-note {
     font-size: 11px;
     color: var(--epm-muted);
@@ -465,72 +417,51 @@
   }
 
   /* ── Accordion ── */
-  .epm-accordion {
-    border-top: 1px solid var(--epm-bdr);
-    margin-top: 32px;
-
-    .epm-acc-item { border-bottom: 1px solid var(--epm-bdr); }
-
-    .epm-acc-h {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      cursor: pointer;
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgb(var(--color-foreground-rgb, 255 255 255) / 0.8);
-      font-weight: 600;
-      user-select: none;
-      background: none;
-      border: none;
-      width: 100%;
-      text-align: left;
-      font-family: var(--epm-font);
-
-      &:hover { color: var(--epm-fg); }
-    }
-
-    .epm-acc-arrow {
-      color: var(--epm-muted);
-      font-size: 16px;
-      transition: transform .2s;
-      line-height: 1;
-      font-weight: 300;
-      flex-shrink: 0;
-
-      &.open { transform: rotate(180deg); }
-    }
-
-    .epm-acc-b {
-      padding: 0 0 20px;
-      font-size: 13px;
-      color: var(--epm-muted);
-      line-height: 1.8;
-      display: none;
-      font-weight: 400;
-
-      &.open { display: block; }
-
-      p { margin-bottom: 12px; }
-    }
-
-    .epm-spec-t {
-      width: 100%;
-      border-collapse: collapse;
-
-      tr { border-bottom: 1px solid var(--epm-bdr); }
-
-      td {
-        padding: 9px 0;
-        font-size: 13px;
-
-        &:first-child { color: var(--epm-muted); width: 44%; font-weight: 400; }
-        &:last-child  { color: var(--epm-fg); font-weight: 500; }
-      }
-    }
+  .epm-accordion { border-top: 1px solid var(--epm-bdr); margin-top: 32px; }
+  .epm-acc-item { border-bottom: 1px solid var(--epm-bdr); }
+  .epm-acc-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+    font-weight: 600;
+    user-select: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--epm-font);
   }
+  .epm-acc-h:hover { color: var(--epm-fg); }
+  .epm-acc-arrow {
+    color: var(--epm-muted);
+    font-size: 16px;
+    transition: transform .2s;
+    line-height: 1;
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+  .epm-acc-arrow.open { transform: rotate(180deg); }
+  .epm-acc-b {
+    padding: 0 0 20px;
+    font-size: 13px;
+    color: var(--epm-muted);
+    line-height: 1.8;
+    display: none;
+    font-weight: 400;
+  }
+  .epm-acc-b.open { display: block; }
+  .epm-acc-b p { margin-bottom: 12px; }
+  .epm-spec-t { width: 100%; border-collapse: collapse; }
+  .epm-spec-t tr { border-bottom: 1px solid var(--epm-bdr); }
+  .epm-spec-t td { padding: 9px 0; font-size: 13px; }
+  .epm-spec-t td:first-child { color: var(--epm-muted); width: 44%; font-weight: 400; }
+  .epm-spec-t td:last-child { color: var(--epm-fg); font-weight: 500; }
 
   /* ── Mobile ── */
   @media (max-width: 767px) {
@@ -559,7 +490,7 @@
       display: flex !important;
     }
     .epm-info { padding: 32px 20px 56px; position: static; max-height: none; overflow-y: visible; }
-    .epm-pay-opts { grid-template-columns: 1fr; }
+    .epm-vc-grid { grid-template-columns: 1fr; }
   }
 
   /* ── Dots (nascosti su desktop) ── */
@@ -570,20 +501,18 @@
     gap: 6px;
     padding: 14px 0;
     background: var(--epm-bg);
-
-    .epm-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.2);
-      transition: background .2s, transform .2s;
-      flex-shrink: 0;
-
-      &.active {
-        background: #ffffff;
-        transform: scale(1.25);
-      }
-    }
+  }
+  .epm-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    transition: background .2s, transform .2s;
+    flex-shrink: 0;
+  }
+  .epm-dot.active {
+    background: #ffffff;
+    transform: scale(1.25);
   }
 }
 
@@ -751,53 +680,31 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Varianti native — nascoste se esistono pay_opts {%- endcomment -%}
-      {%- unless p.has_only_default_variant or pay_opts.size > 0 -%}
-        <div class="epm-variants">
-          {%- for option in p.options_with_values -%}
-            <span class="epm-variant-label">{{ option.name }}</span>
-            <div class="epm-variant-btns" id="epm-opt-{{ sid }}-{{ forloop.index0 }}">
-              {%- for value in option.values -%}
-                {%- assign is_sel = false -%}
-                {%- if variant.options[forloop.parentloop.index0] == value -%}
-                  {%- assign is_sel = true -%}
-                {%- endif -%}
-                <button class="epm-variant-btn {% if is_sel %}sel{% endif %}"
-                        data-option="{{ forloop.parentloop.index0 }}"
-                        data-value="{{ value | escape }}"
-                        onclick="epmVariant_{{ sid }}(this)">
-                  {{ value }}
-                </button>
-              {%- endfor -%}
-            </div>
+      {%- comment -%} Variant cards — input radio nativi Shopify {%- endcomment -%}
+      {%- unless p.has_only_default_variant -%}
+        <span class="epm-vc-label">Payment options</span>
+        <div class="epm-vc-grid">
+          {%- for v in p.variants -%}
+            <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
+              <input type="radio"
+                     id="epm-var-{{ sid }}-{{ forloop.index0 }}"
+                     name="id"
+                     value="{{ v.id }}"
+                     form="epm-form-{{ sid }}"
+                     {% if v.id == variant.id %}checked{% endif %}
+                     {% unless v.available %}disabled{% endunless %}>
+              <span class="epm-vc-title">{{ v.title }}</span>
+              <span class="epm-vc-price">{{ v.price | money }}</span>
+              {%- unless v.available -%}
+                <span class="epm-vc-note">Sold out</span>
+              {%- endunless -%}
+            </label>
           {%- endfor -%}
         </div>
       {%- endunless -%}
 
-      {%- comment -%} Payment options — collegati alle varianti Shopify per indice {%- endcomment -%}
-      {%- if pay_opts.size > 0 -%}
-        <span class="epm-pay-label">Payment options</span>
-        <div class="epm-pay-opts" id="epm-pay-{{ sid }}">
-          {%- for block in pay_opts -%}
-            {%- assign linked_variant = p.variants[forloop.index0] -%}
-            <div class="epm-pay-opt {% if forloop.first %}sel{% endif %}"
-                 onclick="epmSelectPay_{{ sid }}(this)"
-                 data-variant-id="{{ linked_variant.id }}"
-                 data-variant-available="{{ linked_variant.available }}"
-                 {{ block.shopify_attributes }}>
-              <div class="epm-po-lbl">{{ block.settings.label }}</div>
-              <div class="epm-po-amount">{{ block.settings.amount }}</div>
-              {%- if block.settings.note != blank -%}
-                <div class="epm-po-note">{{ block.settings.note }}</div>
-              {%- endif -%}
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
       {%- comment -%} Quantità + ATC {%- endcomment -%}
       {%- form 'product', p, id: "epm-form-{{ sid }}" -%}
-        <input type="hidden" name="id" value="{{ variant.id }}" id="epm-variant-id-{{ sid }}">
 
         <div class="epm-qty-row">
           <span class="epm-qty-lbl">Qty</span>
@@ -873,46 +780,6 @@
     inp.value = Math.max(1, (parseInt(inp.value, 10) || 1) + delta);
   }
   window.epmQty_{{ sid }} = epmQty_{{ sid }};
-
-  function epmSelectPay_{{ sid }}(el) {
-    document.querySelectorAll('#epm-pay-{{ sid }} .epm-pay-opt').forEach(function(o) {
-      o.classList.remove('sel');
-    });
-    el.classList.add('sel');
-    var vid = el.dataset.variantId;
-    if (vid) {
-      var inp = document.getElementById('epm-variant-id-{{ sid }}');
-      if (inp) inp.value = vid;
-    }
-    var avail = el.dataset.variantAvailable !== 'false';
-    var atc = document.getElementById('epm-atc-{{ sid }}');
-    if (atc) atc.disabled = !avail;
-  }
-  window.epmSelectPay_{{ sid }} = epmSelectPay_{{ sid }};
-
-  var variantData = {{ p.variants | json }};
-  function epmVariant_{{ sid }}(btn) {
-    var optIdx = parseInt(btn.dataset.option, 10);
-    var group = document.getElementById('epm-opt-{{ sid }}-' + optIdx);
-    if (group) group.querySelectorAll('.epm-variant-btn').forEach(function(b) { b.classList.remove('sel'); });
-    btn.classList.add('sel');
-    var selected = [];
-    for (var i = 0; i < {{ p.options.size }}; i++) {
-      var grp = document.getElementById('epm-opt-{{ sid }}-' + i);
-      if (grp) {
-        var selBtn = grp.querySelector('.epm-variant-btn.sel');
-        selected.push(selBtn ? selBtn.dataset.value : '');
-      }
-    }
-    var match = variantData.find(function(v) {
-      return v.options.join('|') === selected.join('|');
-    });
-    if (match) {
-      var idInput = document.getElementById('epm-variant-id-{{ sid }}');
-      if (idInput) idInput.value = match.id;
-    }
-  }
-  window.epmVariant_{{ sid }} = epmVariant_{{ sid }};
 
   function epmBundleAcc_{{ sid }}(btn) {
     var body  = document.getElementById('epm-bundle-body-{{ sid }}');
