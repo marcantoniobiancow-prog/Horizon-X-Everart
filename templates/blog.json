@@ -16,7 +16,10 @@
         "heading": "World Seeking",
         "description": "Stories from the studio. The craft, the culture, the collectors. We write when we have something worth saying.",
         "featured_label": "In evidenza",
-        "latest_label": "Ultimi articoli"
+        "featured_article_1": "world-seeking/cthulhu-pop-culture-statue",
+        "featured_article_2": "world-seeking/resin-vs-polystone-guide-collectors",
+        "latest_label": "Ultimi articoli",
+        "blog": "world-seeking"
       }
     }
   },
