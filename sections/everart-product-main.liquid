@@ -587,9 +587,22 @@
   }
 
   @media (max-width: 767px) {
-    padding: 12px 20px;
-    .sc-price { display: none; }
-    .sc-ed    { display: none; }
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 40px;
+    gap: 10px;
+
+    .sc-name    { font-size: 13px; }
+    .sc-prices  { align-items: baseline; gap: 6px; }
+    .sc-price   { font-size: 22px; }
+    .sc-compare { font-size: 13px; }
+    .sc-ed      { display: none; }
+
+    .sc-btn {
+      width: 100%;
+      text-align: center;
+      padding: 14px;
+    }
   }
 }
 
