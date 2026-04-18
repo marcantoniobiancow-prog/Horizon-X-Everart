@@ -1,0 +1,59 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "everart-product-simple": {
+      "type": "everart-product-simple",
+      "blocks": {
+        "acc-1": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Product Details",
+            "content": ""
+          }
+        },
+        "acc-2": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Shipping",
+            "content": ""
+          }
+        },
+        "acc-3": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Refund Policy",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "acc-1",
+        "acc-2",
+        "acc-3"
+      ],
+      "settings": {
+        "collection_label": "",
+        "subtitle": "",
+        "details_title": "Details",
+        "price_label": "Price",
+        "save_note": "",
+        "btn_text": "Add to Cart",
+        "atc_note": "",
+        "secondary_btn_text": "",
+        "secondary_btn_url": "",
+        "show_sticky": true
+      }
+    }
+  },
+  "order": [
+    "everart-product-simple"
+  ]
+}
