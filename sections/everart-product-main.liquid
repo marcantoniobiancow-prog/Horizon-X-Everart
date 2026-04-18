@@ -563,9 +563,11 @@
 
   &.vis { transform: translateY(0); }
 
-  .sc-name  { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
-  .sc-price { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
-  .sc-ed    { font-size: 10px; color: rgb(255 255 255 / 0.55); letter-spacing: .06em; margin-top: 2px; }
+  .sc-name    { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+  .sc-prices  { display: flex; align-items: baseline; gap: 8px; }
+  .sc-price   { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+  .sc-compare { font-size: 14px; font-weight: 400; color: rgb(255 255 255 / 0.45); text-decoration: line-through; }
+  .sc-ed      { font-size: 10px; color: rgb(255 255 255 / 0.55); letter-spacing: .06em; margin-top: 2px; }
 
   .sc-btn {
     background: #8b1a1a;
@@ -806,7 +808,14 @@
 <div class="epm-sticky" id="epm-sticky-{{ sid }}">
   <div>
     <div class="sc-name">{{ p.title }}</div>
-    <div class="sc-price" id="epm-sticky-price-{{ sid }}">{{ variant.price | money }}</div>
+    <div class="sc-prices">
+      <span class="sc-price" id="epm-sticky-price-{{ sid }}">{{ variant.price | money }}</span>
+      {%- if variant.compare_at_price > variant.price -%}
+        <span class="sc-compare" id="epm-sticky-compare-{{ sid }}">{{ variant.compare_at_price | money }}</span>
+      {%- else -%}
+        <span class="sc-compare" id="epm-sticky-compare-{{ sid }}" style="display:none"></span>
+      {%- endif -%}
+    </div>
     {%- if s.show_edition and s.edition_total > 0 -%}
       <div class="sc-ed">{{ s.edition_claimed }} / {{ s.edition_total }} claimed</div>
     {%- endif -%}
@@ -859,21 +868,23 @@
   function epmSyncPrice_{{ sid }}(variantId) {
     var data = epmPriceMap_{{ sid }}[variantId];
     if (!data) return;
-    var totalEl   = document.getElementById('epm-total-price-{{ sid }}');
-    var compareEl = document.getElementById('epm-compare-price-{{ sid }}');
-    var stickyEl  = document.getElementById('epm-sticky-price-{{ sid }}');
-    var balanceEl = document.getElementById('epm-balance-note-{{ sid }}');
+    var totalEl         = document.getElementById('epm-total-price-{{ sid }}');
+    var compareEl       = document.getElementById('epm-compare-price-{{ sid }}');
+    var stickyEl        = document.getElementById('epm-sticky-price-{{ sid }}');
+    var stickyCompareEl = document.getElementById('epm-sticky-compare-{{ sid }}');
+    var balanceEl       = document.getElementById('epm-balance-note-{{ sid }}');
     if (totalEl)  totalEl.textContent  = data.price;
     if (stickyEl) stickyEl.textContent = data.price;
-    if (compareEl) {
+    [compareEl, stickyCompareEl].forEach(function(el) {
+      if (!el) return;
       if (data.compare) {
-        compareEl.textContent = data.compare;
-        compareEl.style.display = '';
+        el.textContent = data.compare;
+        el.style.display = '';
       } else {
-        compareEl.textContent = '';
-        compareEl.style.display = 'none';
+        el.textContent = '';
+        el.style.display = 'none';
       }
-    }
+    });
     if (balanceEl && epmBalanceTrigger_{{ sid }} > 0) {
       balanceEl.style.display = (variantId === epmBalanceTrigger_{{ sid }}) ? 'block' : 'none';
     }
