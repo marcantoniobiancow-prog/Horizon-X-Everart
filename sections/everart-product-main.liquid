@@ -325,12 +325,24 @@
     font-weight: 600;
     display: block;
   }
+  .epm-vc-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
   .epm-vc-price {
     font-size: 22px;
     font-weight: 700;
     color: var(--epm-fg);
     letter-spacing: -.02em;
-    display: block;
+  }
+  .epm-vc-original {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--epm-muted);
+    text-decoration: line-through;
+    letter-spacing: 0;
   }
   .epm-vc-note {
     font-size: 10px;
@@ -704,7 +716,12 @@
                        {% if v.id == variant.id %}checked{% endif %}
                        {% unless v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
-                <span class="epm-vc-price">{{ v.price | money }}</span>
+                <div class="epm-vc-price-row">
+                  <span class="epm-vc-price">{{ v.price | money }}</span>
+                  {%- if s.bundle_original_price != blank -%}
+                    <span class="epm-vc-original">{{ s.bundle_original_price }}</span>
+                  {%- endif -%}
+                </div>
                 {%- unless v.available -%}
                   <span class="epm-vc-note">Sold out</span>
                 {%- endunless -%}
