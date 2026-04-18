@@ -261,11 +261,24 @@
     font-weight: 700;
     color: var(--epm-fg);
   }
+  .epm-bundle-total-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   .epm-bundle-total-price {
     font-size: 36px;
     font-weight: 800;
     color: var(--epm-fg);
     letter-spacing: -.03em;
+  }
+  .epm-bundle-compare {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--epm-muted);
+    text-decoration: line-through;
+    letter-spacing: 0;
   }
   .epm-balance-note {
     font-size: 11px;
@@ -686,7 +699,14 @@
             {%- endif -%}
             <div class="epm-bundle-total">
               <span class="epm-bundle-total-lbl">{{ s.bundle_total_label | default: 'Your price today' }}</span>
-              <span class="epm-bundle-total-price" id="epm-total-price-{{ sid }}">{{ variant.price | money }}</span>
+              <span class="epm-bundle-total-prices">
+                <span class="epm-bundle-total-price" id="epm-total-price-{{ sid }}">{{ variant.price | money }}</span>
+                {%- if variant.compare_at_price > variant.price -%}
+                  <span class="epm-bundle-compare" id="epm-compare-price-{{ sid }}">{{ variant.compare_at_price | money }}</span>
+                {%- else -%}
+                  <span class="epm-bundle-compare" id="epm-compare-price-{{ sid }}" style="display:none"></span>
+                {%- endif -%}
+              </span>
             </div>
             <div class="epm-balance-note" id="epm-balance-note-{{ sid }}" style="display:none">
               {{ s.balance_note }}
@@ -718,8 +738,8 @@
                 <span class="epm-vc-title">{{ v.title }}</span>
                 <div class="epm-vc-price-row">
                   <span class="epm-vc-price">{{ v.price | money }}</span>
-                  {%- if s.bundle_original_price != blank -%}
-                    <span class="epm-vc-original">{{ s.bundle_original_price }}</span>
+                  {%- if v.compare_at_price > v.price -%}
+                    <span class="epm-vc-original">{{ v.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
                 {%- unless v.available -%}
@@ -829,18 +849,31 @@
   /* ── Variant price sync ── */
   var epmPriceMap_{{ sid }} = {
     {%- for v in p.variants -%}
-      {{ v.id }}: {{ v.price | money | json }}{% unless forloop.last %},{% endunless %}
+      {{ v.id }}: {
+        price: {{ v.price | money | json }},
+        compare: {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %}
+      }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   };
   var epmBalanceTrigger_{{ sid }} = {{ s.balance_note_price | default: 0 }};
   function epmSyncPrice_{{ sid }}(variantId) {
-    var fmt = epmPriceMap_{{ sid }}[variantId];
-    if (!fmt) return;
+    var data = epmPriceMap_{{ sid }}[variantId];
+    if (!data) return;
     var totalEl   = document.getElementById('epm-total-price-{{ sid }}');
+    var compareEl = document.getElementById('epm-compare-price-{{ sid }}');
     var stickyEl  = document.getElementById('epm-sticky-price-{{ sid }}');
     var balanceEl = document.getElementById('epm-balance-note-{{ sid }}');
-    if (totalEl)  totalEl.textContent  = fmt;
-    if (stickyEl) stickyEl.textContent = fmt;
+    if (totalEl)  totalEl.textContent  = data.price;
+    if (stickyEl) stickyEl.textContent = data.price;
+    if (compareEl) {
+      if (data.compare) {
+        compareEl.textContent = data.compare;
+        compareEl.style.display = '';
+      } else {
+        compareEl.textContent = '';
+        compareEl.style.display = 'none';
+      }
+    }
     if (balanceEl && epmBalanceTrigger_{{ sid }} > 0) {
       balanceEl.style.display = (variantId === epmBalanceTrigger_{{ sid }}) ? 'block' : 'none';
     }
