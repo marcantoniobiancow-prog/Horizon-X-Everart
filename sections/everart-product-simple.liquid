@@ -1,0 +1,814 @@
+{%- comment -%}
+  EverArt Product Simple — v1
+  Layout: gallery (main + thumbnails) sinistra · info destra
+  Mobile: slider con dots su gallery, sticky verticale
+  Blocks: detail_row · accordion_item
+  Pattern JS identici a everart-product-main (sid, wrapper ID, price map)
+{%- endcomment -%}
+
+{%- assign s       = section.settings -%}
+{%- assign sid     = section.id | replace: '-', '_' -%}
+{%- assign p       = product -%}
+{%- assign variant = p.selected_or_first_available_variant -%}
+
+{%- liquid
+  assign col_title       = s.collection_label
+  if col_title == blank and p.collections.size > 0
+    assign col_title = p.collections[0].title
+  endif
+  assign detail_rows     = section.blocks | where: 'type', 'detail_row'
+  assign accordion_items = section.blocks | where: 'type', 'accordion_item'
+  assign images          = p.media | where: 'media_type', 'image'
+-%}
+
+{% stylesheet %}
+
+.eps-wrapper {
+  --eps-bg:    #0a0a0a;
+  --eps-surf:  #121212;
+  --eps-bdr:   rgba(255,255,255,.1);
+  --eps-red:   #8b1a1a;
+  --eps-red2:  #a52020;
+  --eps-fg:    #ffffff;
+  --eps-muted: rgba(255,255,255,.55);
+  --eps-green: #5a9a5a;
+  --eps-font:  var(--font-body-family, 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif);
+
+  background: var(--eps-bg);
+  color: var(--eps-fg);
+  font-family: var(--eps-font);
+
+  .eps-breadcrumb {
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    color: var(--eps-muted);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--eps-bdr);
+    background: var(--eps-surf);
+
+    a { color: var(--eps-muted); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--eps-fg); }
+  }
+
+  /* ── Grid ── */
+  .eps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Gallery ── */
+  .eps-gallery {
+    padding: 48px 56px 48px 48px;
+    border-right: 1px solid var(--eps-bdr);
+  }
+  .eps-main {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #212121;
+    margin-bottom: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .3s;
+    }
+  }
+  .eps-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .eps-thumb {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #212121;
+    cursor: pointer;
+    opacity: .45;
+    transition: opacity .2s;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    &.active { opacity: 1; }
+    &:hover   { opacity: .85; }
+  }
+
+  /* ── Mobile slider ── */
+  .eps-slider {
+    display: none;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    background: #212121;
+  }
+  .eps-slider::-webkit-scrollbar { display: none; }
+  .eps-slide {
+    flex: 0 0 100%;
+    aspect-ratio: 1;
+    scroll-snap-align: start;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+  .eps-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0;
+    background: var(--eps-bg);
+  }
+  .eps-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    transition: background .2s, transform .2s;
+    cursor: pointer;
+
+    &.active { background: #fff; transform: scale(1.25); }
+  }
+
+  /* ── Info ── */
+  .eps-info {
+    padding: 48px 48px 64px 56px;
+    position: sticky;
+    top: 0;
+    align-self: start;
+  }
+  .eps-tag {
+    font-size: 9.5px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--eps-muted);
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .eps-title {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin: 0 0 4px;
+    color: var(--eps-fg);
+  }
+  .eps-sub {
+    font-size: 13px;
+    color: var(--eps-muted);
+    font-style: italic;
+    margin: 0 0 36px;
+    font-weight: 400;
+    letter-spacing: .04em;
+  }
+
+  /* ── Details box ── */
+  .eps-details {
+    background: var(--eps-surf);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .eps-details-title {
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--eps-muted);
+    margin-bottom: 16px;
+    font-weight: 600;
+    display: block;
+  }
+  .eps-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--eps-bdr);
+    font-size: 13px;
+  }
+  .eps-detail-row:last-of-type { border-bottom: none; }
+  .eps-detail-key   { color: var(--eps-muted); font-weight: 400; }
+  .eps-detail-val   { color: var(--eps-fg); font-weight: 500; font-size: 14px; }
+
+  /* ── Price row (dentro details box) ── */
+  .eps-price-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 16px 0 0;
+    margin-top: 8px;
+    border-top: 1px solid var(--eps-bdr);
+  }
+  .eps-price-lbl {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--eps-fg);
+  }
+  .eps-price-right {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .eps-price {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--eps-fg);
+    letter-spacing: -.03em;
+  }
+  .eps-compare {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--eps-muted);
+    text-decoration: line-through;
+  }
+  .eps-save-note {
+    font-size: 10px;
+    color: var(--eps-green);
+    margin-top: 6px;
+    text-align: right;
+    letter-spacing: .05em;
+    font-weight: 500;
+  }
+
+  /* ── Variant selector ── */
+  .eps-vc-label {
+    font-size: 9px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--eps-muted);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .eps-vc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .eps-vc-card {
+    border: 1px solid var(--eps-bdr);
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: border-color .2s;
+    background: var(--eps-bg);
+    position: relative;
+    display: block;
+
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:has(input:checked) { border-color: var(--eps-fg); }
+    &:has(input:disabled) { opacity: .4; cursor: default; }
+  }
+  .eps-vc-title {
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--eps-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+    display: block;
+  }
+  .eps-vc-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .eps-vc-price    { font-size: 22px; font-weight: 700; color: var(--eps-fg); letter-spacing: -.02em; }
+  .eps-vc-original { font-size: 13px; font-weight: 400; color: var(--eps-muted); text-decoration: line-through; }
+  .eps-vc-note     { font-size: 10px; color: var(--eps-muted); margin-top: 2px; font-weight: 400; display: block; }
+
+  /* ── ATC ── */
+  .eps-atc-btn {
+    width: 100%;
+    background: var(--eps-red);
+    color: #ffffff;
+    padding: 18px;
+    font-size: 11px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background .2s;
+    border: none;
+    font-family: var(--eps-font);
+
+    &:hover { background: var(--eps-red2); }
+    &:disabled { opacity: .45; cursor: default; background: var(--eps-red); }
+  }
+  .eps-atc-note {
+    font-size: 11px;
+    color: var(--eps-muted);
+    text-align: center;
+    letter-spacing: .05em;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .eps-secondary-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--eps-bdr);
+    color: var(--eps-muted);
+    padding: 15px;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    font-family: var(--eps-font);
+    transition: border-color .2s, color .2s;
+    display: block;
+    text-decoration: none;
+
+    &:hover { border-color: var(--eps-fg); color: var(--eps-fg); }
+  }
+
+  /* ── Accordion ── */
+  .eps-accordion { border-top: 1px solid var(--eps-bdr); margin-top: 32px; }
+  .eps-acc-item  { border-bottom: 1px solid var(--eps-bdr); }
+  .eps-acc-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+    font-weight: 600;
+    user-select: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--eps-font);
+
+    &:hover { color: var(--eps-fg); }
+  }
+  .eps-acc-arrow {
+    color: var(--eps-muted);
+    font-size: 16px;
+    transition: transform .2s;
+    line-height: 1;
+    font-weight: 300;
+    flex-shrink: 0;
+
+    &.open { transform: rotate(180deg); }
+  }
+  .eps-acc-b {
+    padding: 0 0 20px;
+    font-size: 13px;
+    color: var(--eps-muted);
+    line-height: 1.8;
+    font-weight: 400;
+    display: none;
+
+    &.open { display: block; }
+    p { margin-bottom: 12px; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 767px) {
+    .eps-breadcrumb { padding: 14px 20px; }
+    .eps-grid { grid-template-columns: 1fr; }
+    .eps-gallery { padding: 0; border-right: none; }
+    .eps-main   { display: none; }
+    .eps-thumbs { display: none; }
+    .eps-slider { display: flex; }
+    .eps-dots   { display: flex; }
+    .eps-info   { padding: 32px 20px 56px; position: static; }
+    .eps-vc-grid { grid-template-columns: 1fr; }
+  }
+}
+
+/* ── Sticky CTA ── */
+.eps-sticky {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,10,.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 14px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 300;
+  transform: translateY(100%);
+  transition: transform .3s ease;
+  font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
+  color: #ffffff;
+
+  &.vis { transform: translateY(0); }
+
+  .sc-name    { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+  .sc-prices  { display: flex; align-items: baseline; gap: 8px; }
+  .sc-price   { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+  .sc-compare { font-size: 14px; font-weight: 400; color: rgba(255,255,255,.45); text-decoration: line-through; }
+
+  .sc-btn {
+    background: #8b1a1a;
+    color: #ffffff;
+    border: none;
+    padding: 14px 32px;
+    font-size: 10px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
+    transition: background .2s;
+    white-space: nowrap;
+
+    &:hover { background: #a52020; }
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 40px;
+    gap: 10px;
+
+    .sc-name    { font-size: 13px; }
+    .sc-prices  { align-items: baseline; gap: 6px; }
+    .sc-price   { font-size: 22px; }
+    .sc-compare { font-size: 13px; }
+
+    .sc-btn {
+      width: 100%;
+      text-align: center;
+      padding: 14px;
+    }
+  }
+}
+
+{% endstylesheet %}
+
+<div class="eps-wrapper" id="eps-wrapper-{{ sid }}">
+
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <div class="eps-breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    {%- if p.collections.size > 0 -%}
+      <a href="{{ p.collections[0].url }}">{{ p.collections[0].title }}</a>
+      <span>/</span>
+    {%- endif -%}
+    <span>{{ p.title }}</span>
+  </div>
+
+  <div class="eps-grid">
+
+    {%- comment -%} ── GALLERY ── {%- endcomment -%}
+    <div class="eps-gallery">
+
+      {%- comment -%} Desktop: main + thumbs {%- endcomment -%}
+      <div class="eps-main" id="eps-main-{{ sid }}">
+        {%- if images.size > 0 -%}
+          <img src="{{ images[0] | image_url: width: 900 }}"
+               alt="{{ images[0].alt | default: p.title }}"
+               id="eps-main-img-{{ sid }}"
+               width="900"
+               loading="eager">
+        {%- endif -%}
+      </div>
+      {%- if images.size > 1 -%}
+        <div class="eps-thumbs">
+          {%- for m in images limit: 4 -%}
+            <div class="eps-thumb {% if forloop.first %}active{% endif %}"
+                 data-src="{{ m | image_url: width: 900 }}"
+                 data-alt="{{ m.alt | default: p.title }}">
+              <img src="{{ m | image_url: width: 200 }}"
+                   alt="{{ m.alt | default: p.title }}"
+                   width="200"
+                   loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Mobile: slider + dots {%- endcomment -%}
+      <div class="eps-slider" id="eps-slider-{{ sid }}">
+        {%- for m in images -%}
+          <div class="eps-slide">
+            <img src="{{ m | image_url: width: 800 }}"
+                 alt="{{ m.alt | default: p.title }}"
+                 width="800"
+                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          </div>
+        {%- endfor -%}
+      </div>
+      {%- if images.size > 1 -%}
+        <div class="eps-dots" id="eps-dots-{{ sid }}">
+          {%- for m in images -%}
+            <div class="eps-dot {% if forloop.first %}active{% endif %}"
+                 data-index="{{ forloop.index0 }}"></div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} ── INFO ── {%- endcomment -%}
+    <div class="eps-info">
+
+      {%- if col_title != blank -%}
+        <span class="eps-tag">{{ col_title }}</span>
+      {%- endif -%}
+      <h1 class="eps-title">{{ p.title }}</h1>
+      {%- assign sub = s.subtitle | default: p.type -%}
+      {%- if sub != blank -%}
+        <div class="eps-sub">{{ sub }}</div>
+      {%- endif -%}
+
+      {%- comment -%} Details box {%- endcomment -%}
+      <div class="eps-details">
+        {%- if s.details_title != blank -%}
+          <span class="eps-details-title">{{ s.details_title }}</span>
+        {%- endif -%}
+
+        {%- for block in detail_rows -%}
+          <div class="eps-detail-row" {{ block.shopify_attributes }}>
+            <span class="eps-detail-key">{{ block.settings.key }}</span>
+            <span class="eps-detail-val">{{ block.settings.value }}</span>
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%} Price {%- endcomment -%}
+        <div class="eps-price-block">
+          <span class="eps-price-lbl">{{ s.price_label | default: 'Price' }}</span>
+          <span class="eps-price-right">
+            <span class="eps-price" id="eps-price-{{ sid }}">{{ variant.price | money }}</span>
+            {%- if variant.compare_at_price > variant.price -%}
+              <span class="eps-compare" id="eps-compare-{{ sid }}">{{ variant.compare_at_price | money }}</span>
+            {%- else -%}
+              <span class="eps-compare" id="eps-compare-{{ sid }}" style="display:none"></span>
+            {%- endif -%}
+          </span>
+        </div>
+        {%- if s.save_note != blank -%}
+          <div class="eps-save-note">{{ s.save_note }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Form: varianti + ATC {%- endcomment -%}
+      {%- form 'product', p, id: "eps-form-{{ sid }}" -%}
+
+        {%- unless p.has_only_default_variant -%}
+          <span class="eps-vc-label">Payment options</span>
+          <div class="eps-vc-grid">
+            {%- for v in p.variants -%}
+              <label class="eps-vc-card" for="eps-var-{{ sid }}-{{ forloop.index0 }}">
+                <input type="radio"
+                       id="eps-var-{{ sid }}-{{ forloop.index0 }}"
+                       name="id"
+                       value="{{ v.id }}"
+                       data-price="{{ v.price }}"
+                       {% if v.id == variant.id %}checked{% endif %}
+                       {% unless v.available %}disabled{% endunless %}>
+                <span class="eps-vc-title">{{ v.title }}</span>
+                <div class="eps-vc-price-row">
+                  <span class="eps-vc-price">{{ v.price | money }}</span>
+                  {%- if v.compare_at_price > v.price -%}
+                    <span class="eps-vc-original">{{ v.compare_at_price | money }}</span>
+                  {%- endif -%}
+                </div>
+                {%- unless v.available -%}
+                  <span class="eps-vc-note">Sold out</span>
+                {%- endunless -%}
+              </label>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+        {%- endunless -%}
+
+        <button type="submit"
+                class="eps-atc-btn"
+                id="eps-atc-{{ sid }}"
+                {% unless p.available %}disabled{% endunless %}>
+          {%- if p.available -%}
+            {{ s.btn_text | default: 'Add to Cart' }}
+          {%- else -%}
+            Sold Out
+          {%- endif -%}
+        </button>
+
+      {%- endform -%}
+
+      {%- if s.atc_note != blank -%}
+        <div class="eps-atc-note">{{ s.atc_note }}</div>
+      {%- endif -%}
+
+      {%- if s.secondary_btn_text != blank -%}
+        <a class="eps-secondary-btn" href="{{ s.secondary_btn_url | default: '#' }}">
+          {{ s.secondary_btn_text }}
+        </a>
+      {%- endif -%}
+
+      {%- comment -%} Accordion {%- endcomment -%}
+      {%- if accordion_items.size > 0 -%}
+        <div class="eps-accordion">
+          {%- for block in accordion_items -%}
+            <div class="eps-acc-item" {{ block.shopify_attributes }}>
+              <button class="eps-acc-h" onclick="epsToggleAcc_{{ sid }}(this)">
+                {{ block.settings.heading }}
+                <span class="eps-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
+              </button>
+              <div class="eps-acc-b {% if forloop.first %}open{% endif %}">
+                {{ block.settings.content }}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+{%- comment -%} Sticky CTA {%- endcomment -%}
+{%- if s.show_sticky -%}
+<div class="eps-sticky" id="eps-sticky-{{ sid }}">
+  <div>
+    <div class="sc-name">{{ p.title }}</div>
+    <div class="sc-prices">
+      <span class="sc-price" id="eps-sticky-price-{{ sid }}">{{ variant.price | money }}</span>
+      {%- if variant.compare_at_price > variant.price -%}
+        <span class="sc-compare" id="eps-sticky-compare-{{ sid }}">{{ variant.compare_at_price | money }}</span>
+      {%- else -%}
+        <span class="sc-compare" id="eps-sticky-compare-{{ sid }}" style="display:none"></span>
+      {%- endif -%}
+    </div>
+  </div>
+  <button class="sc-btn"
+          onclick="document.getElementById('eps-atc-{{ sid }}').click()">
+    {{ s.btn_text | default: 'Add to Cart' }}
+  </button>
+</div>
+{%- endif -%}
+
+<script>
+(function() {
+
+  /* ── Accordion ── */
+  function epsToggleAcc_{{ sid }}(header) {
+    var arrow = header.querySelector('.eps-acc-arrow');
+    var body  = header.nextElementSibling;
+    var open  = body.classList.contains('open');
+    body.classList.toggle('open', !open);
+    if (arrow) arrow.classList.toggle('open', !open);
+  }
+  window.epsToggleAcc_{{ sid }} = epsToggleAcc_{{ sid }};
+
+  /* ── Price map con compare_at_price ── */
+  var epsPriceMap_{{ sid }} = {
+    {%- for v in p.variants -%}
+      {{ v.id }}: {
+        price:   {{ v.price | money | json }},
+        compare: {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  };
+
+  function epsSyncPrice_{{ sid }}(variantId) {
+    var data = epsPriceMap_{{ sid }}[variantId];
+    if (!data) return;
+    var priceEl         = document.getElementById('eps-price-{{ sid }}');
+    var compareEl       = document.getElementById('eps-compare-{{ sid }}');
+    var stickyPriceEl   = document.getElementById('eps-sticky-price-{{ sid }}');
+    var stickyCompareEl = document.getElementById('eps-sticky-compare-{{ sid }}');
+    if (priceEl)       priceEl.textContent       = data.price;
+    if (stickyPriceEl) stickyPriceEl.textContent = data.price;
+    [compareEl, stickyCompareEl].forEach(function(el) {
+      if (!el) return;
+      if (data.compare) { el.textContent = data.compare; el.style.display = ''; }
+      else              { el.textContent = ''; el.style.display = 'none'; }
+    });
+  }
+
+  var epsWrapper_{{ sid }} = document.getElementById('eps-wrapper-{{ sid }}');
+  if (epsWrapper_{{ sid }}) {
+    epsWrapper_{{ sid }}.querySelectorAll('input[name="id"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.checked) epsSyncPrice_{{ sid }}(Number(this.value));
+      });
+    });
+  }
+
+  /* ── Sticky visibility ── */
+  var sticky = document.getElementById('eps-sticky-{{ sid }}');
+  var atcBtn = document.getElementById('eps-atc-{{ sid }}');
+  if (sticky && atcBtn) {
+    new IntersectionObserver(function(entries) {
+      sticky.classList.toggle('vis', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(atcBtn);
+  }
+
+  /* ── Desktop thumbnail swap ── */
+  var mainImg = document.getElementById('eps-main-img-{{ sid }}');
+  if (mainImg && epsWrapper_{{ sid }}) {
+    epsWrapper_{{ sid }}.querySelectorAll('.eps-thumb').forEach(function(thumb) {
+      thumb.addEventListener('click', function() {
+        epsWrapper_{{ sid }}.querySelectorAll('.eps-thumb').forEach(function(t) { t.classList.remove('active'); });
+        thumb.classList.add('active');
+        mainImg.src = thumb.dataset.src;
+        mainImg.alt = thumb.dataset.alt || '';
+      });
+    });
+  }
+
+  /* ── Mobile slider dots ── */
+  var slider   = document.getElementById('eps-slider-{{ sid }}');
+  var dotsWrap = document.getElementById('eps-dots-{{ sid }}');
+  if (slider && dotsWrap) {
+    var dots = dotsWrap.querySelectorAll('.eps-dot');
+    var ticking = false;
+    slider.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var idx = Math.round(slider.scrollLeft / slider.offsetWidth);
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+        ticking = false;
+      });
+    }, { passive: true });
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        slider.scrollTo({ left: parseInt(dot.dataset.index, 10) * slider.offsetWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Prodotto — Simple",
+  "tag": "section",
+  "templates": ["product"],
+  "blocks": [
+    {
+      "type": "detail_row",
+      "name": "Riga dettaglio",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "key",   "label": "Label (es. Size)"  },
+        { "type": "text", "id": "value", "label": "Valore (es. 12cm)" }
+      ]
+    },
+    {
+      "type": "accordion_item",
+      "name": "Accordion",
+      "limit": 6,
+      "settings": [
+        { "type": "text",     "id": "heading", "label": "Titolo",    "default": "Product Details" },
+        { "type": "richtext", "id": "content", "label": "Contenuto" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text",     "id": "collection_label", "label": "Label collezione (override auto)" },
+    { "type": "text",     "id": "subtitle",         "label": "Sottotitolo (italic)" },
+    { "type": "header",   "content": "Details box" },
+    { "type": "text",     "id": "details_title",    "label": "Titolo box",         "default": "Details" },
+    { "type": "text",     "id": "price_label",      "label": "Label prezzo",       "default": "Price" },
+    { "type": "text",     "id": "save_note",        "label": "Nota verde (es. Included in the Bundle — save €130)" },
+    { "type": "header",   "content": "Acquisto" },
+    { "type": "text",     "id": "btn_text",         "label": "Testo bottone ATC",  "default": "Add to Cart" },
+    { "type": "text",     "id": "atc_note",         "label": "Nota sotto ATC" },
+    { "type": "header",   "content": "Bottone secondario" },
+    { "type": "text",     "id": "secondary_btn_text", "label": "Testo (es. View Complete Edition →)" },
+    { "type": "url",      "id": "secondary_btn_url",  "label": "URL" },
+    { "type": "header",   "content": "Sticky" },
+    { "type": "checkbox", "id": "show_sticky",      "label": "Mostra sticky CTA",  "default": true }
+  ],
+  "presets": [{ "name": "Prodotto — Simple" }]
+}
+{% endschema %}

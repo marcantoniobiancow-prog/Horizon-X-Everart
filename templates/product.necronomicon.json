@@ -1,0 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "everart-product-simple": {
+      "type": "everart-product-simple",
+      "blocks": {
+        "row-1": {
+          "type": "detail_row",
+          "settings": {
+            "key": "Size",
+            "value": "12 cm (classic size)"
+          }
+        },
+        "row-2": {
+          "type": "detail_row",
+          "settings": {
+            "key": "Material",
+            "value": "Resin, hand finished"
+          }
+        },
+        "row-3": {
+          "type": "detail_row",
+          "settings": {
+            "key": "Collection",
+            "value": "Masters of Madness · Chapter I"
+          }
+        },
+        "acc-1": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Product Details",
+            "content": "<p>A 12cm resin replica of the forbidden tome. Hand finished, collector-grade. Sold standalone or included in the H.P. Lovecraft Complete Edition.</p>"
+          }
+        },
+        "acc-2": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Shipping",
+            "content": "<p>Ships with the Complete Edition (June 2026) or standalone. Flat rate EU shipping: €10. Insured and tracked.</p>"
+          }
+        },
+        "acc-3": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Refund Policy",
+            "content": "<p>Contact us at info@studioeverart.com within 48 hours of delivery if the item arrives damaged. Include photos of the damage and packaging.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row-1",
+        "row-2",
+        "row-3",
+        "acc-1",
+        "acc-2",
+        "acc-3"
+      ],
+      "settings": {
+        "collection_label": "Masters of Madness · Chapter I",
+        "subtitle": "Resin Replica — Collector's Item",
+        "details_title": "Details",
+        "price_label": "Price",
+        "save_note": "Included in the Preorder Bundle (€760) — save €90",
+        "btn_text": "Add to Cart",
+        "atc_note": "Also available as part of the Complete Edition",
+        "secondary_btn_text": "View Complete Edition →",
+        "secondary_btn_url": "/products/hp-lovecraft-the-forbidden-edition",
+        "show_sticky": true
+      }
+    }
+  },
+  "order": [
+    "everart-product-simple"
+  ]
+}
