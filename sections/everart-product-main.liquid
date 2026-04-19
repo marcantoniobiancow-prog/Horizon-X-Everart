@@ -23,6 +23,8 @@
   assign pay_opts        = section.blocks | where: 'type', 'payment_option'
 -%}
 
+{%- render 'everart-jsonld-product', rating_value: s.jsonld_rating, review_count: s.jsonld_review_count -%}
+
 {% stylesheet %}
 
 /* ─────────────────────────────────────────
@@ -1001,7 +1003,10 @@
     { "type": "text",     "id": "atc_note",              "label": "Nota sotto bottone" },
     { "type": "number",   "id": "balance_note_price",    "label": "ID variante che mostra nota saldo (Shopify variant ID)" },
     { "type": "text",     "id": "balance_note",          "label": "Testo nota saldo (es. Pay €540 before shipping)" },
-    { "type": "checkbox", "id": "show_sticky",           "label": "Mostra sticky CTA",     "default": true }
+    { "type": "checkbox", "id": "show_sticky",           "label": "Mostra sticky CTA",     "default": true },
+    { "type": "header",   "content": "SEO — Rich Results" },
+    { "type": "number",   "id": "jsonld_rating",        "label": "Rating medio (1-5, es. 5)" },
+    { "type": "number",   "id": "jsonld_review_count",  "label": "Numero recensioni totali" }
   ],
   "presets": [{ "name": "Prodotto — Main" }]
 }

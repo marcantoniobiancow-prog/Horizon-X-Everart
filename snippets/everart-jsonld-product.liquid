@@ -1,0 +1,58 @@
+{%- comment -%}
+  EverArt — JSON-LD Product Schema
+  Chiamato con: {% render 'everart-jsonld-product', rating_value: s.jsonld_rating, review_count: s.jsonld_review_count %}
+{%- endcomment -%}
+
+{%- liquid
+  assign p       = product
+  assign variant = p.selected_or_first_available_variant
+  assign p_price = variant.price | divided_by: 100.0
+  assign p_currency = cart.currency.iso_code | default: shop.currency
+  if variant.available
+    assign p_availability = 'https://schema.org/InStock'
+  else
+    assign p_availability = 'https://schema.org/OutOfStock'
+  endif
+  assign p_image = p.featured_image | image_url: width: 1200
+  assign p_url   = shop.url | append: p.url
+-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ p.title | json }},
+  "description": {{ p.description | strip_html | truncate: 500 | json }},
+  "image": [
+    "https:{{ p_image }}"
+    {%- for media in p.media limit: 4 offset: 1 -%}
+      {%- if media.media_type == 'image' -%}
+      ,"https:{{ media | image_url: width: 1200 }}"
+      {%- endif -%}
+    {%- endfor -%}
+  ],
+  "brand": {
+    "@type": "Brand",
+    "name": "Studio Everart"
+  },
+  "sku": {{ variant.sku | default: variant.id | json }},
+  "offers": {
+    "@type": "Offer",
+    "url": {{ p_url | json }},
+    "priceCurrency": {{ p_currency | json }},
+    "price": "{{ p_price }}",
+    "availability": {{ p_availability | json }},
+    "seller": {
+      "@type": "Organization",
+      "name": "Studio Everart"
+    }
+  }
+  {%- if rating_value != blank and review_count != blank and review_count > 0 -%}
+  ,"aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ rating_value }}",
+    "reviewCount": "{{ review_count }}"
+  }
+  {%- endif -%}
+}
+</script>
