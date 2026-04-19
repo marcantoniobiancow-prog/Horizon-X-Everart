@@ -185,8 +185,9 @@
   transition: color .2s, border-color .2s;
   white-space: nowrap;
 }
+#eafoot-{{ sid }} .ef-lang-form { display: inline; margin: 0; padding: 0; }
 #eafoot-{{ sid }} .ef-lang-btn:hover,
-#eafoot-{{ sid }} .ef-lang-btn[aria-current="true"] {
+#eafoot-{{ sid }} .ef-lang-btn.active {
   color: #ffffff;
   border-color: #555555;
 }
@@ -336,12 +337,11 @@
             {%- for lang in localization.available_languages -%}
               {%- assign is_active = false -%}
               {%- if lang.iso_code == localization.language.iso_code -%}{%- assign is_active = true -%}{%- endif -%}
-              <a href="{{ lang.root_url }}"
-                 class="ef-lang-btn"
-                 aria-current="{{ is_active }}"
-                 hreflang="{{ lang.iso_code }}">
-                {{ lang.endonym_name }}
-              </a>
+              {%- form 'localization', class: 'ef-lang-form' -%}
+                <input type="hidden" name="locale_code" value="{{ lang.iso_code }}">
+                <input type="hidden" name="return_to" value="{{ request.path }}">
+                <button type="submit" class="ef-lang-btn{% if is_active %} active{% endif %}">{{ lang.endonym_name }}</button>
+              {%- endform -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
