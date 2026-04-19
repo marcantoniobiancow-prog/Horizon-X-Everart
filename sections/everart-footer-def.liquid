@@ -164,6 +164,33 @@
 }
 #eafoot-{{ sid }} a.ef-legal-text:hover { opacity: 1; color: #ffffff; }
 
+/* ── LANGUAGE SWITCHER ── */
+#eafoot-{{ sid }} .ef-lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+#eafoot-{{ sid }} .ef-lang-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #888888;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+#eafoot-{{ sid }} .ef-lang-btn:hover,
+#eafoot-{{ sid }} .ef-lang-btn[aria-current="true"] {
+  color: #ffffff;
+  border-color: #555555;
+}
+
 /* ── RIGHT COLUMN (immagine) ── */
 #eafoot-{{ sid }} .ef-right {
   flex-shrink: 0;
@@ -304,6 +331,21 @@
             </a>
           {%- endif -%}
         </div>
+        {%- if localization.available_languages.size > 1 -%}
+          <div class="ef-lang-switcher">
+            {%- for lang in localization.available_languages -%}
+              {%- assign is_active = false -%}
+              {%- if lang.iso_code == localization.language.iso_code -%}{%- assign is_active = true -%}{%- endif -%}
+              <a href="{{ lang.root_url }}"
+                 class="ef-lang-btn"
+                 aria-current="{{ is_active }}"
+                 hreflang="{{ lang.iso_code }}">
+                {{ lang.endonym_name }}
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
         <div class="ef-legal">
           <span class="ef-legal-text">{{ s.copyright | default: '© 2026 — Everart Studio' }}</span>
           {%- if s.privacy_url != blank -%}
