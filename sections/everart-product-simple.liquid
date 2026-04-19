@@ -2,7 +2,7 @@
   EverArt Product Simple — v1
   Layout: gallery (main + thumbnails) sinistra · info destra
   Mobile: slider con dots su gallery, sticky verticale
-  Blocks: detail_row · accordion_item
+  Blocks: accordion_item
   Pattern JS identici a everart-product-main (sid, wrapper ID, price map)
 {%- endcomment -%}
 
@@ -16,7 +16,6 @@
   if col_title == blank and p.collections.size > 0
     assign col_title = p.collections[0].title
   endif
-  assign detail_rows     = section.blocks | where: 'type', 'detail_row'
   assign accordion_items = section.blocks | where: 'type', 'accordion_item'
   assign images          = p.media | where: 'media_type', 'image'
 -%}
@@ -181,53 +180,12 @@
     letter-spacing: .04em;
   }
 
-  /* ── Details box ── */
-  .eps-details {
-    background: var(--eps-surf);
-    padding: 24px;
+  /* ── Price (standalone) ── */
+  .eps-price-simple {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
     margin-bottom: 24px;
-  }
-  .eps-details-title {
-    font-size: 9.5px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--eps-muted);
-    margin-bottom: 16px;
-    font-weight: 600;
-    display: block;
-  }
-  .eps-detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--eps-bdr);
-    font-size: 13px;
-  }
-  .eps-detail-row:last-of-type { border-bottom: none; }
-  .eps-detail-key   { color: var(--eps-muted); font-weight: 400; }
-  .eps-detail-val   { color: var(--eps-fg); font-weight: 500; font-size: 14px; }
-
-  /* ── Price row (dentro details box) ── */
-  .eps-price-block {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 16px 0 0;
-    margin-top: 8px;
-    border-top: 1px solid var(--eps-bdr);
-  }
-  .eps-price-lbl {
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--eps-fg);
-  }
-  .eps-price-right {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
   }
   .eps-price {
     font-size: 36px;
@@ -240,14 +198,6 @@
     font-weight: 400;
     color: var(--eps-muted);
     text-decoration: line-through;
-  }
-  .eps-save-note {
-    font-size: 10px;
-    color: var(--eps-green);
-    margin-top: 6px;
-    text-align: right;
-    letter-spacing: .05em;
-    font-weight: 500;
   }
 
   /* ── Variant selector ── */
@@ -548,33 +498,13 @@
         <div class="eps-sub">{{ sub }}</div>
       {%- endif -%}
 
-      {%- comment -%} Details box {%- endcomment -%}
-      <div class="eps-details">
-        {%- if s.details_title != blank -%}
-          <span class="eps-details-title">{{ s.details_title }}</span>
-        {%- endif -%}
-
-        {%- for block in detail_rows -%}
-          <div class="eps-detail-row" {{ block.shopify_attributes }}>
-            <span class="eps-detail-key">{{ block.settings.key }}</span>
-            <span class="eps-detail-val">{{ block.settings.value }}</span>
-          </div>
-        {%- endfor -%}
-
-        {%- comment -%} Price {%- endcomment -%}
-        <div class="eps-price-block">
-          <span class="eps-price-lbl">{{ s.price_label | default: 'Price' }}</span>
-          <span class="eps-price-right">
-            <span class="eps-price" id="eps-price-{{ sid }}">{{ variant.price | money }}</span>
-            {%- if variant.compare_at_price > variant.price -%}
-              <span class="eps-compare" id="eps-compare-{{ sid }}">{{ variant.compare_at_price | money }}</span>
-            {%- else -%}
-              <span class="eps-compare" id="eps-compare-{{ sid }}" style="display:none"></span>
-            {%- endif -%}
-          </span>
-        </div>
-        {%- if s.save_note != blank -%}
-          <div class="eps-save-note">{{ s.save_note }}</div>
+      {%- comment -%} Price (standalone, no details box) {%- endcomment -%}
+      <div class="eps-price-simple">
+        <span class="eps-price" id="eps-price-{{ sid }}">{{ variant.price | money }}</span>
+        {%- if variant.compare_at_price > variant.price -%}
+          <span class="eps-compare" id="eps-compare-{{ sid }}">{{ variant.compare_at_price | money }}</span>
+        {%- else -%}
+          <span class="eps-compare" id="eps-compare-{{ sid }}" style="display:none"></span>
         {%- endif -%}
       </div>
 
@@ -777,15 +707,6 @@
   "templates": ["product"],
   "blocks": [
     {
-      "type": "detail_row",
-      "name": "Riga dettaglio",
-      "limit": 8,
-      "settings": [
-        { "type": "text", "id": "key",   "label": "Label (es. Size)"  },
-        { "type": "text", "id": "value", "label": "Valore (es. 12cm)" }
-      ]
-    },
-    {
       "type": "accordion_item",
       "name": "Accordion",
       "limit": 6,
@@ -798,10 +719,6 @@
   "settings": [
     { "type": "text",     "id": "collection_label", "label": "Label collezione (override auto)" },
     { "type": "text",     "id": "subtitle",         "label": "Sottotitolo (italic)" },
-    { "type": "header",   "content": "Details box" },
-    { "type": "text",     "id": "details_title",    "label": "Titolo box",         "default": "Details" },
-    { "type": "text",     "id": "price_label",      "label": "Label prezzo",       "default": "Price" },
-    { "type": "text",     "id": "save_note",        "label": "Nota verde (es. Included in the Bundle — save €130)" },
     { "type": "header",   "content": "Acquisto" },
     { "type": "text",     "id": "btn_text",         "label": "Testo bottone ATC",  "default": "Add to Cart" },
     { "type": "text",     "id": "atc_note",         "label": "Nota sotto ATC" },
