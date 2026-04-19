@@ -669,7 +669,15 @@
             <span class="epm-edition-lbl">Edition Progress</span>
             <span class="epm-edition-count">
               <strong>{{ s.edition_claimed }}</strong> / {{ s.edition_total }} claimed
-              {%- if s.edition_ships != blank %} · {{ s.edition_ships }}{%- endif -%}
+              {%- if s.edition_ships != blank -%}
+                {%- case localization.language.iso_code -%}
+                  {%- when 'it' -%} · Spedizione dalla produzione: giugno 2026 · Consegna stimata: agosto–settembre 2026
+                  {%- when 'fr' -%} · Expédition depuis la production : juin 2026 · Livraison estimée : août–septembre 2026
+                  {%- when 'de' -%} · Versand ab Produktion: Juni 2026 · Geschätzte Lieferung: August–September 2026
+                  {%- when 'es' -%} · Envío desde producción: junio 2026 · Entrega estimada: agosto–septiembre 2026
+                  {%- else -%} · {{ s.edition_ships }}
+                {%- endcase -%}
+              {%- endif -%}
             </span>
           </div>
           <div class="epm-edition-track">
@@ -807,7 +815,17 @@
                 <span class="epm-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
               </button>
               <div class="epm-acc-b {% if forloop.first %}open{% endif %}">
-                {{ block.settings.content }}
+                {%- if block.settings.heading == 'Shipping' -%}
+                  {%- case localization.language.iso_code -%}
+                    {%- when 'it' -%}<p>Spedizione dalla produzione: giugno 2026 · Consegna stimata: agosto–settembre 2026. Spedizione EU: €20. Tutti gli ordini sono assicurati e tracciati. Confezionati nella nostra scatola protettiva personalizzata — il packaging fa parte dell'esperienza.</p>
+                    {%- when 'fr' -%}<p>Expédition depuis la production : juin 2026 · Livraison estimée : août–septembre 2026. Livraison EU : €20. Toutes les commandes sont assurées et suivies. Emballé dans notre boîte de protection personnalisée — l'emballage fait partie de l'expérience.</p>
+                    {%- when 'de' -%}<p>Versand ab Produktion: Juni 2026 · Geschätzte Lieferung: August–September 2026. EU-Pauschalversand: €20. Alle Bestellungen sind versichert und nachverfolgbar. Individuelle Schutzverpackung — die Verpackung ist Teil des Erlebnisses.</p>
+                    {%- when 'es' -%}<p>Envío desde producción: junio 2026 · Entrega estimada: agosto–septiembre 2026. Envío EU: €20. Todos los pedidos están asegurados y con seguimiento. Embalaje protector personalizado — el embalaje es parte de la experiencia.</p>
+                    {%- else -%}{{ block.settings.content }}
+                  {%- endcase -%}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
               </div>
             </div>
           {%- endfor -%}
