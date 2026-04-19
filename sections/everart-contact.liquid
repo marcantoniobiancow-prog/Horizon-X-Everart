@@ -6,181 +6,94 @@
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
   background: #0a0a0a;
 }
-
-/* ── PAGE HEADER ── */
 #eac-{{ sid }} .eac-ph {
   background: #212121;
   padding: 96px 48px;
   border-bottom: 1px solid #2a2a2a;
 }
-#eac-{{ sid }} .eac-ph-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+#eac-{{ sid }} .eac-ph-inner { max-width: 1200px; margin: 0 auto; }
 #eac-{{ sid }} .eac-label {
-  font-size: 10px;
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: #888888;
-  font-weight: 500;
-  display: block;
-  margin-bottom: 14px;
+  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+  color: #888888; font-weight: 500; display: block; margin-bottom: 14px;
 }
 #eac-{{ sid }} .eac-ph h1 {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 800;
-  letter-spacing: -.03em;
-  line-height: 1.0;
-  color: #ffffff;
-  margin: 0 0 18px;
+  font-size: clamp(36px, 5vw, 64px); font-weight: 800;
+  letter-spacing: -.03em; line-height: 1.0; color: #ffffff; margin: 0 0 18px;
 }
 #eac-{{ sid }} .eac-ph p {
-  max-width: 500px;
-  font-size: 14px;
-  color: #b8b5b0;
-  line-height: 1.75;
-  margin: 0;
-  font-weight: 400;
+  max-width: 500px; font-size: 14px; color: #b8b5b0;
+  line-height: 1.75; margin: 0; font-weight: 400;
 }
-
-/* ── BODY ── */
-#eac-{{ sid }} .eac-body {
-  padding: 96px 48px;
-}
-#eac-{{ sid }} .eac-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+#eac-{{ sid }} .eac-body { padding: 96px 48px; }
+#eac-{{ sid }} .eac-inner { max-width: 1200px; margin: 0 auto; }
 #eac-{{ sid }} .eac-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 96px;
-  align-items: start;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: start;
 }
-
-/* ── FORM ── */
-#eac-{{ sid }} .eac-group {
-  margin-bottom: 20px;
-}
+#eac-{{ sid }} .eac-group { margin-bottom: 20px; }
 #eac-{{ sid }} .eac-field-label {
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: #888888;
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: #888888; display: block; margin-bottom: 8px; font-weight: 600;
 }
 #eac-{{ sid }} .eac-in,
 #eac-{{ sid }} .eac-ta {
-  width: 100%;
-  background: #212121;
-  border: 1px solid #2a2a2a;
-  padding: 14px 18px;
-  color: #ffffff;
-  font-size: 14px;
-  outline: none;
+  width: 100%; background: #212121; border: 1px solid #2a2a2a;
+  padding: 14px 18px; color: #ffffff; font-size: 14px; outline: none;
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 400;
-  transition: border-color .2s;
-  -webkit-appearance: none;
-  border-radius: 0;
+  font-weight: 400; transition: border-color .2s;
+  -webkit-appearance: none; border-radius: 0;
 }
 #eac-{{ sid }} .eac-in:focus,
-#eac-{{ sid }} .eac-ta:focus {
-  border-color: #ffffff;
-}
+#eac-{{ sid }} .eac-ta:focus { border-color: #ffffff; }
 #eac-{{ sid }} .eac-in::placeholder,
-#eac-{{ sid }} .eac-ta::placeholder {
-  color: #888888;
-}
-#eac-{{ sid }} .eac-ta {
-  resize: vertical;
-  min-height: 150px;
-}
-#eac-{{ sid }} .eac-submit {
-  display: inline-block;
-  padding: 15px 40px;
-  font-size: 10px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  font-weight: 700;
-  background: #8b1a1a;
-  color: #ffffff;
-  border: none;
-  cursor: pointer;
-  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1;
-  transition: background .2s;
-  margin-top: 8px;
-}
-#eac-{{ sid }} .eac-submit:hover {
-  background: #a52020;
+#eac-{{ sid }} .eac-ta::placeholder { color: #888888; }
+#eac-{{ sid }} .eac-ta { resize: vertical; min-height: 150px; }
+
+/* Honeypot — visivamente nascosto ma non con display:none */
+#eac-{{ sid }} .eac-hp {
+  position: absolute; left: -9999px; top: -9999px;
+  width: 1px; height: 1px; overflow: hidden; opacity: 0;
+  pointer-events: none; tab-index: -1;
 }
 
-/* ── SUCCESS / ERRORS ── */
+#eac-{{ sid }} .eac-submit {
+  display: inline-block; padding: 15px 40px; font-size: 10px;
+  letter-spacing: .24em; text-transform: uppercase; font-weight: 700;
+  background: #8b1a1a; color: #ffffff; border: none; cursor: pointer;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1; transition: background .2s; margin-top: 8px;
+}
+#eac-{{ sid }} .eac-submit:hover { background: #a52020; }
+#eac-{{ sid }} .eac-submit:disabled { background: #444; cursor: not-allowed; }
+
 #eac-{{ sid }} .eac-success {
-  background: #1a2a1a;
-  border: 1px solid #2a4a2a;
-  padding: 20px 24px;
-  color: #7ab87a;
-  font-size: 13px;
-  margin-bottom: 24px;
-  letter-spacing: .02em;
+  background: #1a2a1a; border: 1px solid #2a4a2a;
+  padding: 20px 24px; color: #7ab87a; font-size: 13px;
+  margin-bottom: 24px; letter-spacing: .02em;
 }
 #eac-{{ sid }} .eac-errors ul {
-  background: #2a1a1a;
-  border: 1px solid #4a2a2a;
-  padding: 16px 20px 16px 36px;
-  color: #c47a7a;
-  font-size: 13px;
-  margin-bottom: 24px;
+  background: #2a1a1a; border: 1px solid #4a2a2a;
+  padding: 16px 20px 16px 36px; color: #c47a7a;
+  font-size: 13px; margin-bottom: 24px;
 }
-
-/* ── INFO COLUMN ── */
-#eac-{{ sid }} .eac-ci-item {
-  margin-bottom: 32px;
-}
+#eac-{{ sid }} .eac-ci-item { margin-bottom: 32px; }
 #eac-{{ sid }} .eac-ci-item p {
-  font-size: 15px;
-  color: #d0cdc8;
-  line-height: 1.7;
-  font-weight: 400;
-  margin: 0;
+  font-size: 15px; color: #d0cdc8; line-height: 1.7; font-weight: 400; margin: 0;
 }
 #eac-{{ sid }} .eac-ci-item a {
-  color: #d0cdc8;
-  text-decoration: none;
-  transition: color .2s;
+  color: #d0cdc8; text-decoration: none; transition: color .2s;
 }
-#eac-{{ sid }} .eac-ci-item a:hover {
-  color: #ffffff;
-}
+#eac-{{ sid }} .eac-ci-item a:hover { color: #ffffff; }
 #eac-{{ sid }} .eac-divider {
-  margin-top: 56px;
-  padding-top: 56px;
-  border-top: 1px solid #2a2a2a;
+  margin-top: 56px; padding-top: 56px; border-top: 1px solid #2a2a2a;
 }
 #eac-{{ sid }} .eac-coll-btn {
-  display: inline-block;
-  padding: 13px 32px;
-  font-size: 10px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  font-weight: 700;
-  background: transparent;
-  color: #b8b5b0;
-  border: 1px solid #2a2a2a;
-  cursor: pointer;
-  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
-  transition: border-color .2s, color .2s;
-  text-decoration: none;
+  display: inline-block; padding: 13px 32px; font-size: 10px;
+  letter-spacing: .22em; text-transform: uppercase; font-weight: 700;
+  background: transparent; color: #b8b5b0; border: 1px solid #2a2a2a;
+  cursor: pointer; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  transition: border-color .2s, color .2s; text-decoration: none;
 }
-#eac-{{ sid }} .eac-coll-btn:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-}
-
+#eac-{{ sid }} .eac-coll-btn:hover { border-color: #ffffff; color: #ffffff; }
 @media (max-width: 767px) {
   #eac-{{ sid }} .eac-ph { padding: 72px 20px 56px; }
   #eac-{{ sid }} .eac-body { padding: 60px 20px; }
@@ -193,9 +106,9 @@
   <!-- PAGE HEADER -->
   <div class="eac-ph">
     <div class="eac-ph-inner">
-      <span class="eac-label">{{ s.eyebrow | default: 'Studio Everart' }}</span>
-      <h1>{{ s.heading | default: 'Are you looking for<br>incredible resin masterpieces?' }}</h1>
-      <p>{{ s.subheading | default: 'Enter your name, your email, and send us a message. Our team will get back to you as soon as possible.' }}</p>
+      <span class="eac-label">{{ 'everart_contact.eyebrow' | t }}</span>
+      <h1>{{ 'everart_contact.heading' | t }}</h1>
+      <p>{{ 'everart_contact.subheading' | t }}</p>
     </div>
   </div>
 
@@ -206,80 +119,63 @@
 
         <!-- FORM -->
         <div>
-          {%- form 'contact' -%}
+          {%- form 'contact', id: 'eac-form-{{ sid }}' -%}
 
             {%- if form.posted_successfully? -%}
-              <div class="eac-success">
-                {{ s.success_msg | default: 'Message sent. We will get back to you shortly.' }}
-              </div>
+              <div class="eac-success">{{ 'everart_contact.success' | t }}</div>
             {%- endif -%}
 
             {%- if form.errors -%}
-              <div class="eac-errors">
-                {{ form.errors | default_errors }}
-              </div>
+              <div class="eac-errors">{{ form.errors | default_errors }}</div>
             {%- endif -%}
+
+            <!-- HONEYPOT anti-spam -->
+            <div class="eac-hp" aria-hidden="true">
+              <label for="eac-hp-{{ sid }}">Leave this field empty</label>
+              <input type="text" id="eac-hp-{{ sid }}" name="contact[body_extra]" tabindex="-1" autocomplete="off" value="">
+            </div>
 
             <div class="eac-group">
               <label class="eac-field-label" for="eac-name-{{ sid }}">
-                {{ s.label_name | default: 'Name' }}
+                {{ 'everart_contact.label_name' | t }}
               </label>
-              <input
-                class="eac-in"
-                id="eac-name-{{ sid }}"
-                type="text"
-                name="contact[name]"
-                value="{{ form.name }}"
-                placeholder="{{ s.ph_name | default: 'Your name' }}"
-                autocomplete="name"
-              >
+              <input class="eac-in" id="eac-name-{{ sid }}" type="text"
+                name="contact[name]" value="{{ form.name }}"
+                placeholder="{{ 'everart_contact.ph_name' | t }}"
+                autocomplete="name">
             </div>
 
             <div class="eac-group">
               <label class="eac-field-label" for="eac-email-{{ sid }}">
-                {{ s.label_email | default: 'Email' }} *
+                {{ 'everart_contact.label_email' | t }} *
               </label>
-              <input
-                class="eac-in"
-                id="eac-email-{{ sid }}"
-                type="email"
-                name="contact[email]"
-                value="{{ form.email }}"
-                placeholder="{{ s.ph_email | default: 'Your email address' }}"
-                autocomplete="email"
-                required
-              >
+              <input class="eac-in" id="eac-email-{{ sid }}" type="email"
+                name="contact[email]" value="{{ form.email }}"
+                placeholder="{{ 'everart_contact.ph_email' | t }}"
+                autocomplete="email" required>
             </div>
 
             <div class="eac-group">
               <label class="eac-field-label" for="eac-phone-{{ sid }}">
-                {{ s.label_phone | default: 'Phone' }}
+                {{ 'everart_contact.label_phone' | t }}
               </label>
-              <input
-                class="eac-in"
-                id="eac-phone-{{ sid }}"
-                type="tel"
+              <input class="eac-in" id="eac-phone-{{ sid }}" type="tel"
                 name="contact[phone]"
-                placeholder="{{ s.ph_phone | default: 'Optional' }}"
-                autocomplete="tel"
-              >
+                placeholder="{{ 'everart_contact.ph_phone' | t }}"
+                autocomplete="tel">
             </div>
 
             <div class="eac-group">
               <label class="eac-field-label" for="eac-msg-{{ sid }}">
-                {{ s.label_message | default: 'Message' }}
+                {{ 'everart_contact.label_message' | t }}
               </label>
-              <textarea
-                class="eac-ta"
-                id="eac-msg-{{ sid }}"
-                name="contact[body]"
-                placeholder="{{ s.ph_message | default: 'Tell us what you have in mind...' }}"
-                rows="6"
-              >{{ form.body }}</textarea>
+              <textarea class="eac-ta" id="eac-msg-{{ sid }}"
+                name="contact[body]" rows="6"
+                placeholder="{{ 'everart_contact.ph_message' | t }}">{{ form.body }}</textarea>
             </div>
 
-            <button type="submit" class="eac-submit">
-              {{ s.btn_text | default: 'Send message' }}
+            <button type="submit" class="eac-submit" id="eac-btn-{{ sid }}">
+              {{ 'everart_contact.btn_text' | t }}
             </button>
 
           {%- endform -%}
@@ -293,24 +189,21 @@
               <p><a href="mailto:{{ s.info_email }}">{{ s.info_email }}</a></p>
             </div>
           {%- endif -%}
-
           {%- if s.info_address != blank -%}
             <div class="eac-ci-item">
-              <span class="eac-label" style="margin-bottom:8px;display:block">{{ s.label_address | default: 'Address' }}</span>
+              <span class="eac-label" style="margin-bottom:8px;display:block">{{ 'everart_contact.label_address' | t }}</span>
               <p>{{ s.info_address | newline_to_br }}</p>
             </div>
           {%- endif -%}
-
           {%- if s.info_social != blank -%}
             <div class="eac-ci-item">
-              <span class="eac-label" style="margin-bottom:8px;display:block">Social</span>
+              <span class="eac-label" style="margin-bottom:8px;display:block">{{ 'everart_contact.label_social' | t }}</span>
               <p>{{ s.info_social }}</p>
             </div>
           {%- endif -%}
-
           <div class="eac-divider">
             <span class="eac-label" style="margin-bottom:14px;display:block">
-              {{ s.coll_label | default: 'Looking for the Collection?' }}
+              {{ 'everart_contact.coll_label' | t }}
             </span>
             <a href="/collections/all" class="eac-coll-btn">Masters of Madness →</a>
           </div>
@@ -322,34 +215,30 @@
 
 </div>
 
+<script>
+(function() {
+  var form = document.getElementById('eac-form-{{ sid }}');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    var hp = form.querySelector('[name="contact[body_extra]"]');
+    if (hp && hp.value !== '') {
+      e.preventDefault();
+      return false;
+    }
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "Everart — Contact",
   "tag": "section",
   "templates": ["page"],
   "settings": [
-    { "type": "header", "content": "Page header" },
-    { "type": "text",    "id": "eyebrow",    "label": "Eyebrow",   "default": "Studio Everart" },
-    { "type": "text",    "id": "heading",    "label": "Heading",   "default": "Are you looking for incredible resin masterpieces?" },
-    { "type": "text",    "id": "subheading", "label": "Sottotitolo", "default": "Enter your name, your email, and send us a message. Our team will get back to you as soon as possible." },
-    { "type": "header", "content": "Form labels" },
-    { "type": "text",    "id": "label_name",    "label": "Label nome",    "default": "Name" },
-    { "type": "text",    "id": "label_email",   "label": "Label email",   "default": "Email" },
-    { "type": "text",    "id": "label_phone",   "label": "Label telefono","default": "Phone" },
-    { "type": "text",    "id": "label_message", "label": "Label messaggio","default": "Message" },
-    { "type": "header", "content": "Form placeholders" },
-    { "type": "text",    "id": "ph_name",    "label": "Placeholder nome",    "default": "Your name" },
-    { "type": "text",    "id": "ph_email",   "label": "Placeholder email",   "default": "Your email address" },
-    { "type": "text",    "id": "ph_phone",   "label": "Placeholder telefono","default": "Optional" },
-    { "type": "text",    "id": "ph_message", "label": "Placeholder messaggio","default": "Tell us what you have in mind..." },
-    { "type": "text",    "id": "btn_text",   "label": "Testo bottone",       "default": "Send message" },
-    { "type": "text",    "id": "success_msg","label": "Messaggio successo",  "default": "Message sent. We will get back to you shortly." },
-    { "type": "header", "content": "Colonna info" },
-    { "type": "text",    "id": "info_email",   "label": "Email di contatto", "default": "info@studioeverart.com" },
-    { "type": "text",    "id": "label_address","label": "Label indirizzo",   "default": "Address" },
-    { "type": "textarea","id": "info_address", "label": "Indirizzo",         "default": "Everart Studio\nVia Carlo Pisacane 28\n81030 — Parete (CE)\nItaly" },
-    { "type": "text",    "id": "info_social",  "label": "Social (testo libero)", "default": "Instagram · Facebook" },
-    { "type": "text",    "id": "coll_label",   "label": "Label link collezione", "default": "Looking for the Collection?" }
+    { "type": "header",   "content": "Colonna info" },
+    { "type": "text",     "id": "info_email",   "label": "Email di contatto", "default": "info@studioeverart.com" },
+    { "type": "textarea", "id": "info_address", "label": "Indirizzo",         "default": "Everart Studio\nVia Carlo Pisacane 28\n81030 — Parete (CE)\nItaly" },
+    { "type": "text",     "id": "info_social",  "label": "Social (testo)",    "default": "Instagram · Facebook" }
   ],
   "presets": [{ "name": "Everart — Contact" }]
 }

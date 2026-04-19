@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "blocks": {
     "load_video": "Cargar video: {{ description }}",
@@ -346,5 +355,23 @@
       "success_moderated": "Comentario publicado y a la espera de moderación",
       "success": "Comentario publicado"
     }
+  },
+  "everart_contact": {
+    "eyebrow": "Studio Everart",
+    "heading": "¿Buscas obras maestras en resina extraordinarias?",
+    "subheading": "Introduce tu nombre, tu email y envíanos un mensaje. Nuestro equipo te responderá lo antes posible.",
+    "label_name": "Nombre",
+    "label_email": "Email",
+    "label_phone": "Teléfono",
+    "label_message": "Mensaje",
+    "ph_name": "Tu nombre",
+    "ph_email": "Tu dirección de email",
+    "ph_phone": "Opcional",
+    "ph_message": "Cuéntanos qué tienes en mente...",
+    "btn_text": "Enviar mensaje",
+    "success": "Mensaje enviado. Te responderemos en breve.",
+    "label_address": "Dirección",
+    "label_social": "Redes sociales",
+    "coll_label": "¿Buscas la Colección?"
   }
 }

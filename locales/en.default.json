@@ -368,4 +368,23 @@
       "sticky_add_to_cart": "Quick add to cart bar"
     }
   }
+,
+  "everart_contact": {
+      "eyebrow": "Studio Everart",
+      "heading": "Are you looking for incredible resin masterpieces?",
+      "subheading": "Enter your name, your email, and send us a message. Our team will get back to you as soon as possible.",
+      "label_name": "Name",
+      "label_email": "Email",
+      "label_phone": "Phone",
+      "label_message": "Message",
+      "ph_name": "Your name",
+      "ph_email": "Your email address",
+      "ph_phone": "Optional",
+      "ph_message": "Tell us what you have in mind...",
+      "btn_text": "Send message",
+      "success": "Message sent. We will get back to you shortly.",
+      "label_address": "Address",
+      "label_social": "Social",
+      "coll_label": "Looking for the Collection?"
+  }
 }
