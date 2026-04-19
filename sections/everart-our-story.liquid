@@ -1,0 +1,338 @@
+{%- assign s = section.settings -%}
+{%- assign sid = section.id -%}
+
+<style>
+#eos-{{ sid }} {
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  background: #0a0a0a;
+}
+
+/* ── PAGE HERO ── */
+#eos-{{ sid }} .eos-hero {
+  background: #212121;
+  border-bottom: 1px solid #2a2a2a;
+  min-height: 52vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 80px;
+}
+#eos-{{ sid }} .eos-hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+#eos-{{ sid }} .eos-label {
+  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+  color: #888888; font-weight: 500; display: block; margin-bottom: 14px;
+}
+#eos-{{ sid }} .eos-hero h1 {
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 800; letter-spacing: -.03em; line-height: 1.0;
+  color: #ffffff; margin: 0; max-width: 800px;
+}
+
+/* ── SECTION SHARED ── */
+#eos-{{ sid }} .eos-section {
+  padding: 112px 48px;
+}
+#eos-{{ sid }} .eos-section-surf {
+  padding: 96px 48px;
+  background: #212121;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+}
+#eos-{{ sid }} .eos-wrap { max-width: 1200px; margin: 0 auto; }
+
+/* ── TWO-COL ORIGIN / MANIFESTO ── */
+#eos-{{ sid }} .eos-grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: start;
+}
+#eos-{{ sid }} .eos-section-label {
+  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+  color: #888888; font-weight: 500; margin-bottom: 20px; display: block;
+}
+#eos-{{ sid }} .eos-origin-h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1; letter-spacing: -.02em;
+  color: #ffffff; margin-bottom: 28px; font-weight: 700;
+}
+#eos-{{ sid }} .eos-origin-p {
+  font-size: 15px; color: #b8b5b0; line-height: 1.85; font-weight: 400;
+  margin-bottom: 20px;
+}
+#eos-{{ sid }} .eos-origin-p:last-of-type { margin-bottom: 0; }
+
+/* ── MANIFESTO CARDS ── */
+#eos-{{ sid }} .eos-manifesto-stack {
+  display: flex; flex-direction: column; gap: 1px;
+  background: #2a2a2a;
+}
+#eos-{{ sid }} .eos-manifesto-item {
+  background: #212121; padding: 28px 32px;
+}
+#eos-{{ sid }} .eos-manifesto-num {
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: #888888; margin-bottom: 10px; display: block; font-weight: 500;
+}
+#eos-{{ sid }} .eos-manifesto-title {
+  font-size: 15px; font-weight: 600; color: #ffffff; margin-bottom: 8px;
+}
+#eos-{{ sid }} .eos-manifesto-desc {
+  font-size: 13px; color: #b8b5b0; line-height: 1.75; font-weight: 400;
+}
+
+/* ── COLLECTION HEADER ── */
+#eos-{{ sid }} .eos-coll-head {
+  text-align: center; margin-bottom: 56px;
+}
+#eos-{{ sid }} .eos-coll-head h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700; letter-spacing: -.02em; line-height: 1.05;
+  color: #ffffff; margin-top: 14px;
+}
+#eos-{{ sid }} .eos-coll-desc {
+  max-width: 540px; margin: 16px auto 0;
+  font-size: 14px; color: #b8b5b0; line-height: 1.85; font-weight: 400;
+}
+
+/* ── CHAPTER GRID ── */
+#eos-{{ sid }} .eos-chapter-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: #2a2a2a;
+}
+#eos-{{ sid }} .eos-chapter-card {
+  background: #0a0a0a; padding: 40px 32px;
+  transition: background .2s;
+}
+#eos-{{ sid }} .eos-chapter-card:hover { background: #1a1a1a; }
+#eos-{{ sid }} .eos-chapter-badge {
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 12px; display: block;
+}
+#eos-{{ sid }} .eos-chapter-badge.available { color: #8b1a1a; }
+#eos-{{ sid }} .eos-chapter-badge.coming { color: #888888; }
+#eos-{{ sid }} .eos-chapter-name {
+  font-size: 22px; font-weight: 700; color: #ffffff;
+  margin-bottom: 8px; letter-spacing: -.01em;
+}
+#eos-{{ sid }} .eos-chapter-desc {
+  font-size: 13px; color: #b8b5b0; line-height: 1.75;
+  margin-bottom: 20px; font-weight: 400;
+}
+#eos-{{ sid }} .eos-chapter-link {
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  font-weight: 700; padding-bottom: 3px; display: inline-block;
+}
+#eos-{{ sid }} .eos-chapter-link.available {
+  color: #ffffff; border-bottom: 1px solid #8b1a1a;
+}
+#eos-{{ sid }} .eos-chapter-link.coming {
+  color: #888888; border-bottom: 1px solid #2a2a2a;
+}
+
+/* ── NEWSLETTER ── */
+#eos-{{ sid }} .eos-newsletter {
+  padding: 96px 48px;
+  background: #212121;
+  border-top: 1px solid #2a2a2a;
+}
+#eos-{{ sid }} .eos-nl-inner {
+  max-width: 540px; margin: 0 auto; text-align: center;
+}
+#eos-{{ sid }} .eos-nl-inner h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700; letter-spacing: -.02em; color: #ffffff;
+  margin-bottom: 12px;
+}
+#eos-{{ sid }} .eos-nl-inner p {
+  font-size: 14px; color: #b8b5b0; line-height: 1.85; margin-bottom: 32px;
+}
+#eos-{{ sid }} .eos-nl-row {
+  display: flex; max-width: 420px; margin: 0 auto;
+}
+#eos-{{ sid }} .eos-nl-in {
+  flex: 1; background: #0a0a0a; border: 1px solid #2a2a2a;
+  border-right: none; padding: 14px 18px;
+  color: #ffffff; font-size: 13px; outline: none;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400; -webkit-appearance: none; border-radius: 0;
+}
+#eos-{{ sid }} .eos-nl-in::placeholder { color: #888888; }
+#eos-{{ sid }} .eos-nl-btn {
+  background: #8b1a1a; color: #ffffff; border: none;
+  padding: 14px 22px; font-size: 9.5px; letter-spacing: .22em;
+  text-transform: uppercase; font-weight: 700; cursor: pointer;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  transition: background .2s;
+}
+#eos-{{ sid }} .eos-nl-btn:hover { background: #a52020; }
+#eos-{{ sid }} .eos-nl-disc {
+  font-size: 10px; color: #666666; margin-top: 12px; letter-spacing: .04em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 767px) {
+  #eos-{{ sid }} .eos-hero { padding: 80px 20px 56px; min-height: auto; }
+  #eos-{{ sid }} .eos-section { padding: 60px 20px; }
+  #eos-{{ sid }} .eos-section-surf { padding: 60px 20px; }
+  #eos-{{ sid }} .eos-newsletter { padding: 60px 20px; }
+  #eos-{{ sid }} .eos-grid-2 { grid-template-columns: 1fr; gap: 48px; }
+  #eos-{{ sid }} .eos-chapter-grid { grid-template-columns: 1fr; }
+  #eos-{{ sid }} .eos-nl-row { flex-direction: column; gap: 8px; }
+  #eos-{{ sid }} .eos-nl-in,
+  #eos-{{ sid }} .eos-nl-btn { width: 100%; border-right: 1px solid #2a2a2a; }
+}
+</style>
+
+<div id="eos-{{ sid }}">
+
+  <!-- HERO -->
+  <div class="eos-hero">
+    <div class="eos-hero-inner">
+      <span class="eos-label">{{ s.hero_label }}</span>
+      <h1>{{ s.hero_heading }}</h1>
+    </div>
+  </div>
+
+  <!-- ORIGIN + MANIFESTO -->
+  <div class="eos-section">
+    <div class="eos-wrap">
+      <div class="eos-grid-2">
+
+        <!-- Origin -->
+        <div>
+          <span class="eos-section-label">{{ s.origin_label }}</span>
+          <h2 class="eos-origin-h2">{{ s.origin_heading }}</h2>
+          <p class="eos-origin-p">{{ s.origin_p1 }}</p>
+          <p class="eos-origin-p">{{ s.origin_p2 }}</p>
+          <p class="eos-origin-p">{{ s.origin_p3 }}</p>
+        </div>
+
+        <!-- Manifesto -->
+        <div>
+          <span class="eos-section-label">{{ s.manifesto_label }}</span>
+          <div class="eos-manifesto-stack">
+            <div class="eos-manifesto-item">
+              <span class="eos-manifesto-num">01</span>
+              <div class="eos-manifesto-title">{{ s.manifesto_1_title }}</div>
+              <p class="eos-manifesto-desc">{{ s.manifesto_1_desc }}</p>
+            </div>
+            <div class="eos-manifesto-item">
+              <span class="eos-manifesto-num">02</span>
+              <div class="eos-manifesto-title">{{ s.manifesto_2_title }}</div>
+              <p class="eos-manifesto-desc">{{ s.manifesto_2_desc }}</p>
+            </div>
+            <div class="eos-manifesto-item">
+              <span class="eos-manifesto-num">03</span>
+              <div class="eos-manifesto-title">{{ s.manifesto_3_title }}</div>
+              <p class="eos-manifesto-desc">{{ s.manifesto_3_desc }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLECTION GRID -->
+  <div class="eos-section-surf">
+    <div class="eos-wrap">
+      <div class="eos-coll-head">
+        <span class="eos-section-label">{{ s.coll_label }}</span>
+        <h2>{{ s.coll_heading }}</h2>
+        <p class="eos-coll-desc">{{ s.coll_desc }}</p>
+      </div>
+      <div class="eos-chapter-grid">
+        <div class="eos-chapter-card">
+          <span class="eos-chapter-badge available">{{ s.ch1_badge }}</span>
+          <div class="eos-chapter-name">{{ s.ch1_name }}</div>
+          <p class="eos-chapter-desc">{{ s.ch1_desc }}</p>
+          <a href="{{ s.ch1_url }}" class="eos-chapter-link available">{{ s.ch1_cta }} →</a>
+        </div>
+        <div class="eos-chapter-card">
+          <span class="eos-chapter-badge coming">{{ s.ch2_badge }}</span>
+          <div class="eos-chapter-name">{{ s.ch2_name }}</div>
+          <p class="eos-chapter-desc">{{ s.ch2_desc }}</p>
+          <span class="eos-chapter-link coming">{{ s.ch2_cta }} →</span>
+        </div>
+        <div class="eos-chapter-card">
+          <span class="eos-chapter-badge coming">{{ s.ch3_badge }}</span>
+          <div class="eos-chapter-name">{{ s.ch3_name }}</div>
+          <p class="eos-chapter-desc">{{ s.ch3_desc }}</p>
+          <span class="eos-chapter-link coming">{{ s.ch3_cta }} →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="eos-newsletter">
+    <div class="eos-nl-inner">
+      <span class="eos-label">{{ s.nl_label }}</span>
+      <h2>{{ s.nl_heading }}</h2>
+      <p>{{ s.nl_desc }}</p>
+      {%- form 'customer', id: 'eos-nl-form-{{ sid }}' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,our-story">
+        <div class="eos-nl-row">
+          <input class="eos-nl-in" type="email" name="contact[email]"
+            placeholder="{{ s.nl_placeholder }}" required autocomplete="email">
+          <button type="submit" class="eos-nl-btn">{{ s.nl_btn }}</button>
+        </div>
+        <div class="eos-nl-disc">{{ s.nl_disclaimer }}</div>
+      {%- endform -%}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Everart — Our Story",
+  "tag": "section",
+  "templates": ["page"],
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_label",   "label": "Eyebrow",  "default": "Studio Everart — Parete, Italia" },
+    { "type": "text", "id": "hero_heading", "label": "Headline", "default": "We don't collect stories. We make them real." },
+
+    { "type": "header", "content": "The Origin" },
+    { "type": "text",     "id": "origin_label",   "label": "Label",    "default": "The Origin" },
+    { "type": "text",     "id": "origin_heading",  "label": "Heading",  "default": "Born from the gap between the shelves and the imagination." },
+    { "type": "textarea", "id": "origin_p1", "label": "Paragraph 1", "default": "We are two people with a shared obsession: the golden era of horror literature. Lovecraft, Shelley, Stoker — authors who wrote the monsters that still follow us, centuries later." },
+    { "type": "textarea", "id": "origin_p2", "label": "Paragraph 2", "default": "For years, as collectors ourselves, we searched the market for a statue that truly honored these writers. Not their creatures. Not a film adaptation. Them — their madness, their vision, their mythology." },
+    { "type": "textarea", "id": "origin_p3", "label": "Paragraph 3", "default": "It didn't exist. So we built it." },
+
+    { "type": "header", "content": "Manifesto" },
+    { "type": "text", "id": "manifesto_label",   "label": "Label",   "default": "The Manifesto" },
+    { "type": "text", "id": "manifesto_1_title", "label": "01 Title", "default": "Original IP. No licenses." },
+    { "type": "textarea", "id": "manifesto_1_desc", "label": "01 Description", "default": "We are not dependent on franchises or third-party permissions. Every subject we choose is in the public domain — real literature, the kind that doesn't expire." },
+    { "type": "text", "id": "manifesto_2_title", "label": "02 Title", "default": "Story before object." },
+    { "type": "textarea", "id": "manifesto_2_desc", "label": "02 Description", "default": "Every statue starts with a narrative question: what is the moment that defined this person's place in history? We build around that answer." },
+    { "type": "text", "id": "manifesto_3_title", "label": "03 Title", "default": "Limited editions. Permanently." },
+    { "type": "textarea", "id": "manifesto_3_desc", "label": "03 Description", "default": "100 pieces. Numbered. When they are gone, they are gone. No reprint, no discounted second run. This is the pact we make with every collector who trusts us with their number." },
+
+    { "type": "header", "content": "Collection Grid" },
+    { "type": "text", "id": "coll_label",   "label": "Label",       "default": "The Collection" },
+    { "type": "text", "id": "coll_heading", "label": "Heading",     "default": "Masters of Madness" },
+    { "type": "textarea", "id": "coll_desc", "label": "Description", "default": "Three authors. Three statues. Three chapters of a collection that has never existed before — and never will again, in the same form." },
+    { "type": "text", "id": "ch1_badge", "label": "Chapter I — Badge",  "default": "Chapter I — Available" },
+    { "type": "text", "id": "ch1_name",  "label": "Chapter I — Name",   "default": "H.P. Lovecraft" },
+    { "type": "textarea", "id": "ch1_desc", "label": "Chapter I — Description", "default": "The father of cosmic horror. His paranoia, his universe, his statue — 42cm of narrative in hand-painted polystone." },
+    { "type": "text",    "id": "ch1_cta",  "label": "Chapter I — CTA",  "default": "Discover" },
+    { "type": "url",     "id": "ch1_url",  "label": "Chapter I — URL",  "default": "/collections/all" },
+    { "type": "text", "id": "ch2_badge", "label": "Chapter II — Badge", "default": "Chapter II — Coming 2026" },
+    { "type": "text", "id": "ch2_name",  "label": "Chapter II — Name",  "default": "Mary Shelley" },
+    { "type": "textarea", "id": "ch2_desc", "label": "Chapter II — Description", "default": "The mother of all monsters. Frankenstein wasn't a creature — it was a mirror. The second statue in the collection explores that truth." },
+    { "type": "text",    "id": "ch2_cta",  "label": "Chapter II — CTA", "default": "Preview" },
+    { "type": "text", "id": "ch3_badge", "label": "Chapter III — Badge","default": "Chapter III — Coming 2026" },
+    { "type": "text", "id": "ch3_name",  "label": "Chapter III — Name", "default": "Bram Stoker" },
+    { "type": "textarea", "id": "ch3_desc", "label": "Chapter III — Description", "default": "He wasn't a vampire. He was Count Dracula. Stoker built a myth that outlived its author by one hundred and thirty years." },
+    { "type": "text",    "id": "ch3_cta",  "label": "Chapter III — CTA","default": "Preview" },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text",     "id": "nl_label",       "label": "Label",       "default": "Join the list" },
+    { "type": "text",     "id": "nl_heading",      "label": "Heading",     "default": "Follow the collection." },
+    { "type": "textarea", "id": "nl_desc",         "label": "Description", "default": "Exclusive updates on upcoming releases. Priority access before any public announcement." },
+    { "type": "text",     "id": "nl_placeholder",  "label": "Input placeholder", "default": "Your email address" },
+    { "type": "text",     "id": "nl_btn",          "label": "Button text",  "default": "Subscribe" },
+    { "type": "text",     "id": "nl_disclaimer",   "label": "Disclaimer",   "default": "No spam. Unsubscribe anytime." }
+  ],
+  "presets": [{ "name": "Everart — Our Story" }]
+}
+{% endschema %}
