@@ -300,15 +300,15 @@
           if b.price != blank
             assign card_price = b.price
           elsif p != blank
-            assign card_price = p.price | money
+            assign card_price = p.variants.first.price | money
           else
             assign card_price = ''
           endif
 
           if b.compare_price != blank
             assign card_compare_price = b.compare_price
-          elsif p != blank and p.compare_at_price > p.price
-            assign card_compare_price = p.compare_at_price | money
+          elsif p != blank and p.variants.first.compare_at_price > p.variants.first.price
+            assign card_compare_price = p.variants.first.compare_at_price | money
           else
             assign card_compare_price = ''
           endif

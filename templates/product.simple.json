@@ -16,21 +16,21 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Product Details",
-            "content": ""
+            "content": "<p>An ancient tome bound in flesh and madness. This exclusive Necronomicon collectible merges grotesque detail with mythic craftsmanship. Veins, claws, and tentacles writhe across its cursed cover, guarding the secrets of forgotten dimensions. A true relic for collectors of the arcane.</p><p><strong>Material:</strong> High-density polystone<br><strong>Painting:</strong> Hand-painted by professional artists<br><strong>Classic size:</strong> H. 12 cm<br><strong>Large size:</strong> H. 20 cm<br><strong>Finish:</strong> Matte with aged patina detailing</p><p>Part of the H.P. Lovecraft Forbidden Edition universe — designed as a companion piece to Chapter I of the Masters of Madness collection.</p>"
           }
         },
         "acc-2": {
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": ""
+            "content": "<p>Expected delivery early June 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
             "heading": "Refund Policy",
-            "content": ""
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p>"
           }
         }
       },
