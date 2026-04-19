@@ -23,7 +23,7 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Expected delivery early June 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p>"
+            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p>"
           }
         },
         "acc-3": {
@@ -42,9 +42,6 @@
       "settings": {
         "collection_label": "",
         "subtitle": "",
-        "details_title": "Details",
-        "price_label": "Price",
-        "save_note": "",
         "btn_text": "Add to Cart",
         "atc_note": "",
         "secondary_btn_text": "",
