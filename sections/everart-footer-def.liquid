@@ -164,33 +164,73 @@
 }
 #eafoot-{{ sid }} a.ef-legal-text:hover { opacity: 1; color: #ffffff; }
 
-/* ── LANGUAGE SWITCHER ── */
-#eafoot-{{ sid }} .ef-lang-switcher {
+/* ── LANGUAGE DROPDOWN ── */
+#eafoot-{{ sid }} .ef-lang-dropdown {
+  position: relative;
+}
+#eafoot-{{ sid }} .ef-lang-trigger {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-#eafoot-{{ sid }} .ef-lang-btn {
+  gap: 8px;
   font-family: 'Inter', sans-serif;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: #888888;
-  text-decoration: none;
-  padding: 4px 10px;
+  background: transparent;
   border: 1px solid #2a2a2a;
-  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
   transition: color .2s, border-color .2s;
   white-space: nowrap;
 }
-#eafoot-{{ sid }} .ef-lang-form { display: inline; margin: 0; padding: 0; }
-#eafoot-{{ sid }} .ef-lang-btn:hover,
-#eafoot-{{ sid }} .ef-lang-btn.active {
+#eafoot-{{ sid }} .ef-lang-trigger:hover {
   color: #ffffff;
   border-color: #555555;
 }
+#eafoot-{{ sid }} .ef-lang-trigger svg {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+#eafoot-{{ sid }} .ef-lang-dropdown.open .ef-lang-trigger svg {
+  transform: rotate(180deg);
+}
+#eafoot-{{ sid }} .ef-lang-list {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  min-width: 160px;
+  z-index: 200;
+}
+#eafoot-{{ sid }} .ef-lang-dropdown.open .ef-lang-list {
+  display: block;
+}
+#eafoot-{{ sid }} .ef-lang-form { display: block; margin: 0; padding: 0; }
+#eafoot-{{ sid }} .ef-lang-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #888888;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color .15s, background .15s;
+}
+#eafoot-{{ sid }} .ef-lang-opt:hover { color: #ffffff; background: #212121; }
+#eafoot-{{ sid }} .ef-lang-opt.active { color: #ffffff; }
 
 /* ── RIGHT COLUMN (immagine) ── */
 #eafoot-{{ sid }} .ef-right {
@@ -333,16 +373,27 @@
           {%- endif -%}
         </div>
         {%- if localization.available_languages.size > 1 -%}
-          <div class="ef-lang-switcher">
-            {%- for lang in localization.available_languages -%}
-              {%- assign is_active = false -%}
-              {%- if lang.iso_code == localization.language.iso_code -%}{%- assign is_active = true -%}{%- endif -%}
-              {%- form 'localization', class: 'ef-lang-form' -%}
-                <input type="hidden" name="locale_code" value="{{ lang.iso_code }}">
-                <input type="hidden" name="return_to" value="{{ request.path }}">
-                <button type="submit" class="ef-lang-btn{% if is_active %} active{% endif %}">{{ lang.endonym_name }}</button>
-              {%- endform -%}
-            {%- endfor -%}
+          <div class="ef-lang-dropdown" id="ef-lang-dd-{{ sid }}">
+            <button class="ef-lang-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"
+              onclick="(function(btn){var dd=btn.closest('.ef-lang-dropdown');dd.classList.toggle('open');btn.setAttribute('aria-expanded', dd.classList.contains('open'))})(this)">
+              {{ localization.language.endonym_name }}
+              <svg viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l5 6 5-6z"/></svg>
+            </button>
+            <div class="ef-lang-list" role="listbox">
+              {%- for lang in localization.available_languages -%}
+                {%- assign is_active = false -%}
+                {%- if lang.iso_code == localization.language.iso_code -%}
+                  {%- assign is_active = true -%}
+                {%- endif -%}
+                {%- form 'localization', class: 'ef-lang-form' -%}
+                  <input type="hidden" name="locale_code" value="{{ lang.iso_code }}">
+                  <input type="hidden" name="return_to" value="{{ request.path }}">
+                  <button type="submit" class="ef-lang-opt{% if is_active %} active{% endif %}" role="option" aria-selected="{{ is_active }}">
+                    {{ lang.endonym_name }}
+                  </button>
+                {%- endform -%}
+              {%- endfor -%}
+            </div>
           </div>
         {%- endif -%}
 
@@ -379,6 +430,20 @@
 
   </div>
 </footer>
+
+<script>
+(function() {
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.ef-lang-dropdown.open').forEach(function(dd) {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('open');
+        var btn = dd.querySelector('.ef-lang-trigger');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
