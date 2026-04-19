@@ -1,7 +1,8 @@
 {%- comment -%}
-  EverArt Collection Intro — v1
+  EverArt Collection Intro — v2
   Header visivo sopra la griglia prodotti di Horizon.
   Layout: sfondo scuro · label · titolo grande · descrizione
+  v2: supporto immagine desktop/mobile + overlay colore/opacità
 {%- endcomment -%}
 
 {%- liquid
@@ -17,10 +18,23 @@
   border-bottom: 1px solid #2a2a2a;
   padding: 100px 48px 80px;
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+#eaci-{{ sid }} .eci-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+#eaci-{{ sid }} .eci-bg img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+#eaci-{{ sid }} .eci-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
 }
 #eaci-{{ sid }} .eci-inner {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 #eaci-{{ sid }} .eci-label {
   font-size: 10px;
@@ -54,6 +68,19 @@
 </style>
 
 <div id="eaci-{{ sid }}">
+  {%- if s.hero_image_desktop != blank or s.hero_image_mobile != blank -%}
+    <div class="eci-bg">
+      <picture>
+        {%- if s.hero_image_mobile != blank -%}
+          <source media="(max-width: 767px)" srcset="{{ s.hero_image_mobile | image_url: width: 800 }}">
+        {%- endif -%}
+        {%- assign _img = s.hero_image_desktop | default: s.hero_image_mobile -%}
+        {{ _img | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', alt: '' }}
+      </picture>
+    </div>
+  {%- endif -%}
+  {%- assign _opa = s.overlay_opacity | default: 40 | times: 1.0 | divided_by: 100 -%}
+  <div class="eci-overlay" style="background-color: {{ s.overlay_color | default: '#000000' }}; opacity: {{ _opa }};"></div>
   <div class="eci-inner">
     {%- if s.label != blank -%}
       <span class="eci-label">{{ s.label }}</span>
@@ -90,7 +117,12 @@
       "id": "description",
       "label": "Descrizione",
       "default": "Each piece captures the essence of a great master of Horror and Gothic literature. Crafted with exquisite detail and narrative precision. Once gone, forever."
-    }
+    },
+    { "type": "header", "content": "Hero Image" },
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Image — Desktop" },
+    { "type": "image_picker", "id": "hero_image_mobile",  "label": "Image — Mobile" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 }
   ]
 }
 {% endschema %}

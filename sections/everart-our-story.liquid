@@ -15,8 +15,19 @@
   display: flex;
   align-items: flex-end;
   padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
 }
-#eos-{{ sid }} .eos-hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+#eos-{{ sid }} .eos-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+#eos-{{ sid }} .eos-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+#eos-{{ sid }} .eos-hero-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+#eos-{{ sid }} .eos-hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
 #eos-{{ sid }} .eos-label {
   font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
   color: #888888; font-weight: 500; display: block; margin-bottom: 14px;
@@ -184,6 +195,19 @@
 
   <!-- HERO -->
   <div class="eos-hero">
+    {%- if s.hero_image_desktop != blank or s.hero_image_mobile != blank -%}
+      <div class="eos-hero-bg">
+        <picture>
+          {%- if s.hero_image_mobile != blank -%}
+            <source media="(max-width: 767px)" srcset="{{ s.hero_image_mobile | image_url: width: 800 }}">
+          {%- endif -%}
+          {%- assign _img = s.hero_image_desktop | default: s.hero_image_mobile -%}
+          {{ _img | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', alt: '' }}
+        </picture>
+      </div>
+    {%- endif -%}
+    {%- assign _opa = s.overlay_opacity | default: 40 | times: 1.0 | divided_by: 100 -%}
+    <div class="eos-hero-overlay" style="background-color: {{ s.overlay_color | default: '#000000' }}; opacity: {{ _opa }};"></div>
     <div class="eos-hero-inner">
       <span class="eos-label">{{ s.hero_label }}</span>
       <h1>{{ s.hero_heading }}</h1>
@@ -290,6 +314,11 @@
     { "type": "header", "content": "Hero" },
     { "type": "text", "id": "hero_label",   "label": "Eyebrow",  "default": "Studio Everart — Parete, Italia" },
     { "type": "text", "id": "hero_heading", "label": "Headline", "default": "We don't collect stories. We make them real." },
+    { "type": "header", "content": "Hero Image" },
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Image — Desktop" },
+    { "type": "image_picker", "id": "hero_image_mobile",  "label": "Image — Mobile" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
 
     { "type": "header", "content": "The Origin" },
     { "type": "text",     "id": "origin_label",   "label": "Label",    "default": "The Origin" },
