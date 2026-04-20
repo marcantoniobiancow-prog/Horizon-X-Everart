@@ -59,7 +59,7 @@
 /* ── CARD ── */
 #eacs-{{ sid }} .ecs-card {
   position: relative;
-  min-height: 480px;
+  aspect-ratio: 1/1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -78,7 +78,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform .8s ease;
 }
+@media (hover: hover) {
+  #eacs-{{ sid }} .ecs-card:hover .ecs-card-img img { transform: scale(1.005); }
+}
+#eacs-{{ sid }} .ecs-card.ea-zoom .ecs-card-img img { transform: scale(1.005); }
 #eacs-{{ sid }} .ecs-overlay {
   position: absolute;
   inset: 0;
@@ -92,8 +97,9 @@
 }
 #eacs-{{ sid }} .ecs-tag {
   display: inline-block;
-  border: 1px solid #8b1a1a;
-  color: #8b1a1a;
+  background: #8b1a1a;
+  color: #ffffff;
+  border: none;
   font-size: 9px;
   letter-spacing: .24em;
   text-transform: uppercase;
@@ -137,7 +143,6 @@
 @media (max-width: 767px) {
   #eacs-{{ sid }} .ecs-head { padding: 60px 24px 48px; }
   #eacs-{{ sid }} .ecs-grid { grid-template-columns: 1fr; }
-  #eacs-{{ sid }} .ecs-card { min-height: 380px; }
   #eacs-{{ sid }} .ecs-body { padding: 32px 28px; }
   #eacs-{{ sid }} .ecs-name { font-size: 28px; }
 }
@@ -206,6 +211,24 @@
   </div>
 
 </div>
+
+<script>
+(function(){
+  if (window.matchMedia('(hover: none)').matches) {
+    var cards = document.querySelectorAll('#eacs-{{ sid }} .ecs-card');
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('ea-zoom');
+        } else {
+          e.target.classList.remove('ea-zoom');
+        }
+      });
+    }, { threshold: 0.3 });
+    cards.forEach(function(c){ io.observe(c); });
+  }
+})();
+</script>
 
 {% schema %}
 {
