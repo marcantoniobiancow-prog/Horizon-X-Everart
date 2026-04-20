@@ -1,0 +1,368 @@
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+#efaq-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* ── HERO ── */
+#efaq-{{ sid }} .efaq-hero {
+  background: #212121;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 100px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+#efaq-{{ sid }} .efaq-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#efaq-{{ sid }} .efaq-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#efaq-{{ sid }} .efaq-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#efaq-{{ sid }} .efaq-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+#efaq-{{ sid }} .efaq-hero-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 16px;
+  display: block;
+}
+
+#efaq-{{ sid }} .efaq-hero-title {
+  font-size: clamp(52px, 8vw, 112px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .92;
+  color: #ffffff;
+  margin: 0 0 24px;
+}
+
+#efaq-{{ sid }} .efaq-hero-sub {
+  font-size: 15px;
+  color: #888888;
+  line-height: 1.75;
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ── ANCHOR NAV ── */
+#efaq-{{ sid }} .efaq-anchors {
+  border-bottom: 1px solid #2a2a2a;
+  background: #0a0a0a;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+#efaq-{{ sid }} .efaq-anchors-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#efaq-{{ sid }} .efaq-anchors-inner::-webkit-scrollbar { display: none; }
+
+#efaq-{{ sid }} .efaq-anchor-link {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #666666;
+  padding: 16px 20px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+}
+
+#efaq-{{ sid }} .efaq-anchor-link:hover,
+#efaq-{{ sid }} .efaq-anchor-link.active {
+  color: #ffffff;
+  border-bottom-color: #8b1a1a;
+}
+
+/* ── CONTENT ── */
+#efaq-{{ sid }} .efaq-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px 120px;
+}
+
+#efaq-{{ sid }} .efaq-content h2.ea-section-title {
+  font-size: clamp(11px, 1vw, 11px);
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #8b1a1a;
+  margin: 80px 0 32px;
+  padding-top: 80px;
+  border-top: 1px solid #2a2a2a;
+}
+
+#efaq-{{ sid }} .efaq-content h2.ea-section-title:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+#efaq-{{ sid }} .efaq-content h2 {
+  font-size: clamp(11px, 1vw, 11px);
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #8b1a1a;
+  margin: 80px 0 32px;
+  padding-top: 80px;
+  border-top: 1px solid #2a2a2a;
+}
+
+#efaq-{{ sid }} .efaq-content h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+#efaq-{{ sid }} .efaq-content p {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.85;
+  margin: 0 0 20px;
+  max-width: 760px;
+}
+
+#efaq-{{ sid }} .efaq-content p strong {
+  color: #ffffff;
+  font-weight: 600;
+  display: block;
+  font-size: 15px;
+  margin-bottom: 6px;
+  letter-spacing: -.01em;
+}
+
+#efaq-{{ sid }} .efaq-content p.ea-label {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #666666;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+#efaq-{{ sid }} .efaq-content p.ea-subtitle {
+  font-size: 14px;
+  color: #aaaaaa;
+  font-style: italic;
+  margin: 0 0 16px;
+}
+
+#efaq-{{ sid }} .efaq-content p.ea-cta a {
+  color: #8b1a1a;
+}
+
+#efaq-{{ sid }} .efaq-content blockquote {
+  border-left: 2px solid #8b1a1a;
+  padding: 12px 20px;
+  margin: 24px 0;
+  color: #aaaaaa;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+#efaq-{{ sid }} .efaq-content hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 48px 0;
+}
+
+#efaq-{{ sid }} .efaq-content ul,
+#efaq-{{ sid }} .efaq-content ol {
+  padding-left: 20px;
+  margin: 0 0 20px;
+  max-width: 760px;
+}
+
+#efaq-{{ sid }} .efaq-content li {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 767px) {
+  #efaq-{{ sid }} .efaq-hero { padding: 72px 24px 56px; }
+  #efaq-{{ sid }} .efaq-anchors-inner { padding: 0 24px; }
+  #efaq-{{ sid }} .efaq-body { padding: 48px 24px 80px; }
+  #efaq-{{ sid }} .efaq-anchor-link { padding: 14px 14px; font-size: 8px; }
+}
+</style>
+
+<div id="efaq-{{ sid }}">
+
+  {%- comment -%} ── HERO ── {%- endcomment -%}
+  <div class="efaq-hero">
+    {%- if s.hero_image != blank -%}
+      <div class="efaq-hero-bg">
+        {{ s.hero_image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', alt: '' }}
+      </div>
+    {%- endif -%}
+    {%- assign _opa = s.overlay_opacity | default: 60 | times: 1.0 | divided_by: 100 -%}
+    <div class="efaq-hero-overlay" style="background-color: {{ s.overlay_color | default: '#000000' }}; opacity: {{ _opa }};"></div>
+    <div class="efaq-hero-inner">
+      {%- if s.hero_label != blank -%}
+        <span class="efaq-hero-label">{{ s.hero_label }}</span>
+      {%- endif -%}
+      <h1 class="efaq-hero-title">{{ page.title }}</h1>
+      {%- if s.hero_sub != blank -%}
+        <p class="efaq-hero-sub">{{ s.hero_sub }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── ANCHOR NAV (built by JS) ── {%- endcomment -%}
+  <nav class="efaq-anchors" aria-label="FAQ sections">
+    <div class="efaq-anchors-inner" id="efaq-nav-{{ sid }}"></div>
+  </nav>
+
+  {%- comment -%} ── CONTENT ── {%- endcomment -%}
+  <div class="efaq-body">
+    <div class="efaq-content" id="efaq-content-{{ sid }}">
+      {{ page.content }}
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var sid     = '{{ sid }}';
+  var content = document.getElementById('efaq-content-' + sid);
+  var nav     = document.getElementById('efaq-nav-' + sid);
+  if (!content || !nav) return;
+
+  var headings = content.querySelectorAll('h2');
+  if (!headings.length) return;
+
+  headings.forEach(function (h, i) {
+    var slug = h.textContent.trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+    var id = 'faq-' + slug + '-' + i;
+    h.id = id;
+
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.className = 'efaq-anchor-link';
+    a.textContent = h.textContent.trim();
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.getElementById(id);
+      if (!target) return;
+      var offset = document.querySelector('#efaq-{{ sid }} .efaq-anchors');
+      var top = target.getBoundingClientRect().top + window.scrollY - (offset ? offset.offsetHeight : 0) - 24;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+    nav.appendChild(a);
+  });
+
+  // Active state on scroll
+  var links = nav.querySelectorAll('.efaq-anchor-link');
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        links.forEach(function (l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  headings.forEach(function (h) { observer.observe(h); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Immagine hero"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "hero_label",
+      "label": "Label sopra il titolo",
+      "default": "Studio Everart"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Sottotitolo",
+      "default": "Everything you need to know about our work, our editions, and our process."
+    }
+  ]
+}
+{% endschema %}
