@@ -9,6 +9,31 @@
 #emc-{{ sid }} {
   background: #0a0a0a;
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  padding-top: 0;
+}
+
+#emc-{{ sid }} .emc-head {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px 48px;
+}
+
+#emc-{{ sid }} .emc-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+#emc-{{ sid }} .emc-section-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  color: #ffffff;
+  margin: 0;
 }
 
 /* ── AUTHOR CARDS GRID ── */
@@ -21,7 +46,7 @@
 
 #emc-{{ sid }} .emc-card {
   position: relative;
-  aspect-ratio: 3/4;
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -35,6 +60,7 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: #111111;
 }
 
 #emc-{{ sid }} .emc-card-img img {
@@ -47,12 +73,12 @@
 
 @media (hover: hover) {
   #emc-{{ sid }} .emc-card:hover .emc-card-img img {
-    transform: scale(1.005);
+    transform: scale(1.03);
   }
 }
 
 #emc-{{ sid }} .emc-card.ea-zoom .emc-card-img img {
-  transform: scale(1.005);
+  transform: scale(1.03);
 }
 
 #emc-{{ sid }} .emc-overlay {
@@ -65,14 +91,14 @@
 #emc-{{ sid }} .emc-body {
   position: relative;
   z-index: 2;
-  padding: 48px 40px;
+  padding: 48px 56px;
 }
 
 #emc-{{ sid }} .emc-tag {
   display: inline-block;
-  background: #8b1a1a;
-  color: #ffffff;
-  border: none;
+  border: 1px solid #8b1a1a;
+  color: #8b1a1a;
+  background: transparent;
   font-size: 9px;
   letter-spacing: .24em;
   text-transform: uppercase;
@@ -82,7 +108,7 @@
 }
 
 #emc-{{ sid }} .emc-title {
-  font-size: 32px;
+  font-size: 40px;
   line-height: 1.0;
   font-weight: 700;
   letter-spacing: -.02em;
@@ -93,7 +119,7 @@
 #emc-{{ sid }} .emc-sub {
   font-size: 13px;
   color: #888888;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   font-weight: 400;
   font-style: italic;
 }
@@ -103,7 +129,7 @@
   background: #8b1a1a;
   color: #ffffff;
   border: none;
-  padding: 12px 24px;
+  padding: 13px 24px;
   font-size: 9px;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -118,120 +144,36 @@
   background: #a52020;
 }
 
-/* ── PRODUCTS SECTION ── */
-#emc-{{ sid }} .emc-prod-head {
-  padding: 80px 48px 48px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-#emc-{{ sid }} .emc-eyebrow {
-  font-size: 10px;
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: #888888;
-  font-weight: 500;
-  margin: 0 0 14px;
-}
-
-#emc-{{ sid }} .emc-prod-title {
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 700;
-  letter-spacing: -.02em;
-  line-height: 1.05;
-  color: #ffffff;
-  margin: 0;
-}
-
-#emc-{{ sid }} .emc-prod-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1px;
-  background: #2a2a2a;
-  padding: 0 0 80px;
-}
-
-#emc-{{ sid }} .emc-prod-card {
-  background: #0a0a0a;
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  transition: background .2s;
-}
-
-#emc-{{ sid }} .emc-prod-card:hover {
-  background: #111111;
-}
-
-#emc-{{ sid }} .emc-prod-img {
-  aspect-ratio: 1/1;
-  overflow: hidden;
-  background: #111111;
-}
-
-#emc-{{ sid }} .emc-prod-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .6s ease;
-}
-
-#emc-{{ sid }} .emc-prod-card:hover .emc-prod-img img {
-  transform: scale(1.03);
-}
-
-#emc-{{ sid }} .emc-prod-info {
-  padding: 20px 24px 28px;
-  border-top: 1px solid #2a2a2a;
-}
-
-#emc-{{ sid }} .emc-prod-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0 0 6px;
-  letter-spacing: -.01em;
-  line-height: 1.35;
-}
-
-#emc-{{ sid }} .emc-prod-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -.02em;
-}
-
-#emc-{{ sid }} .emc-prod-compare {
-  font-size: 13px;
-  color: #555555;
-  text-decoration: line-through;
-  margin-left: 8px;
-  font-weight: 400;
-}
-
 /* ── RESPONSIVE ── */
-@media (max-width: 767px) {
-  #emc-{{ sid }} .emc-authors { grid-template-columns: 1fr; }
-  #emc-{{ sid }} .emc-card { aspect-ratio: 4/5; }
-  #emc-{{ sid }} .emc-body { padding: 32px 28px; }
-  #emc-{{ sid }} .emc-title { font-size: 28px; }
-  #emc-{{ sid }} .emc-prod-head { padding: 60px 24px 36px; }
-  #emc-{{ sid }} .emc-prod-grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 1023px) {
+  #emc-{{ sid }} .emc-authors { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 479px) {
-  #emc-{{ sid }} .emc-prod-grid { grid-template-columns: 1fr; }
+@media (max-width: 767px) {
+  #emc-{{ sid }} .emc-head { padding: 60px 24px 36px; }
+  #emc-{{ sid }} .emc-authors { grid-template-columns: 1fr; }
+  #emc-{{ sid }} .emc-card { min-height: 420px; }
+  #emc-{{ sid }} .emc-body { padding: 32px 28px; }
+  #emc-{{ sid }} .emc-title { font-size: 32px; }
 }
 </style>
 
 <div id="emc-{{ sid }}">
 
-  {%- comment -%} ── AUTHOR CARDS (no heading) ── {%- endcomment -%}
+  {%- if s.section_label != blank or s.section_title != blank -%}
+    <div class="emc-head">
+      {%- if s.section_label != blank -%}
+        <p class="emc-label">{{ s.section_label }}</p>
+      {%- endif -%}
+      {%- if s.section_title != blank -%}
+        <h2 class="emc-section-title">{{ s.section_title }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
   <div class="emc-authors">
 
-    {%- comment -%} Card 1 — Lovecraft {%- endcomment -%}
+    {%- comment -%} Card 1 {%- endcomment -%}
     <a class="emc-card" href="{{ s.card1_url | default: '/pages/autore-lovecraft' }}">
       <div class="emc-card-img">
         {%- if s.card1_image != blank -%}
@@ -240,20 +182,14 @@
       </div>
       <div class="emc-overlay"></div>
       <div class="emc-body">
-        {%- if s.card1_tag != blank -%}
-          <span class="emc-tag">{{ s.card1_tag }}</span>
-        {%- endif -%}
-        <h2 class="emc-title">{{ s.card1_title | default: 'H.P. Lovecraft' | newline_to_br }}</h2>
-        {%- if s.card1_sub != blank -%}
-          <p class="emc-sub">{{ s.card1_sub }}</p>
-        {%- endif -%}
-        {%- if s.card1_btn != blank -%}
-          <span class="emc-btn">{{ s.card1_btn }}</span>
-        {%- endif -%}
+        {%- if s.card1_tag != blank -%}<span class="emc-tag">{{ s.card1_tag }}</span>{%- endif -%}
+        <div class="emc-title">{{ s.card1_title | default: 'H.P. Lovecraft' | newline_to_br }}</div>
+        {%- if s.card1_sub != blank -%}<p class="emc-sub">{{ s.card1_sub }}</p>{%- endif -%}
+        {%- if s.card1_btn != blank -%}<span class="emc-btn">{{ s.card1_btn }}</span>{%- endif -%}
       </div>
     </a>
 
-    {%- comment -%} Card 2 — Shelley {%- endcomment -%}
+    {%- comment -%} Card 2 {%- endcomment -%}
     <a class="emc-card" href="{{ s.card2_url | default: '/pages/autore-mary-shelley' }}">
       <div class="emc-card-img">
         {%- if s.card2_image != blank -%}
@@ -262,20 +198,14 @@
       </div>
       <div class="emc-overlay"></div>
       <div class="emc-body">
-        {%- if s.card2_tag != blank -%}
-          <span class="emc-tag">{{ s.card2_tag }}</span>
-        {%- endif -%}
-        <h2 class="emc-title">{{ s.card2_title | default: 'Mary Shelley' | newline_to_br }}</h2>
-        {%- if s.card2_sub != blank -%}
-          <p class="emc-sub">{{ s.card2_sub }}</p>
-        {%- endif -%}
-        {%- if s.card2_btn != blank -%}
-          <span class="emc-btn">{{ s.card2_btn }}</span>
-        {%- endif -%}
+        {%- if s.card2_tag != blank -%}<span class="emc-tag">{{ s.card2_tag }}</span>{%- endif -%}
+        <div class="emc-title">{{ s.card2_title | default: 'Mary Shelley' | newline_to_br }}</div>
+        {%- if s.card2_sub != blank -%}<p class="emc-sub">{{ s.card2_sub }}</p>{%- endif -%}
+        {%- if s.card2_btn != blank -%}<span class="emc-btn">{{ s.card2_btn }}</span>{%- endif -%}
       </div>
     </a>
 
-    {%- comment -%} Card 3 — Stoker {%- endcomment -%}
+    {%- comment -%} Card 3 {%- endcomment -%}
     <a class="emc-card" href="{{ s.card3_url | default: '/pages/autore-bram-stoker' }}">
       <div class="emc-card-img">
         {%- if s.card3_image != blank -%}
@@ -284,57 +214,14 @@
       </div>
       <div class="emc-overlay"></div>
       <div class="emc-body">
-        {%- if s.card3_tag != blank -%}
-          <span class="emc-tag">{{ s.card3_tag }}</span>
-        {%- endif -%}
-        <h2 class="emc-title">{{ s.card3_title | default: 'Bram Stoker' | newline_to_br }}</h2>
-        {%- if s.card3_sub != blank -%}
-          <p class="emc-sub">{{ s.card3_sub }}</p>
-        {%- endif -%}
-        {%- if s.card3_btn != blank -%}
-          <span class="emc-btn">{{ s.card3_btn }}</span>
-        {%- endif -%}
+        {%- if s.card3_tag != blank -%}<span class="emc-tag">{{ s.card3_tag }}</span>{%- endif -%}
+        <div class="emc-title">{{ s.card3_title | default: 'Bram Stoker' | newline_to_br }}</div>
+        {%- if s.card3_sub != blank -%}<p class="emc-sub">{{ s.card3_sub }}</p>{%- endif -%}
+        {%- if s.card3_btn != blank -%}<span class="emc-btn">{{ s.card3_btn }}</span>{%- endif -%}
       </div>
     </a>
 
   </div>
-
-  {%- comment -%} ── PRODUCTS — H.P. LOVECRAFT ── {%- endcomment -%}
-  {%- assign coll_handle = s.collection_handle | default: 'masters-of-madness' -%}
-  {%- if coll_handle == blank -%}{%- assign coll_handle = 'masters-of-madness' -%}{%- endif -%}
-  {%- assign coll = collections[coll_handle] -%}
-
-  {%- if coll != blank -%}
-    <div class="emc-prod-head">
-      {%- if s.prod_eyebrow != blank -%}
-        <p class="emc-eyebrow">{{ s.prod_eyebrow }}</p>
-      {%- endif -%}
-      {%- if s.prod_heading != blank -%}
-        <h2 class="emc-prod-title">{{ s.prod_heading }}</h2>
-      {%- endif -%}
-    </div>
-
-    <div class="emc-prod-grid">
-      {%- for product in coll.products limit: s.prod_limit -%}
-        <a class="emc-prod-card" href="{{ product.url }}">
-          <div class="emc-prod-img">
-            {%- if product.featured_image != blank -%}
-              {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
-            {%- endif -%}
-          </div>
-          <div class="emc-prod-info">
-            <p class="emc-prod-name">{{ product.title }}</p>
-            <div>
-              <span class="emc-prod-price">{{ product.price | money }}</span>
-              {%- if product.compare_at_price > product.price -%}
-                <span class="emc-prod-compare">{{ product.compare_at_price | money }}</span>
-              {%- endif -%}
-            </div>
-          </div>
-        </a>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
 
 </div>
 
@@ -355,10 +242,26 @@
 
 {% schema %}
 {
-  "name": "Masters of Madness",
+  "name": "Masters — Author Cards",
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
+    {
+      "type": "header",
+      "content": "Heading sezione"
+    },
+    {
+      "type": "text",
+      "id": "section_label",
+      "label": "Label",
+      "default": "The Masters of Madness"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Titolo",
+      "default": "The story."
+    },
     {
       "type": "header",
       "content": "Card 1 — H.P. Lovecraft"
@@ -475,37 +378,6 @@
       "id": "card3_url",
       "label": "Link",
       "default": "/pages/autore-bram-stoker"
-    },
-    {
-      "type": "header",
-      "content": "Sezione prodotti"
-    },
-    {
-      "type": "text",
-      "id": "prod_eyebrow",
-      "label": "Eyebrow",
-      "default": "H.P. Lovecraft — Chapter I"
-    },
-    {
-      "type": "text",
-      "id": "prod_heading",
-      "label": "Titolo",
-      "default": "The collection."
-    },
-    {
-      "type": "text",
-      "id": "collection_handle",
-      "label": "Collezione prodotti (handle)",
-      "default": "masters-of-madness"
-    },
-    {
-      "type": "range",
-      "id": "prod_limit",
-      "label": "Max prodotti",
-      "min": 2,
-      "max": 12,
-      "step": 1,
-      "default": 6
     }
   ]
 }
