@@ -12,10 +12,12 @@
     "everart-author-page": {
       "type": "everart-author-page",
       "settings": {
+        "hero_image": "shopify://shop_images/15465178177692816.avif",
         "hero_label": "Masters of Madness — Chapter III",
-        "hero_title": "Bram\nStoker",
+        "hero_title": "BramStoker",
         "hero_sub": "Immortality has a price.",
         "story_label": "The Story",
+        "story_image": "shopify://shop_images/Banner_BS_179031d0-68e7-4ad0-aeb3-4063e088f2a9.jpg",
         "prod_label": "The Collection",
         "prod_heading": "The collection.",
         "collection_handle": "masters-of-madness",
@@ -23,5 +25,7 @@
       }
     }
   },
-  "order": ["everart-author-page"]
+  "order": [
+    "everart-author-page"
+  ]
 }
