@@ -1,5 +1,5 @@
 {%- comment -%}
-  EverArt Payment Badges — v2
+  EverArt Payment Badges — v3
 {%- endcomment -%}
 
 {%- assign sid = section.id -%}
@@ -9,7 +9,7 @@
 #epb-{{ sid }} {
   background: #121212;
   border-top: 1px solid rgba(255,255,255,.07);
-  padding: 24px 0;
+  padding: 20px 0;
 }
 #epb-{{ sid }} .epb-wrap {
   max-width: 1200px;
@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 #epb-{{ sid }} .epb-label {
@@ -33,23 +33,34 @@
 #epb-{{ sid }} .epb-icons {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
 }
-#epb-{{ sid }} .epb-icons svg {
-  height: 22px;
-  width: auto;
-  display: block;
-  opacity: .5;
+#epb-{{ sid }} .epb-badge {
+  background: #1e1e1e;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 4px;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  opacity: .75;
   transition: opacity .2s;
 }
-#epb-{{ sid }} .epb-icons svg:hover { opacity: .85; }
+#epb-{{ sid }} .epb-badge:hover { opacity: 1; }
+#epb-{{ sid }} .epb-badge svg {
+  height: 18px;
+  width: auto;
+  display: block;
+}
 @media (max-width: 767px) {
-  #epb-{{ sid }} { padding: 20px 0; }
-  #epb-{{ sid }} .epb-wrap { padding: 0 20px; gap: 14px; }
+  #epb-{{ sid }} { padding: 18px 0; }
+  #epb-{{ sid }} .epb-wrap { padding: 0 20px; gap: 12px; }
   #epb-{{ sid }} .epb-label { width: 100%; text-align: center; }
-  #epb-{{ sid }} .epb-icons svg { height: 18px; }
+  #epb-{{ sid }} .epb-badge { height: 28px; }
+  #epb-{{ sid }} .epb-badge svg { height: 16px; }
 }
 </style>
 
@@ -59,64 +70,10 @@
       <span class="epb-label">{{ s.label }}</span>
     {%- endif -%}
     <div class="epb-icons">
-
-      <!-- Visa -->
-      <svg viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <rect width="750" height="471" rx="40" fill="#fff" fill-opacity="0"/>
-        <path d="M278 334H218L256 138H316L278 334Z" fill="white"/>
-        <path d="M524 144C512 140 493 135 470 135C411 135 369 165 369 208C368 240 398 258 421 269C445 280 453 288 453 298C453 314 433 321 414 321C388 321 374 317 351 307L342 303L332 359C347 366 374 373 402 373C464 373 506 344 506 298C506 273 490 254 457 238C435 227 421 220 421 209C421 199 433 188 459 188C481 188 497 193 510 198L517 201L524 144Z" fill="white"/>
-        <path d="M605 138H558C543 138 532 142 525 158L435 334H497L509 300H584L591 334H646L605 138ZM525 256C530 243 550 190 550 190C549 191 555 177 558 168L562 188C562 188 574 244 577 256H525Z" fill="white"/>
-        <path d="M170 138L112 278L106 249C95 214 62 176 25 156L79 334H142L232 138H170Z" fill="white"/>
-        <path d="M58 138H-4L-5 142C42 154 73 178 87 207L73 160C70 144 60 139 58 138Z" fill="white" fill-opacity=".4"/>
-      </svg>
-
-      <!-- Mastercard -->
-      <svg viewBox="0 0 152 95" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="57" cy="47.5" r="47" fill="#EB001B" fill-opacity=".9"/>
-        <circle cx="95" cy="47.5" r="47" fill="#F79E1B" fill-opacity=".9"/>
-        <path d="M76 18.5C84.7 24.9 91 34.5 91 47.5C91 60.5 84.7 70.1 76 76.5C67.3 70.1 61 60.5 61 47.5C61 34.5 67.3 24.9 76 18.5Z" fill="#FF5F00" fill-opacity=".9"/>
-      </svg>
-
-      <!-- PayPal -->
-      <svg viewBox="0 0 124 33" xmlns="http://www.w3.org/2000/svg" fill="white">
-        <path d="M10.2 1H19.6C24.4 1 27.9 3.3 27.2 8.8C26.3 15.6 22.2 18.4 16.1 18.4H13.2L11.5 28H5.5L10.2 1Z"/>
-        <path d="M23.3 1H32.7C37.5 1 41 3.3 40.3 8.8C39.4 15.6 35.3 18.4 29.2 18.4H26.3L24.6 28H18.6L23.3 1Z" opacity=".6"/>
-        <path d="M37.5 18H43.5L40.8 28H34.8L37.5 18Z" opacity=".4"/>
-        <text x="50" y="23" font-family="Arial" font-weight="700" font-size="20" fill="white">PayPal</text>
-      </svg>
-
-      <!-- Apple Pay -->
-      <svg viewBox="0 0 165 105" xmlns="http://www.w3.org/2000/svg">
-        <rect width="165" height="105" rx="12" fill="white" fill-opacity=".05"/>
-        <path d="M43.5 35.5C41.5 37.8 38.2 39.6 35 39.3C34.6 36.1 36.2 32.7 38 30.7C40 28.4 43.6 26.7 46.5 26.6C46.8 29.9 45.4 33.1 43.5 35.5ZM46.4 40.3C42 40 38.2 42.8 36.1 42.8C34 42.8 30.8 40.4 27.3 40.5C22.8 40.6 18.7 43.1 16.4 47.1C11.8 55.1 15.1 66.9 19.6 73.3C21.8 76.5 24.5 80 28 79.9C31.3 79.8 32.7 77.7 36.7 77.7C40.8 77.7 42 79.9 45.5 79.8C49.1 79.7 51.5 76.6 53.7 73.4C56.2 69.8 57.2 66.3 57.2 66.1C57.1 66.1 50.1 63.5 50 55.4C49.9 48.6 55.5 45.4 55.7 45.2C52.5 40.5 47.5 40.3 46.4 40.3Z" fill="white"/>
-        <text x="70" y="68" font-family="-apple-system, Arial" font-weight="600" font-size="28" fill="white">Pay</text>
-      </svg>
-
-      <!-- Google Pay -->
-      <svg viewBox="0 0 180 72" xmlns="http://www.w3.org/2000/svg">
-        <text x="0" y="54" font-family="Arial" font-weight="500" font-size="52" fill="white" letter-spacing="-1">G</text>
-        <text x="42" y="54" font-family="Arial" font-weight="400" font-size="52" fill="white">Pay</text>
-      </svg>
-
-      <!-- American Express -->
-      <svg viewBox="0 0 96 30" xmlns="http://www.w3.org/2000/svg" fill="white">
-        <text x="0" y="22" font-family="Arial" font-weight="700" font-size="12" letter-spacing=".5">AMERICAN</text>
-        <text x="0" y="30" font-family="Arial" font-weight="700" font-size="9" letter-spacing="1.2">EXPRESS</text>
-      </svg>
-
-      <!-- Shop Pay -->
-      <svg viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg">
-        <rect width="120" height="36" rx="6" fill="white" fill-opacity=".1"/>
-        <text x="12" y="25" font-family="Arial" font-weight="700" font-size="16" fill="white">Shop</text>
-        <text x="60" y="25" font-family="Arial" font-weight="400" font-size="16" fill="white" opacity=".7">Pay</text>
-      </svg>
-
-      <!-- Klarna -->
-      <svg viewBox="0 0 90 28" xmlns="http://www.w3.org/2000/svg">
-        <text x="0" y="22" font-family="Arial" font-weight="700" font-size="22" fill="white" letter-spacing="-0.5">klarna</text>
-        <circle cx="81" cy="14" r="5" fill="white" fill-opacity=".6"/>
-      </svg>
-
+      {%- assign payment_types = 'visa,master,paypal,apple_pay,google_pay,american_express,shopify_pay' | split: ',' -%}
+      {%- for type in payment_types -%}
+        <div class="epb-badge">{{ type | payment_type_svg_tag }}</div>
+      {%- endfor -%}
     </div>
   </div>
 </div>
