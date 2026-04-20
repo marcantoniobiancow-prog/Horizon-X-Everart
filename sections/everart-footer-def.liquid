@@ -12,33 +12,12 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500&display=swap');
 
-/* ── GRADIENT ANIMATION ── */
-@keyframes ea-footer-grad {
-  from { transform: scaleY(1); }
-  to   { transform: scaleY(0.5); }
-}
-
 /* ── OUTER ── */
 #eafoot-{{ sid }} {
-  position: relative;
-  background: transparent;
+  background: #212121;
   padding: 80px 120px;
   box-sizing: border-box;
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
-}
-#eafoot-{{ sid }}::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, #212121 0%, rgba(33,33,33,0) 100%);
-  transform-origin: top center;
-  animation: ea-footer-grad 3s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
-#eafoot-{{ sid }} > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* ── CARD ── */

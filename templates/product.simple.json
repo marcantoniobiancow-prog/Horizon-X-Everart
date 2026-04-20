@@ -48,9 +48,18 @@
         "secondary_btn_url": "",
         "show_sticky": true
       }
+    },
+    "everart-product-suggestions": {
+      "type": "everart-product-suggestions",
+      "settings": {
+        "eyebrow": "The Collection",
+        "heading": "You might also like",
+        "limit": 4
+      }
     }
   },
   "order": [
-    "everart-product-simple"
+    "everart-product-simple",
+    "everart-product-suggestions"
   ]
 }
