@@ -170,8 +170,9 @@
     }
 
     .epm-edition-track {
-      height: 3px;
+      height: 8px;
       background: var(--epm-bdr);
+      border-radius: 99px;
       position: relative;
       overflow: hidden;
     }
@@ -181,8 +182,67 @@
       left: 0; top: 0;
       height: 100%;
       background: var(--epm-fg);
+      border-radius: 99px;
       transition: width .6s ease;
     }
+
+    .epm-edition-lbl {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--epm-muted);
+      font-weight: 700;
+    }
+
+    .epm-edition-count {
+      font-size: 11px;
+      color: var(--epm-muted);
+      font-weight: 600;
+
+      strong {
+        color: var(--epm-fg);
+        font-size: 13px;
+      }
+    }
+  }
+
+  /* ── Secure checkout ── */
+  .epm-secure-checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(128,128,128,0.18);
+  }
+  .epm-secure-checkout__label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    font-weight: 600;
+  }
+  .epm-secure-checkout__icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .epm-secure-checkout__icons li { display: flex; align-items: center; }
+  .epm-secure-checkout__icons svg,
+  .epm-secure-checkout__icons img { height: 26px; width: auto; }
+
+  @media (max-width: 749px) {
+    .epm-edition-track { height: 10px; }
+    .epm-secure-checkout__icons svg,
+    .epm-secure-checkout__icons img { height: 22px; }
   }
 
   /* ── Bundle box ── */
@@ -800,6 +860,18 @@
           {%- endif -%}
         </button>
       {%- endform -%}
+
+      <div class="epm-secure-checkout">
+        <span class="epm-secure-checkout__label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+          Secure Checkout
+        </span>
+        <ul class="epm-secure-checkout__icons" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
 
       {%- if s.atc_note != blank -%}
         <div class="epm-atc-note">{{ s.atc_note }}</div>
