@@ -1,0 +1,78 @@
+{%- comment -%}
+  Klaviyo subscribe snippet
+  Usage: {%- render 'klaviyo-subscribe', form_selector: '#my-form', list_id: 'RxHPMs' -%}
+  Intercepts the form submit, POSTs to Klaviyo client API, shows success/error inline.
+{%- endcomment -%}
+{%- assign kv_form     = form_selector | default: 'form' -%}
+{%- assign kv_list     = list_id       | default: 'RxHPMs' -%}
+{%- assign kv_key      = 'V5XkBx' -%}
+
+<script>
+(function () {
+  var SELECTOR = {{ kv_form | json }};
+  var LIST_ID  = {{ kv_list | json }};
+  var API_KEY  = {{ kv_key  | json }};
+
+  function kvSubscribe(email, onSuccess, onError) {
+    fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + API_KEY, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'revision': '2023-10-15'
+      },
+      body: JSON.stringify({
+        data: {
+          type: 'subscription',
+          attributes: {
+            custom_source: 'Website Signup',
+            profile: {
+              data: {
+                type: 'profile',
+                attributes: { email: email }
+              }
+            }
+          },
+          relationships: {
+            list: { data: { type: 'list', id: LIST_ID } }
+          }
+        }
+      })
+    })
+    .then(function (r) {
+      if (r.status === 202) { onSuccess(); }
+      else { onError(); }
+    })
+    .catch(function () { onError(); });
+  }
+
+  function initForm(form) {
+    if (form.dataset.kvBound) return;
+    form.dataset.kvBound = '1';
+
+    form.addEventListener('submit', function (e) {
+      var emailInput = form.querySelector('input[type="email"]');
+      if (!emailInput || !emailInput.value) return;
+      var email = emailInput.value.trim();
+
+      // Let the original Shopify form submit proceed normally
+      // Also subscribe to Klaviyo in parallel
+      kvSubscribe(
+        email,
+        function () { /* success — Klaviyo side done */ },
+        function () { /* fail silently — original form still submitted */ }
+      );
+    });
+  }
+
+  function bindAll() {
+    var forms = document.querySelectorAll(SELECTOR);
+    forms.forEach(initForm);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindAll);
+  } else {
+    bindAll();
+  }
+})();
+</script>

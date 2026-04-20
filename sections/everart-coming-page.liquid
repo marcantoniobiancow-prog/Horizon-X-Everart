@@ -326,7 +326,8 @@
       {%- if s.access_desc != blank -%}
         <p>{{ s.access_desc }}</p>
       {%- endif -%}
-      {%- form 'customer' -%}
+      {%- render 'klaviyo-subscribe', form_selector: '#ecp-form-{{ sid }}', list_id: 'RxHPMs' -%}
+      {%- form 'customer', id: 'ecp-form-{{ sid }}' -%}
         <input type="hidden" name="contact[tags]" value="newsletter,{{ s.hero_label | handleize }}">
         <div class="ecp-form">
           <input class="ecp-email-in" type="email" name="contact[email]" placeholder="{{ s.email_placeholder | default: 'La tua email' }}" required>
