@@ -202,40 +202,6 @@
         "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures."
       }
     },
-    "everart-product-detail-shots": {
-      "type": "everart-product-detail-shots",
-      "blocks": {
-        "shot-1": {
-          "type": "shot_image",
-          "settings": {
-            "alt": "Detail — tentacles"
-          }
-        },
-        "shot-2": {
-          "type": "shot_image",
-          "settings": {
-            "alt": "Detail — eyes"
-          }
-        },
-        "shot-3": {
-          "type": "shot_image",
-          "settings": {
-            "alt": "Detail — hand painting"
-          }
-        }
-      },
-      "block_order": [
-        "shot-1",
-        "shot-2",
-        "shot-3"
-      ],
-      "settings": {
-        "eyebrow": "Crafting the Cosmic Creature",
-        "heading": "Take a look closer.",
-        "columns": "3",
-        "gap": 6
-      }
-    },
     "everart-product-features": {
       "type": "everart-product-features",
       "blocks": {
@@ -308,7 +274,6 @@
     "everart-product-reviews",
     "everart-product-video",
     "everart-product-process",
-    "everart-product-detail-shots",
     "everart-product-features",
     "everart-product-email",
     "everart-product-suggestions"
