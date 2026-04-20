@@ -250,17 +250,51 @@
   {%- endif -%}
 </span>
 
-{%- if block_settings.show_payment_icons -%}
-  <div class="buy-buttons-payment-icons" style="margin-top: 12px;">
-    <ul class="payment-icons__list" role="list" style="display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;list-style:none;">
-      {%- for type in shop.enabled_payment_types -%}
-        <li class="payment-icons__item" style="display:flex;align-items:center;">
-          {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-        </li>
-      {%- endfor -%}
-    </ul>
-  </div>
-{%- endif -%}
+<div class="buy-buttons-secure-checkout">
+  <span class="buy-buttons-secure-checkout__label">
+    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+    Secure Checkout
+  </span>
+  <ul class="buy-buttons-secure-checkout__icons" role="list">
+    {%- for type in shop.enabled_payment_types -%}
+      <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .buy-buttons-secure-checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(128,128,128,0.2);
+  }
+  .buy-buttons-secure-checkout__label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .buy-buttons-secure-checkout__icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .buy-buttons-secure-checkout__icons .icon {
+    height: 24px;
+    width: auto;
+  }
+{% endstylesheet %}
 
 {% if block_settings.show_pickup_availability %}
   <script
