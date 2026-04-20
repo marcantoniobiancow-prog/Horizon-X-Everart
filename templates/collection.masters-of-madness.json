@@ -13,8 +13,10 @@
       "type": "everart-collection-intro",
       "settings": {
         "label": "Studio Everart — First Collection",
-        "title": "Masters\nof Madness",
+        "title": "Mastersof Madness",
         "description": "Each piece captures the essence of a great master of Horror and Gothic literature. Crafted with exquisite detail and narrative precision. Once gone, forever.",
+        "hero_image_desktop": "shopify://shop_images/Banner_news.jpg",
+        "hero_image_mobile": "shopify://shop_images/Banner_news.jpg",
         "overlay_color": "#000000",
         "overlay_opacity": 40
       }
