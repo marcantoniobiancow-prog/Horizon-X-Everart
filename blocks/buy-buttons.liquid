@@ -250,6 +250,18 @@
   {%- endif -%}
 </span>
 
+{%- if block_settings.show_payment_icons -%}
+  <div class="buy-buttons-payment-icons" style="margin-top: 12px;">
+    <ul class="payment-icons__list" role="list" style="display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;list-style:none;">
+      {%- for type in shop.enabled_payment_types -%}
+        <li class="payment-icons__item" style="display:flex;align-items:center;">
+          {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
 {% if block_settings.show_pickup_availability %}
   <script
     src="{{ 'local-pickup.js' | asset_url }}"
@@ -374,6 +386,12 @@
     {
       "type": "paragraph",
       "content": "t:content.resource_reference_product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Payment icons",
+      "default": true
     },
     {
       "type": "checkbox",
