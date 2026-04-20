@@ -20,8 +20,8 @@
     "everart-masters-collection": {
       "type": "everart-masters-collection",
       "settings": {
-        "section_label": "The Masters of Madness",
-        "section_title": "The story.",
+        "section_label": "The three masters",
+        "section_title": "The madness between the lines.",
         "card1_tag": "Masters of Madness — Chapter I",
         "card1_title": "H.P. Lovecraft",
         "card1_sub": "The architect of cosmic horror.",
@@ -151,5 +151,5 @@
       }
     }
   },
-  "order": ["everart-intro", "main", "everart-masters-collection"]
+  "order": ["everart-intro", "everart-masters-collection", "main"]
 }
