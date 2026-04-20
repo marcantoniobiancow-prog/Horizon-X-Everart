@@ -1,0 +1,436 @@
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id
+  assign hero_title = s.hero_title | default: page.title
+-%}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+#eap-{{ sid }} {
+  background: #0a0a0a;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* ── HERO ── */
+#eap-{{ sid }} .eap-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+#eap-{{ sid }} .eap-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #1a1a1a;
+}
+
+#eap-{{ sid }} .eap-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#eap-{{ sid }} .eap-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,5,5,.97) 0%, rgba(5,5,5,.3) 60%, transparent 100%);
+  z-index: 1;
+}
+
+#eap-{{ sid }} .eap-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#eap-{{ sid }} .eap-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 14px;
+  display: block;
+}
+
+#eap-{{ sid }} .eap-hero-title {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .95;
+  color: #ffffff;
+  margin: 0 0 16px;
+}
+
+#eap-{{ sid }} .eap-hero-sub {
+  font-size: clamp(15px, 2vw, 20px);
+  color: #888888;
+  font-weight: 400;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── STORY ── */
+#eap-{{ sid }} .eap-story {
+  padding: 96px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#eap-{{ sid }} .eap-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  align-items: start;
+}
+
+#eap-{{ sid }} .eap-story-grid.no-img {
+  grid-template-columns: 1fr;
+  max-width: 760px;
+}
+
+#eap-{{ sid }} .eap-story-label {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #888888;
+  font-weight: 500;
+  margin: 0 0 20px;
+  display: block;
+}
+
+#eap-{{ sid }} .eap-story-content h1,
+#eap-{{ sid }} .eap-story-content h2 {
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+#eap-{{ sid }} .eap-story-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 32px 0 12px;
+  letter-spacing: -.01em;
+}
+
+#eap-{{ sid }} .eap-story-content p {
+  font-size: 14px;
+  color: #888888;
+  line-height: 1.85;
+  font-weight: 400;
+  margin: 0 0 18px;
+}
+
+#eap-{{ sid }} .eap-story-content blockquote {
+  border-left: 2px solid #8b1a1a;
+  padding-left: 20px;
+  margin: 28px 0;
+  font-style: italic;
+  color: #aaaaaa;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+#eap-{{ sid }} .eap-story-content strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#eap-{{ sid }} .eap-story-content em {
+  font-style: italic;
+  color: #aaaaaa;
+}
+
+#eap-{{ sid }} .eap-story-content hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 40px 0;
+}
+
+#eap-{{ sid }} .eap-story-img {
+  height: 560px;
+  background: #212121;
+  overflow: hidden;
+  border: 1px solid #2a2a2a;
+  position: sticky;
+  top: 80px;
+}
+
+#eap-{{ sid }} .eap-story-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── PRODUCTS ── */
+#eap-{{ sid }} .eap-prod-section {
+  border-top: 1px solid #2a2a2a;
+  padding: 80px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#eap-{{ sid }} .eap-prod-head {
+  margin-bottom: 48px;
+}
+
+#eap-{{ sid }} .eap-prod-title {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 14px 0 0;
+}
+
+#eap-{{ sid }} .eap-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #2a2a2a;
+}
+
+#eap-{{ sid }} .eap-prod-card {
+  background: #0a0a0a;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: background .2s;
+}
+
+#eap-{{ sid }} .eap-prod-card:hover {
+  background: #111111;
+}
+
+#eap-{{ sid }} .eap-prod-img {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background: #212121;
+}
+
+#eap-{{ sid }} .eap-prod-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s ease;
+}
+
+#eap-{{ sid }} .eap-prod-card:hover .eap-prod-img img {
+  transform: scale(1.03);
+}
+
+#eap-{{ sid }} .eap-prod-body {
+  padding: 20px 24px 28px;
+  border-top: 1px solid #2a2a2a;
+}
+
+#eap-{{ sid }} .eap-prod-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 6px;
+  letter-spacing: -.01em;
+  line-height: 1.35;
+}
+
+#eap-{{ sid }} .eap-prod-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -.02em;
+}
+
+#eap-{{ sid }} .eap-prod-compare {
+  font-size: 13px;
+  color: #555555;
+  text-decoration: line-through;
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1023px) {
+  #eap-{{ sid }} .eap-prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  #eap-{{ sid }} .eap-hero { padding: 0 24px 60px; min-height: 50vh; }
+  #eap-{{ sid }} .eap-story { padding: 60px 24px; }
+  #eap-{{ sid }} .eap-story-grid { grid-template-columns: 1fr; gap: 40px; }
+  #eap-{{ sid }} .eap-story-img { height: 280px; position: static; }
+  #eap-{{ sid }} .eap-prod-section { padding: 60px 24px; }
+  #eap-{{ sid }} .eap-prod-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div id="eap-{{ sid }}">
+
+  {%- comment -%} ── HERO ── {%- endcomment -%}
+  <div class="eap-hero">
+    <div class="eap-hero-bg">
+      {%- if s.hero_image != blank -%}
+        {{ s.hero_image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', alt: hero_title }}
+      {%- endif -%}
+    </div>
+    <div class="eap-hero-overlay"></div>
+    <div class="eap-hero-content">
+      {%- if s.hero_label != blank -%}
+        <span class="eap-label">{{ s.hero_label }}</span>
+      {%- endif -%}
+      <h1 class="eap-hero-title">{{ hero_title | newline_to_br }}</h1>
+      {%- if s.hero_sub != blank -%}
+        <p class="eap-hero-sub">{{ s.hero_sub }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── STORY ── {%- endcomment -%}
+  <div class="eap-story">
+    <div class="eap-story-grid{% if s.story_image == blank %} no-img{% endif %}">
+      <div class="eap-story-content">
+        {%- if s.story_label != blank -%}
+          <span class="eap-story-label">{{ s.story_label }}</span>
+        {%- endif -%}
+        {{ page.content }}
+      </div>
+      {%- if s.story_image != blank -%}
+        <div class="eap-story-img">
+          {{ s.story_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: hero_title }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── PRODUCTS ── {%- endcomment -%}
+  {%- assign coll_handle = s.collection_handle | default: 'masters-of-madness' -%}
+  {%- assign coll = collections[coll_handle] -%}
+  {%- if coll != blank and coll.products_count > 0 -%}
+    <div class="eap-prod-section">
+      <div class="eap-prod-head">
+        {%- if s.prod_label != blank -%}
+          <span class="eap-label">{{ s.prod_label }}</span>
+        {%- endif -%}
+        {%- if s.prod_heading != blank -%}
+          <h2 class="eap-prod-title">{{ s.prod_heading }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="eap-prod-grid">
+        {%- for product in coll.products limit: s.prod_limit -%}
+          <a class="eap-prod-card" href="{{ product.url }}">
+            <div class="eap-prod-img">
+              {%- if product.featured_image != blank -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+              {%- endif -%}
+            </div>
+            <div class="eap-prod-body">
+              <p class="eap-prod-name">{{ product.title }}</p>
+              <div>
+                <span class="eap-prod-price">{{ product.price | money }}</span>
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="eap-prod-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "Author Page",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Immagine hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_label",
+      "label": "Label (es. Masters of Madness — Chapter I)"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Titolo (lascia vuoto per usare il titolo della pagina)"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Sottotitolo italic"
+    },
+    {
+      "type": "header",
+      "content": "Contenuto editoriale"
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Label sezione",
+      "default": "The Story"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Immagine laterale (colonna destra)"
+    },
+    {
+      "type": "header",
+      "content": "Prodotti"
+    },
+    {
+      "type": "text",
+      "id": "prod_label",
+      "label": "Label",
+      "default": "The Collection"
+    },
+    {
+      "type": "text",
+      "id": "prod_heading",
+      "label": "Titolo",
+      "default": "The collection."
+    },
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection handle",
+      "default": "masters-of-madness"
+    },
+    {
+      "type": "range",
+      "id": "prod_limit",
+      "label": "Max prodotti",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    }
+  ]
+}
+{% endschema %}

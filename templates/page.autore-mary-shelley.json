@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "everart-author-page": {
+      "type": "everart-author-page",
+      "settings": {
+        "hero_label": "Masters of Madness — Chapter II",
+        "hero_title": "Mary\nShelley",
+        "hero_sub": "The creature meets its creator.",
+        "story_label": "The Story",
+        "prod_label": "The Collection",
+        "prod_heading": "The collection.",
+        "collection_handle": "masters-of-madness",
+        "prod_limit": 3
+      }
+    }
+  },
+  "order": ["everart-author-page"]
+}
