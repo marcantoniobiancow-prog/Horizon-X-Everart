@@ -300,9 +300,11 @@
   </div>
 
   {%- comment -%} ── PRODUCTS — H.P. LOVECRAFT ── {%- endcomment -%}
-  {%- assign coll = collections[s.collection_handle] -%}
+  {%- assign coll_handle = s.collection_handle | default: 'masters-of-madness' -%}
+  {%- if coll_handle == blank -%}{%- assign coll_handle = 'masters-of-madness' -%}{%- endif -%}
+  {%- assign coll = collections[coll_handle] -%}
 
-  {%- if coll != blank and coll.products_count > 0 -%}
+  {%- if coll != blank -%}
     <div class="emc-prod-head">
       {%- if s.prod_eyebrow != blank -%}
         <p class="emc-eyebrow">{{ s.prod_eyebrow }}</p>
@@ -391,9 +393,10 @@
       "default": "Discover Chapter I"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "card1_url",
-      "label": "Link"
+      "label": "Link",
+      "default": "/pages/autore-lovecraft"
     },
     {
       "type": "header",
@@ -429,9 +432,10 @@
       "default": "Discover Chapter II"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "card2_url",
-      "label": "Link"
+      "label": "Link",
+      "default": "/pages/autore-mary-shelley"
     },
     {
       "type": "header",
@@ -467,9 +471,10 @@
       "default": "Discover Chapter III"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "card3_url",
-      "label": "Link"
+      "label": "Link",
+      "default": "/pages/autore-bram-stoker"
     },
     {
       "type": "header",
@@ -488,9 +493,10 @@
       "default": "The collection."
     },
     {
-      "type": "collection",
+      "type": "text",
       "id": "collection_handle",
-      "label": "Collezione prodotti"
+      "label": "Collezione prodotti (handle)",
+      "default": "masters-of-madness"
     },
     {
       "type": "range",
