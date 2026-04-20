@@ -14,7 +14,9 @@
       "settings": {
         "label": "Studio Everart — First Collection",
         "title": "Masters\nof Madness",
-        "description": "Each piece captures the essence of a great master of Horror and Gothic literature. Crafted with exquisite detail and narrative precision. Once gone, forever."
+        "description": "Each piece captures the essence of a great master of Horror and Gothic literature. Crafted with exquisite detail and narrative precision. Once gone, forever.",
+        "overlay_color": "#000000",
+        "overlay_opacity": 40
       }
     },
     "everart-masters-collection": {
@@ -22,16 +24,19 @@
       "settings": {
         "section_label": "The three masters",
         "section_title": "The madness between the lines.",
+        "card1_image": "shopify://shop_images/lovecraft.jpg",
         "card1_tag": "Masters of Madness — Chapter I",
         "card1_title": "H.P. Lovecraft",
         "card1_sub": "The architect of cosmic horror.",
         "card1_btn": "Discover Chapter I",
         "card1_url": "/pages/autore-lovecraft",
+        "card2_image": "shopify://shop_images/ritratto-di-mary-shelley-di-richard-rothwell-1840-esposto-alla-royal-academy-di-londra_8a6c0df3_240826113558_1200x630_6a9952af-496a-4a35-a115-19643a7dab2f.jpg",
         "card2_tag": "Masters of Madness — Chapter II",
         "card2_title": "Mary Shelley",
         "card2_sub": "The creature meets its creator.",
         "card2_btn": "Discover Chapter II",
         "card2_url": "/pages/autore-mary-shelley",
+        "card3_image": "shopify://shop_images/15465178177692816.avif",
         "card3_tag": "Masters of Madness — Chapter III",
         "card3_title": "Bram Stoker",
         "card3_sub": "Immortality has a price.",
@@ -85,6 +90,7 @@
             "card-gallery": {
               "type": "_product-card-gallery",
               "settings": {
+                "contain_image": false,
                 "image_ratio": "adapt",
                 "border": "none",
                 "border_width": 1,
@@ -101,11 +107,19 @@
               "type": "product-title",
               "settings": {
                 "width": "100%",
+                "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
                 "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -118,11 +132,15 @@
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": false,
+                "show_tax_info": false,
                 "type_preset": "h6",
                 "width": "100%",
                 "alignment": "left",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
                 "color": "var(--color-foreground)",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -132,13 +150,19 @@
               "blocks": {}
             }
           },
-          "block_order": ["card-gallery", "product_title", "price"]
+          "block_order": [
+            "card-gallery",
+            "product_title",
+            "price"
+          ]
         }
       },
       "settings": {
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
@@ -151,5 +175,9 @@
       }
     }
   },
-  "order": ["everart-intro", "everart-masters-collection", "main"]
+  "order": [
+    "everart-intro",
+    "everart-masters-collection",
+    "main"
+  ]
 }
