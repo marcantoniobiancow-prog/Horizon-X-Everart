@@ -860,6 +860,18 @@
         </button>
       {%- endform -%}
 
+      <div class="epm-secure-checkout">
+        <span class="epm-secure-checkout__label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+          Secure Checkout
+        </span>
+        <ul class="epm-secure-checkout__icons" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
       {%- if s.atc_note != blank -%}
         <div class="epm-atc-note">{{ s.atc_note }}</div>
       {%- endif -%}
@@ -890,18 +902,6 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
-
-      <div class="epm-secure-checkout">
-        <span class="epm-secure-checkout__label">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
-          Secure Checkout
-        </span>
-        <ul class="epm-secure-checkout__icons" role="list">
-          {%- for type in shop.enabled_payment_types -%}
-            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
-          {%- endfor -%}
-        </ul>
-      </div>
 
     </div>
   </div>
