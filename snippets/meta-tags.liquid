@@ -119,6 +119,27 @@
   href="{{ canonical_url }}"
 >
 
+{%- comment -%} Hreflang tags for multilingual SEO {%- endcomment -%}
+{%- liquid
+  assign current_iso = localization.language.iso_code
+  assign default_iso = 'en'
+
+  if current_iso == default_iso
+    assign base_path = request.path
+  else
+    assign path_parts = request.path | remove_first: '/' | split: '/'
+    assign base_path = path_parts | slice: 1, 100 | join: '/' | prepend: '/'
+  endif
+-%}
+{%- for language in localization.available_languages -%}
+  {%- if language.iso_code == default_iso -%}
+    <link rel="alternate" hreflang="{{ language.iso_code }}" href="{{ request.origin }}{{ base_path }}">
+  {%- else -%}
+    <link rel="alternate" hreflang="{{ language.iso_code }}" href="{{ request.origin }}/{{ language.iso_code }}{{ base_path }}">
+  {%- endif -%}
+{%- endfor -%}
+<link rel="alternate" hreflang="x-default" href="{{ request.origin }}{{ base_path }}">
+
 {% if page_description %}
   <meta
     name="description"
