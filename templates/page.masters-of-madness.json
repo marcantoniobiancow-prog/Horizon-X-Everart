@@ -1,0 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "everart-masters-collection": {
+      "type": "everart-masters-collection",
+      "settings": {
+        "card1_tag": "Masters of Madness — Chapter I",
+        "card1_title": "H.P. Lovecraft",
+        "card1_sub": "The architect of cosmic horror.",
+        "card1_btn": "Discover Chapter I",
+        "card1_url": "/pages/autore-lovecraft",
+        "card2_tag": "Masters of Madness — Chapter II",
+        "card2_title": "Mary Shelley",
+        "card2_sub": "The creature meets its creator.",
+        "card2_btn": "Discover Chapter II",
+        "card2_url": "/pages/autore-mary-shelley",
+        "card3_tag": "Masters of Madness — Chapter III",
+        "card3_title": "Bram Stoker",
+        "card3_sub": "Immortality has a price.",
+        "card3_btn": "Discover Chapter III",
+        "card3_url": "/pages/autore-bram-stoker",
+        "prod_eyebrow": "H.P. Lovecraft — Chapter I",
+        "prod_heading": "The collection.",
+        "collection_handle": "masters-of-madness",
+        "prod_limit": 6
+      }
+    }
+  },
+  "order": [
+    "everart-masters-collection"
+  ]
+}
