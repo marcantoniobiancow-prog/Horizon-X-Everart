@@ -1,0 +1,83 @@
+{%- comment -%}
+  EverArt Payment Badges — v1
+  Mostra i metodi di pagamento abilitati sullo store con loghi ufficiali.
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+<style>
+#epb-{{ sid }} {
+  background: #121212;
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 28px 0;
+}
+#epb-{{ sid }} .epb-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+#epb-{{ sid }} .epb-label {
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  font-weight: 500;
+  white-space: nowrap;
+}
+#epb-{{ sid }} .epb-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#epb-{{ sid }} .epb-icons svg {
+  height: 24px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: .55;
+  transition: opacity .2s;
+}
+#epb-{{ sid }} .epb-icons svg:hover {
+  opacity: .9;
+}
+@media (max-width: 767px) {
+  #epb-{{ sid }} { padding: 22px 0; }
+  #epb-{{ sid }} .epb-wrap { padding: 0 20px; gap: 16px; }
+  #epb-{{ sid }} .epb-label { width: 100%; text-align: center; }
+  #epb-{{ sid }} .epb-icons svg { height: 20px; }
+}
+</style>
+
+<div id="epb-{{ sid }}">
+  <div class="epb-wrap">
+    {%- if s.label != blank -%}
+      <span class="epb-label">{{ s.label }}</span>
+    {%- endif -%}
+    <div class="epb-icons">
+      {%- for type in shop.enabled_payment_types -%}
+        {{ type | payment_type_svg_tag }}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Payment Badges",
+  "tag": "section",
+  "templates": ["index"],
+  "settings": [
+    { "type": "text", "id": "label", "label": "Etichetta", "default": "Secure checkout" }
+  ],
+  "presets": [{ "name": "Payment Badges" }]
+}
+{% endschema %}
