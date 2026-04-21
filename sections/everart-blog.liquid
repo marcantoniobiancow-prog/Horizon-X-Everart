@@ -15,7 +15,49 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
+<style>
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .featured-blog-posts-card__image,
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) [data-testid="featured-blog-posts-image"] {
+    display: none !important;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .featured-blog-posts-card {
+    padding-block: 12px;
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+    border-radius: 0;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .featured-blog-posts-card__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .featured-blog-posts-card__content {
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    gap: 10px;
+    flex: 1;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .featured-blog-posts-card__content h4 {
+    flex: 1;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .blog-post-info-text {
+    font-size: 0.75em;
+    opacity: 0.55;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:not(:first-child) .blog-post-description {
+    display: none;
+  }
+  #everart-blog-{{ section.id }} .resource-list__item:first-child {
+    grid-column: 1 / -1;
+  }
+</style>
+
 <div
+  id="everart-blog-{{ section.id }}"
   class="
     section
     section--{{ section.settings.section_width }}
