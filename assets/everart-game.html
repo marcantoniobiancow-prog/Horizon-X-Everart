@@ -230,6 +230,17 @@ let touchTargetX=-1,touching=false,touchFiring=false;
 let keys={},mouseX=CW/2,mouseActive=false;
 let animFrame,lastTime=0,spawnT=0,shootT=0;
 
+// Cached HUD refs — evita getElementById ogni frame
+const HUD={
+  score:    document.getElementById('score-val'),
+  lives:    document.getElementById('lives-val'),
+  timerBar: document.getElementById('timer-bar-inner'),
+  timerVal: document.getElementById('timer-val'),
+  progBar:  document.getElementById('prog-inner'),
+  progCnt:  document.getElementById('prog-count'),
+};
+let _hudLastScore=-1,_hudLastLives=-1,_hudLastTimerSec=-1,_hudLastProg=-1;
+
 const ROOT=document.getElementById('game-root');
 function scaleGame(){
   const vw=window.innerWidth,vh=window.innerHeight;
@@ -1037,20 +1048,33 @@ function spawnLightning(){
 //  HUD
 // ═══════════════════════════════════════════════════════════
 function updateHUD(){
-  document.getElementById('score-val').textContent=score;
-  let lv='';for(let i=0;i<3;i++) lv+=(i<lives?'♥':'♡')+' ';
-  document.getElementById('lives-val').textContent=lv;
+  // Score + progress — aggiorna solo se cambia
+  if(score!==_hudLastScore){
+    HUD.score.textContent=score;
+    const prog=Math.min(score/WIN_SCORE,1)*100;
+    HUD.progBar.style.width=prog+'%';
+    HUD.progCnt.textContent=score+'/'+WIN_SCORE;
+    _hudLastScore=score;
+  }
+  // Lives — aggiorna solo se cambia
+  if(lives!==_hudLastLives){
+    let lv='';for(let i=0;i<3;i++) lv+=(i<lives?'♥':'♡')+' ';
+    HUD.lives.textContent=lv;
+    _hudLastLives=lives;
+  }
+  // Timer bar — aggiorna sempre (cambia ogni frame) ma usa cached ref
   const pct=Math.max(0,timeLeft/START_TIME)*100;
-  document.getElementById('timer-bar-inner').style.width=pct+'%';
-  const bar=document.getElementById('timer-bar-inner');
-  if(timeLeft<20) bar.style.background='linear-gradient(90deg,#CC2020,#FF4040)';
-  else if(timeLeft<40) bar.style.background='linear-gradient(90deg,#CC8020,#E8C84A)';
-  else bar.style.background=`linear-gradient(90deg,#4AB890,${pal().glow})`;
-  document.getElementById('timer-val').textContent=Math.ceil(timeLeft);
-  document.getElementById('prog-inner').style.width=(Math.min(score/WIN_SCORE,1)*100)+'%';
-  document.getElementById('prog-count').textContent=score+'/'+WIN_SCORE;
+  HUD.timerBar.style.width=pct+'%';
+  const timerSec=Math.ceil(timeLeft);
+  if(timerSec!==_hudLastTimerSec){
+    HUD.timerVal.textContent=timerSec;
+    if(timeLeft<20) HUD.timerBar.style.background='linear-gradient(90deg,#CC2020,#FF4040)';
+    else if(timeLeft<40) HUD.timerBar.style.background='linear-gradient(90deg,#CC8020,#E8C84A)';
+    else HUD.timerBar.style.background='linear-gradient(90deg,#4AB890,'+pal().glow+')';
+    _hudLastTimerSec=timerSec;
+  }
 }
-function flashTimerBonus(){const tv=document.getElementById('timer-val');tv.classList.remove('tmr-bonus');void tv.offsetWidth;tv.classList.add('tmr-bonus');}
+function flashTimerBonus(){HUD.timerVal.classList.remove('tmr-bonus');void HUD.timerVal.offsetWidth;HUD.timerVal.classList.add('tmr-bonus');}
 
 // ═══════════════════════════════════════════════════════════
 //  SPAWN & COLLISION
@@ -1072,7 +1096,8 @@ function update(dt,now){
   if(state!=='playing') return;
 
   timeLeft-=dt/1000;
-  if(timeLeft<=0){timeLeft=0;updateHUD();gameOver('time');return;}
+  updateHUD();
+  if(timeLeft<=0){timeLeft=0;gameOver('time');return;}
 
   // Boss schedule
   if(bossScheduleIdx<BOSS_SCHED.length){
@@ -1283,7 +1308,6 @@ function draw(now){
   // Flash overlay on top
   drawLightningFlash();
   ctx.restore();
-  updateHUD();
 }
 
 // ═══════════════════════════════════════════════════════════
