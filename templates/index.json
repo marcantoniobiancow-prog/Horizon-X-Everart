@@ -217,15 +217,6 @@
         "cite": "Studio Everart — Brand Manifesto"
       }
     },
-    "everart-arcade": {
-      "type": "everart-arcade",
-      "settings": {
-        "enabled": true,
-        "title": "PLAY AND WIN\nTHE SECRET CODE!",
-        "description": "Sfida le creature degli Antichi, sopravvivi a Cthulhu e raggiungi 6.500 punti. Inserisci la tua email e il codice sconto del 10% è tuo.",
-        "cta_label": "PLAY NOW"
-      }
-    },
     "everart-coming-soon": {
       "type": "everart-coming-soon",
       "settings": {
@@ -266,7 +257,6 @@
     "everart-payment-badges",
     "everart-values",
     "everart-manifesto",
-    "everart-arcade",
     "everart-coming-soon",
     "everart-blog-page"
   ]
