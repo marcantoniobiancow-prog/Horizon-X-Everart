@@ -1,0 +1,384 @@
+{%- comment -%}
+  EverArt Arcade — v1
+  Sezione homepage: CTA + modal iframe con il gioco arcade.
+  Il gioco è in assets/everart-game.html e gestisce Klaviyo autonomamente.
+{%- endcomment -%}
+
+{%- liquid
+  assign s   = section.settings
+  assign sid = section.id | replace: '-', '_'
+-%}
+
+{%- if s.enabled -%}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* ── ROOT ── */
+#ea-arcade-{{ section.id }} {
+  position: relative;
+  background: #000;
+  padding: 100px 0;
+  overflow: hidden;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── CRT scanlines ── */
+#ea-arcade-{{ section.id }}::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,.14) 2px, rgba(0,0,0,.14) 4px
+  );
+  z-index: 1;
+}
+
+/* ── vignette ── */
+#ea-arcade-{{ section.id }}::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.4) 100%);
+  z-index: 1;
+}
+
+/* ── fade top/bottom ── */
+#ea-arcade-{{ section.id }} .eaa-fade-top,
+#ea-arcade-{{ section.id }} .eaa-fade-bot {
+  position: absolute; left: 0; right: 0; height: 100px;
+  pointer-events: none; z-index: 5;
+}
+#ea-arcade-{{ section.id }} .eaa-fade-top { top: 0; background: linear-gradient(to bottom, #0a0a0a, transparent); }
+#ea-arcade-{{ section.id }} .eaa-fade-bot { bottom: 0; background: linear-gradient(to top, #0a0a0a, transparent); }
+
+/* ── lightning layer ── */
+#ea-arcade-{{ section.id }} .eaa-lightning { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+#ea-arcade-{{ section.id }} .eaa-flash {
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: #fff; opacity: 0; transition: opacity .05s;
+}
+
+/* ── floating glyphs ── */
+#ea-arcade-{{ section.id }} .eaa-glyph {
+  position: absolute; pointer-events: none;
+  font-family: 'Press Start 2P', monospace;
+  color: #8b1a1a; opacity: .07; z-index: 1; user-select: none; line-height: 1;
+}
+#ea-arcade-{{ section.id }} .eaa-glyph.g1 { font-size: 80px; top: 6%;  left: 3%; }
+#ea-arcade-{{ section.id }} .eaa-glyph.g2 { font-size: 44px; top: 15%; right: 5%; }
+#ea-arcade-{{ section.id }} .eaa-glyph.g3 { font-size: 22px; top: 58%; left: 8%; }
+#ea-arcade-{{ section.id }} .eaa-glyph.g4 { font-size: 60px; bottom: 8%; right: 4%; }
+#ea-arcade-{{ section.id }} .eaa-glyph.g5 { font-size: 16px; top: 72%; left: 20%; }
+#ea-arcade-{{ section.id }} .eaa-glyph.g6 { font-size: 32px; bottom: 20%; right: 16%; }
+
+/* ── inner layout ── */
+#ea-arcade-{{ section.id }} .eaa-inner {
+  position: relative; z-index: 4;
+  max-width: 760px; margin: 0 auto; padding: 0 48px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+
+/* ── tag ── */
+#ea-arcade-{{ section.id }} .eaa-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px; letter-spacing: .25em;
+  color: #8b1a1a; display: block;
+  margin-bottom: 28px; opacity: .85;
+}
+
+/* ── title ── */
+#ea-arcade-{{ section.id }} .eaa-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(14px, 2.4vw, 26px);
+  line-height: 1.65; color: #8b1a1a;
+  text-shadow: 0 0 20px rgba(139,26,26,.6), 0 0 50px rgba(139,26,26,.2);
+  margin-bottom: 18px; letter-spacing: .03em;
+  animation: eaaGlow_{{ sid }} 3s ease-in-out infinite;
+}
+
+@keyframes eaaGlow_{{ sid }} {
+  0%, 100% { text-shadow: 0 0 20px rgba(139,26,26,.6), 0 0 50px rgba(139,26,26,.2); }
+  50%       { text-shadow: 0 0 35px rgba(180,30,30,.9), 0 0 80px rgba(139,26,26,.45), 0 0 120px rgba(139,26,26,.15); }
+}
+
+/* ── subtitle ── */
+#ea-arcade-{{ section.id }} .eaa-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(7px, 1vw, 10px);
+  color: rgba(255,255,255,.3); letter-spacing: .3em;
+  margin-bottom: 32px; text-transform: uppercase;
+}
+
+/* ── divider ── */
+#ea-arcade-{{ section.id }} .eaa-divider {
+  width: 64px; height: 1px;
+  background: linear-gradient(90deg, rgba(139,26,26,.8), transparent);
+  margin-bottom: 28px;
+}
+
+/* ── desc ── */
+#ea-arcade-{{ section.id }} .eaa-desc {
+  font-size: 14px; color: #888888; line-height: 1.9; font-weight: 400;
+  max-width: 420px; margin-bottom: 44px;
+}
+
+/* ── CTA button ── */
+#ea-arcade-{{ section.id }} .eaa-cta {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px; letter-spacing: .15em;
+  color: #000; background: #8b1a1a;
+  padding: 18px 36px; cursor: pointer; border: none;
+  box-shadow: 0 0 0 1px #8b1a1a, 0 0 40px rgba(139,26,26,.5);
+  transition: box-shadow .2s, background .2s;
+  text-transform: uppercase;
+}
+#ea-arcade-{{ section.id }} .eaa-cta:hover {
+  background: #a52020;
+  box-shadow: 0 0 0 1px #a52020, 0 0 60px rgba(139,26,26,.8);
+}
+#ea-arcade-{{ section.id }} .eaa-cta::before { content: '▶'; font-size: 10px; }
+
+/* ── insert coin blink ── */
+#ea-arcade-{{ section.id }} .eaa-coin {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; letter-spacing: .18em;
+  color: rgba(139,26,26,.55); margin-top: 18px;
+  animation: eaaBlink_{{ sid }} 1.2s step-end infinite;
+}
+@keyframes eaaBlink_{{ sid }} { 0%, 100% { opacity: 1; } 50% { opacity: .15; } }
+
+/* ── MODAL ── */
+#ea-arcade-modal-{{ section.id }} {
+  display: none;
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+#ea-arcade-modal-{{ section.id }}.eaa-open { display: flex; }
+
+#ea-arcade-modal-{{ section.id }} .eaa-modal-box {
+  position: relative;
+  border: 1px solid rgba(139,26,26,.5);
+  box-shadow: 0 0 0 1px rgba(139,26,26,.15), 0 0 80px rgba(139,26,26,.2);
+  background: #000;
+  width: min(680px, 96vw);
+  height: min(700px, 92vh);
+  display: flex; flex-direction: column;
+}
+@media (max-width: 600px) {
+  #ea-arcade-modal-{{ section.id }} .eaa-modal-box {
+    width: 100vw; height: 100dvh; border: none; box-shadow: none;
+  }
+  #ea-arcade-modal-{{ section.id }} { padding: 0; }
+}
+
+#ea-arcade-modal-{{ section.id }} .eaa-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(139,26,26,.25);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; letter-spacing: .15em; color: #8b1a1a;
+  flex-shrink: 0;
+}
+
+#ea-arcade-modal-{{ section.id }} .eaa-modal-close {
+  background: none; border: none; cursor: pointer;
+  color: #888888; font-size: 16px; line-height: 1;
+  padding: 2px 6px;
+  transition: color .15s;
+  font-family: 'Instrument Sans', sans-serif;
+}
+#ea-arcade-modal-{{ section.id }} .eaa-modal-close:hover { color: #ffffff; }
+
+#ea-arcade-modal-{{ section.id }} .eaa-modal-iframe {
+  width: 100%; flex: 1; border: none; display: block; background: #000;
+}
+
+/* ── responsive ── */
+@media (max-width: 900px) {
+  #ea-arcade-{{ section.id }} .eaa-inner { padding: 0 24px; }
+}
+@media (max-width: 768px) {
+  #ea-arcade-{{ section.id }} { padding: 64px 0; }
+  #ea-arcade-{{ section.id }} .eaa-cta { font-size: 8px; padding: 16px 28px; }
+}
+</style>
+
+<div id="ea-arcade-{{ section.id }}">
+  <div class="eaa-fade-top"></div>
+  <div class="eaa-fade-bot"></div>
+  <div class="eaa-lightning" id="eaa-lightning-{{ section.id }}"></div>
+  <div class="eaa-flash"     id="eaa-flash-{{ section.id }}"></div>
+
+  <span class="eaa-glyph g1">☠</span>
+  <span class="eaa-glyph g2">✦</span>
+  <span class="eaa-glyph g3">◆</span>
+  <span class="eaa-glyph g4">☠</span>
+  <span class="eaa-glyph g5">✦</span>
+  <span class="eaa-glyph g6">◆</span>
+
+  <div class="eaa-inner">
+    <span class="eaa-tag">☠ EVERART ARCADE</span>
+    <h2 class="eaa-title">{{ s.title | newline_to_br }}</h2>
+    <p class="eaa-subtitle">— The Gentleman's Descent —</p>
+    <div class="eaa-divider"></div>
+    <p class="eaa-desc">{{ s.description }}</p>
+    <button class="eaa-cta" onclick="eaaOpen_{{ sid }}()">{{ s.cta_label }}</button>
+    <span class="eaa-coin">— INSERT COIN —</span>
+  </div>
+</div>
+
+<!-- MODAL (position:fixed — fuori dal flusso) -->
+<div id="ea-arcade-modal-{{ section.id }}" onclick="eaaHandleClick_{{ sid }}(event)">
+  <div class="eaa-modal-box">
+    <div class="eaa-modal-header">
+      <span>☠ THE GENTLEMAN'S DESCENT</span>
+      <button class="eaa-modal-close" onclick="eaaClose_{{ sid }}()" title="Chiudi">✕</button>
+    </div>
+    <iframe
+      id="eaa-frame-{{ section.id }}"
+      class="eaa-modal-iframe"
+      scrolling="no"
+      allow="autoplay"
+      title="Everart Arcade"
+    ></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  const GAME_URL = {{ 'everart-game.html' | asset_url | json }};
+  const secEl    = document.getElementById('ea-arcade-{{ section.id }}');
+  const modal    = document.getElementById('ea-arcade-modal-{{ section.id }}');
+  const frame    = document.getElementById('eaa-frame-{{ section.id }}');
+  const flash    = document.getElementById('eaa-flash-{{ section.id }}');
+  const ltgCont  = document.getElementById('eaa-lightning-{{ section.id }}');
+
+  /* ── MODAL ── */
+  window.eaaOpen_{{ sid }} = function(){
+    frame.src = GAME_URL;
+    modal.classList.add('eaa-open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.eaaClose_{{ sid }} = function(){
+    modal.classList.remove('eaa-open');
+    document.body.style.overflow = '';
+    frame.src = '';
+  };
+  window.eaaHandleClick_{{ sid }} = function(e){
+    if(e.target === modal) eaaClose_{{ sid }}();
+  };
+
+  /* Escape key */
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('eaa-open')) eaaClose_{{ sid }}();
+  });
+  /* Block scroll keys while game is open */
+  document.addEventListener('keydown', function(e){
+    if(!modal.classList.contains('eaa-open')) return;
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+  }, true);
+
+  /* ── LIGHTNING ── */
+  const ns = 'http://www.w3.org/2000/svg';
+  function makePath(w, h){
+    let x = Math.random()*w, y = 0, d = 'M'+x+' 0';
+    const steps = 10 + Math.floor(Math.random()*8);
+    for(let i = 1; i <= steps; i++){
+      x = Math.max(20, Math.min(w-20, x + (Math.random()-.5)*90));
+      y = (h/steps)*i;
+      d += ' L'+x.toFixed(1)+' '+y.toFixed(1);
+    }
+    return d;
+  }
+  function strike(){
+    if(!secEl || !flash || !ltgCont) return;
+    const w = secEl.offsetWidth, h = secEl.offsetHeight;
+    const svg = document.createElementNS(ns,'svg');
+    svg.setAttribute('width', w); svg.setAttribute('height', h);
+    svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;z-index:2;';
+
+    const defs = document.createElementNS(ns,'defs');
+    const filt = document.createElementNS(ns,'filter');
+    filt.setAttribute('id','eaa-lg-{{ sid }}');
+    const blur = document.createElementNS(ns,'feGaussianBlur');
+    blur.setAttribute('stdDeviation','3'); blur.setAttribute('result','b');
+    const merge = document.createElementNS(ns,'feMerge');
+    ['b','SourceGraphic'].forEach(function(i){
+      const n = document.createElementNS(ns,'feMergeNode');
+      n.setAttribute('in',i); merge.appendChild(n);
+    });
+    filt.append(blur,merge); defs.appendChild(filt); svg.appendChild(defs);
+
+    const bolt = document.createElementNS(ns,'path');
+    bolt.setAttribute('d', makePath(w,h));
+    bolt.setAttribute('stroke','rgba(255,255,255,.9)');
+    bolt.setAttribute('stroke-width','1.5');
+    bolt.setAttribute('fill','none');
+    bolt.setAttribute('filter','url(#eaa-lg-{{ sid }})');
+    svg.appendChild(bolt);
+
+    if(Math.random() > .5){
+      const br = document.createElementNS(ns,'path');
+      br.setAttribute('d', makePath(w,h*.6));
+      br.setAttribute('stroke','rgba(200,180,255,.5)');
+      br.setAttribute('stroke-width','1');
+      br.setAttribute('fill','none');
+      svg.appendChild(br);
+    }
+    ltgCont.appendChild(svg);
+
+    flash.style.transition = 'none';  flash.style.opacity = '.13';
+    setTimeout(function(){ flash.style.transition='opacity .08s'; flash.style.opacity='0'; }, 60);
+    setTimeout(function(){ flash.style.transition='none'; flash.style.opacity='.07'; }, 110);
+    setTimeout(function(){ flash.style.transition='opacity .12s'; flash.style.opacity='0'; }, 160);
+    setTimeout(function(){ svg.remove(); }, 350);
+
+    setTimeout(strike, 2800 + Math.random()*6000);
+  }
+  setTimeout(strike, 1200 + Math.random()*2000);
+
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "EverArt Arcade",
+  "tag": "section",
+  "disabled_on": { "groups": ["header","footer"] },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Abilita sezione arcade",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titolo",
+      "default": "PLAY AND WIN\nTHE SECRET CODE!"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descrizione",
+      "default": "Sfida le creature degli Antichi, sopravvivi a Cthulhu e raggiungi 6.500 punti. Inserisci la tua email e il codice sconto del 10% è tuo."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Testo pulsante",
+      "default": "PLAY NOW"
+    }
+  ]
+}
+{% endschema %}
