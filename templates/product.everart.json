@@ -74,14 +74,14 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Expected delivery early June 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p>"
+            "content": "<p>Expected delivery early June 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
             "heading": "Refund & Damaged Item Policy",
-            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p>"
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
           }
         }
       },
@@ -267,7 +267,6 @@
       "type": "everart-product-suggestions",
       "settings": {
         "eyebrow": "The Collection",
-        "heading": "You might also like",
         "limit": 4
       }
     }

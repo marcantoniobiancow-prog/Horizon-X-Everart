@@ -58,14 +58,14 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p>"
+            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
             "heading": "Refund & Damaged Item Policy",
-            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p>"
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
           }
         }
       },
@@ -199,8 +199,7 @@
       "settings": {
         "eyebrow": "Crafting the Cosmic Creature",
         "headline": "200+ hours.\nOne masterpiece.",
-        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures.",
-        "image": "shopify://shop_images/9_HPL-black.jpg"
+        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures."
       }
     },
     "everart-product-features": {
@@ -209,7 +208,6 @@
         "feat-1": {
           "type": "feature_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_Twoheads_HPL.jpg",
             "tag": "Exclusive Feature",
             "title": "Two Switchable Heads",
             "description": "Madness or awareness. Two interchangeable portraits capture the duality of the man and his mythology."
@@ -218,7 +216,6 @@
         "feat-2": {
           "type": "feature_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_Necronomicon_HPL.jpg",
             "tag": "Included — Complete Edition",
             "title": "The Necronomicon",
             "description": "A 12cm resin replica of the forbidden tome. A standalone collectible valued at €90."
@@ -227,7 +224,6 @@
         "feat-3": {
           "type": "feature_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_Twoheads_HPL-Recuperato.jpg",
             "tag": "Included — Complete Edition",
             "title": "Original Art Print",
             "description": "30×40cm black and white print by Francesco Manna. Fine paper, exhibition quality. Valued at €40."
@@ -236,7 +232,6 @@
         "feat-4": {
           "type": "feature_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_Certificate_HPL.jpg",
             "tag": "Your Number",
             "title": "Numbered Certificate",
             "description": "Each piece carries a numbered certificate of authenticity. Your number is yours forever."
