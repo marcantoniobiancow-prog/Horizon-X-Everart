@@ -15,6 +15,11 @@
   endif
   assign p_image = p.featured_image | image_url: width: 1200
   assign p_url   = shop.url | append: p.url
+  assign is_preorder = false
+  if p.tags contains 'preorder' or p.tags contains 'pre-order' or p.tags contains 'PreOrder'
+    assign is_preorder = true
+  endif
+  assign return_policy_url = shop.url | append: '/policies/refund-policy'
 -%}
 
 <script type="application/ld+json">
@@ -45,6 +50,43 @@
     "seller": {
       "@type": "Organization",
       "name": "Studio Everart"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "IT"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 2,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          {%- if is_preorder -%}
+          "minValue": 50,
+          "maxValue": 65,
+          {%- else -%}
+          "minValue": 6,
+          "maxValue": 7,
+          {%- endif -%}
+          "unitCode": "DAY"
+        }
+      },
+      "shippingLabel": {%- if is_preorder -%}"Spedizione internazionale via nave — circa 2 mesi dalla fine della produzione"{%- else -%}"Spedizione standard — 6-7 giorni lavorativi"{%- endif -%}
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "IT",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 14,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/ReturnShippingFees",
+      "url": {{ return_policy_url | json }}
     }
   }
   {%- if rating_value != blank and review_count != blank and review_count > 0 -%}
