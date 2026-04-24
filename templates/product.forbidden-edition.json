@@ -209,6 +209,7 @@
         "feat-1": {
           "type": "feature_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_Twoheads_HPL.jpg",
             "tag": "Exclusive Feature",
             "title": "Two Switchable Heads",
             "description": "Madness or awareness. Two interchangeable portraits capture the duality of the man and his mythology."
@@ -217,6 +218,7 @@
         "feat-2": {
           "type": "feature_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_Necronomicon_HPL.jpg",
             "tag": "Included — Complete Edition",
             "title": "The Necronomicon",
             "description": "A 12cm resin replica of the forbidden tome. A standalone collectible valued at €90."
@@ -225,6 +227,7 @@
         "feat-3": {
           "type": "feature_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_Twoheads_HPL-Recuperato.jpg",
             "tag": "Included — Complete Edition",
             "title": "Original Art Print",
             "description": "30×40cm black and white print by Francesco Manna. Fine paper, exhibition quality. Valued at €40."
@@ -233,6 +236,7 @@
         "feat-4": {
           "type": "feature_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_Certificate_HPL.jpg",
             "tag": "Your Number",
             "title": "Numbered Certificate",
             "description": "Each piece carries a numbered certificate of authenticity. Your number is yours forever."
