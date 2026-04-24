@@ -50,22 +50,22 @@
         "acc-1": {
           "type": "accordion_item",
           "settings": {
-            "heading": "Product Details",
-            "content": "<p>Limited edition H.P. Lovecraft statue — a hand-painted polystone masterpiece that brings the essence of cosmic horror into your collection.</p><p><strong>Edition size:</strong> 100 pieces worldwide — produced in two runs of 50. First run nearly complete.<br><strong>Height:</strong> 42 cm<br><strong>Width / Depth:</strong> 23.2 cm / 26.6 cm<br><strong>Material:</strong> Polystone<br><strong>Painting:</strong> Hand painted<br><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro<br><strong>Art Print:</strong> by Francesco Manna<br><strong>Scale:</strong> 1/10</p>"
+            "heading": "Technical Specifications",
+            "content": "<ul><li><strong>Edition Size:</strong> Limited to 100 numbered pieces</li><li><strong>Height:</strong> 42 cm (approx. 1:4 scale)</li><li><strong>Dimensions:</strong> 23.2 cm (W) x 26.6 cm (D)</li><li><strong>Material:</strong> Hand-painted Polystone</li><li><strong>Full Set Includes:</strong> Statue, 2 heads, Necronomicon, Art Print</li><li><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro</li></ul>"
           }
         },
         "acc-2": {
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
+            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20.</p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
-            "heading": "Refund & Damaged Item Policy",
-            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
+            "heading": "Refund Policy",
+            "content": "<p>Preorder cancellations accepted within 14 days of payment. For damages, contact info@studioeverart.com.</p>"
           }
         }
       },
@@ -85,196 +85,11 @@
         "show_edition": true,
         "edition_claimed": 46,
         "edition_total": 100,
-        "edition_ships": "Ships from production: June 2026 · Estimated delivery: August–September 2026",
-        "bundle_title": "What's Included — Preorder Bundle",
-        "bundle_original_price": "€890",
-        "bundle_discount_label": "Preorder discount",
-        "bundle_discount_amount": "−€60",
-        "bundle_total_label": "Your price today",
-        "bundle_save_note": "Preorder offer — you pay only the statue price, extras included · EU shipping: €20",
-        "btn_text": "Preorder — Secure Your Number",
-        "atc_note": "Once gone, it's forever.",
-        "balance_note": "",
-        "show_sticky": true
-      }
-    },
-    "everart-product-reviews": {
-      "type": "everart-product-reviews",
-      "blocks": {
-        "rev-1": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "text": "I was a bit skeptical for a thousand different reasons... that skepticism vanished the moment I unboxed it.",
-            "author": "Marco A. — Italy",
-            "via": "Verified collector · Facebook"
-          }
-        },
-        "rev-2": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "text": "I had my doubts about the final result. I can honestly say the product is top-tier. The level of detail is insane.",
-            "author": "Luca G. — Italy",
-            "via": "Verified collector · Facebook"
-          }
-        },
-        "rev-3": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "text": "Mine arrived. Long story short... it's stunning. Photos wouldn't do it justice. Great job.",
-            "author": "Alessandro A. — Italy",
-            "via": "Verified collector · Facebook"
-          }
-        }
-      },
-      "block_order": [
-        "rev-1",
-        "rev-2",
-        "rev-3"
-      ],
-      "settings": {
-        "eyebrow": "Verified Collectors",
-        "heading": "What they said when they unboxed it."
-      }
-    },
-    "everart-product-video": {
-      "type": "everart-product-video",
-      "settings": {
-        "eyebrow": "Real. Unfiltered.",
-        "heading": "See what arrives at your door.",
-        "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
-        "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
-        "cell1_label": "Packaging",
-        "cell1_value": "Custom protective box",
-        "cell2_label": "Shipping",
-        "cell2_value": "Insured & tracked",
-        "cell3_label": "Condition",
-        "cell3_value": "Inspected before dispatch"
-      }
-    },
-    "everart-product-process": {
-      "type": "everart-product-process",
-      "blocks": {
-        "step-1": {
-          "type": "step",
-          "settings": {
-            "number": "01",
-            "title": "Concept & Narrative",
-            "description": "The story comes first. We define the moment, the angle, the narrative layer no other statue has told."
-          }
-        },
-        "step-2": {
-          "type": "step",
-          "settings": {
-            "number": "02",
-            "title": "3D Sculpting",
-            "description": "Digital sculpting from scratch. Every surface built to survive the transition from screen to resin."
-          }
-        },
-        "step-3": {
-          "type": "step",
-          "settings": {
-            "number": "03",
-            "title": "Hand Painting",
-            "description": "Each piece painted by hand. No two are identical — the craft leaves its mark on every piece."
-          }
-        },
-        "step-4": {
-          "type": "step",
-          "settings": {
-            "number": "04",
-            "title": "Quality Control",
-            "description": "Every piece inspected before it ships. If it doesn't meet the standard, it doesn't leave."
-          }
-        }
-      },
-      "block_order": [
-        "step-1",
-        "step-2",
-        "step-3",
-        "step-4"
-      ],
-      "settings": {
-        "eyebrow": "Crafting the Cosmic Creature",
-        "headline": "200+ hours.\nOne masterpiece.",
-        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures."
-      }
-    },
-    "everart-product-features": {
-      "type": "everart-product-features",
-      "blocks": {
-        "feat-1": {
-          "type": "feature_card",
-          "settings": {
-            "tag": "Exclusive Feature",
-            "title": "Two Switchable Heads",
-            "description": "Madness or awareness. Two interchangeable portraits capture the duality of the man and his mythology."
-          }
-        },
-        "feat-2": {
-          "type": "feature_card",
-          "settings": {
-            "tag": "Included — Complete Edition",
-            "title": "The Necronomicon",
-            "description": "A 12cm resin replica of the forbidden tome. A standalone collectible valued at €90."
-          }
-        },
-        "feat-3": {
-          "type": "feature_card",
-          "settings": {
-            "tag": "Included — Complete Edition",
-            "title": "Original Art Print",
-            "description": "30×40cm black and white print by Francesco Manna. Fine paper, exhibition quality. Valued at €40."
-          }
-        },
-        "feat-4": {
-          "type": "feature_card",
-          "settings": {
-            "tag": "Your Number",
-            "title": "Numbered Certificate",
-            "description": "Each piece carries a numbered certificate of authenticity. Your number is yours forever."
-          }
-        }
-      },
-      "block_order": [
-        "feat-1",
-        "feat-2",
-        "feat-3",
-        "feat-4"
-      ],
-      "settings": {}
-    },
-    "everart-product-email": {
-      "type": "everart-product-email",
-      "settings": {
-        "eyebrow": "For real collectors",
-        "heading": "Behind the madness.",
-        "description": "40 pages. The full making of Chapter I — free, for our collector list.",
-        "lead_icon": "📄",
-        "lead_title": "The Making of Chapter I — PDF",
-        "lead_desc": "Concept sketches, sculpting, painting, the narrative choices. Exclusive to our collector list.",
-        "input_placeholder": "Your email address",
-        "btn_text": "Get it free",
-        "disclaimer": "No spam. Unsubscribe at any time."
-      }
-    },
-    "everart-product-suggestions": {
-      "type": "everart-product-suggestions",
-      "settings": {
-        "eyebrow": "The Collection",
-        "limit": 4
+        "bundle_title": "Preorder Bundle Offer"
       }
     }
   },
   "order": [
-    "everart-product-main",
-    "everart-product-reviews",
-    "everart-product-video",
-    "everart-product-process",
-    "everart-product-features",
-    "everart-product-email",
-    "everart-product-suggestions"
+    "everart-product-main"
   ]
 }
