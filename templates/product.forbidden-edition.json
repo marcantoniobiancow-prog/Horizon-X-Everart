@@ -146,7 +146,6 @@
         "heading": "See what arrives at your door.",
         "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
         "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
-        "cover_image": "shopify://shop_images/unboxing_cover_lovecraft.png",
         "cell1_label": "Packaging",
         "cell1_value": "Custom protective box",
         "cell2_label": "Shipping",
@@ -200,7 +199,8 @@
       "settings": {
         "eyebrow": "Crafting the Cosmic Creature",
         "headline": "200+ hours.\nOne masterpiece.",
-        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures."
+        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures.",
+        "image": "shopify://shop_images/Skull.png"
       }
     },
     "everart-product-features": {
