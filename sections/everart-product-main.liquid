@@ -89,6 +89,11 @@
       background: var(--epm-bdr);
 
       &.single { grid-template-columns: 1fr; }
+      
+      /* First image takes full width on desktop */
+      .epm-img-cell:first-child {
+        grid-column: span 2;
+      }
     }
 
     .epm-img-cell {
