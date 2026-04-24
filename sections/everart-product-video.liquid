@@ -186,14 +186,29 @@
 
         {%- if yt_id != blank -%}
 
-          {%- if s.cover_image != blank -%}
+          {%- assign cover_img = s.cover_image -%}
+          {%- if cover_img == blank -%}
+             {%- assign asset_test = 'unboxing_cover_lovecraft.png' | asset_img_url: '1200x' -%}
+             {%- unless asset_test contains 'no-image' -%}
+               {%- assign cover_img = asset_test -%}
+             {%- endunless -%}
+          {%- endif -%}
+
+          {%- if cover_img != blank -%}
             {%- comment -%} Copertina cliccabile → carica iframe al click {%- endcomment -%}
             <div class="epv-cover" id="epv-cover-{{ sid }}"
                  data-embed="{{ yt_embed }}?autoplay=1&rel=0">
-              <img src="{{ s.cover_image | image_url: width: 1200 }}"
-                   alt="{{ s.cover_image.alt | default: s.heading }}"
-                   width="1200"
-                   loading="lazy">
+              {%- if s.cover_image != blank -%}
+                <img src="{{ s.cover_image | image_url: width: 1200 }}"
+                     alt="{{ s.cover_image.alt | default: s.heading }}"
+                     width="1200"
+                     loading="lazy">
+              {%- else -%}
+                <img src="{{ 'unboxing_cover_lovecraft.png' | asset_img_url: '1200x' }}"
+                     alt="{{ s.heading }}"
+                     width="1200"
+                     loading="lazy">
+              {%- endif -%}
               <div class="epv-cover-overlay"></div>
               <div class="epv-play-btn">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
