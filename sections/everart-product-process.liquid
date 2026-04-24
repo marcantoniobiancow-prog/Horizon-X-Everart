@@ -8,7 +8,7 @@
 
 <style>
 #epp-{{ sid }} {
-  background: #121212;
+  background: transparent;
   border-top: 1px solid #2a2a2a;
   padding: 96px 0;
   font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -53,7 +53,7 @@
 #epp-{{ sid }} .epp-img {
   height: 360px;
   overflow: hidden;
-  background: #212121;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +61,7 @@
 #epp-{{ sid }} .epp-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: {{ s.image_fit | default: 'cover' }};
   display: block;
 }
 #epp-{{ sid }} .epp-strip {
@@ -159,7 +159,14 @@
     { "type": "text",       "id": "eyebrow",     "label": "Eyebrow" },
     { "type": "textarea",   "id": "headline",    "label": "Headline grande (usa \\n per andare a capo)" },
     { "type": "textarea",   "id": "description", "label": "Testo descrizione" },
-    { "type": "image_picker","id": "image",      "label": "Immagine destra" }
+    { "type": "image_picker","id": "image",      "label": "Immagine destra" },
+    { "type": "select", "id": "image_fit", "label": "Adattamento immagine",
+      "options": [
+        { "value": "cover", "label": "Fill (Copri)" },
+        { "value": "contain", "label": "Fit (Adatta)" }
+      ],
+      "default": "cover"
+    }
   ],
   "presets": [{ "name": "Prodotto — Process" }]
 }
