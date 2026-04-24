@@ -188,7 +188,7 @@
 
           {%- assign cover_img = s.cover_image -%}
           {%- if cover_img == blank -%}
-             {%- assign asset_test = 'unboxing_cover_lovecraft.png' | asset_img_url: '1200x' -%}
+             {%- assign asset_test = 'real_unboxing_thumbnail.png' | asset_img_url: '1200x' -%}
              {%- unless asset_test contains 'no-image' -%}
                {%- assign cover_img = asset_test -%}
              {%- endunless -%}
@@ -204,7 +204,7 @@
                      width="1200"
                      loading="lazy">
               {%- else -%}
-                <img src="{{ 'unboxing_cover_lovecraft.png' | asset_img_url: '1200x' }}"
+                <img src="{{ 'real_unboxing_thumbnail.png' | asset_img_url: '1200x' }}"
                      alt="{{ s.heading }}"
                      width="1200"
                      loading="lazy">
