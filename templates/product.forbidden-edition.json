@@ -51,7 +51,7 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Product Details",
-            "content": "<ul><li><strong>Edition Size:</strong> 100 Pieces Worldwide</li><li><strong>Height:</strong> 42 CM (1:4 Scale)</li><li><strong>Material:</strong> Hand-Painted Polystone</li><li><strong>Set Includes:</strong> Statue, 2 Heads, Necronomicon, Art Print</li></ul>"
+            "content": "<p>Limited edition H.P. Lovecraft statue — a hand-painted polystone masterpiece that brings the essence of cosmic horror into your collection.</p><p><strong>Edition size:</strong> 100 pieces worldwide — produced in two runs of 50. First run nearly complete.<br><strong>Height:</strong> 42 cm<br><strong>Width / Depth:</strong> 23.2 cm / 26.6 cm<br><strong>Material:</strong> Polystone<br><strong>Painting:</strong> Hand painted<br><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro<br><strong>Art Print:</strong> by Francesco Manna<br><strong>Scale:</strong> 1/10</p>"
           }
         },
         "acc-2": {
@@ -146,6 +146,7 @@
         "heading": "See what arrives at your door.",
         "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
         "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
+        "cover_image": "shopify://shop_images/unboxing_cover_lovecraft.png",
         "cell1_label": "Packaging",
         "cell1_value": "Custom protective box",
         "cell2_label": "Shipping",
