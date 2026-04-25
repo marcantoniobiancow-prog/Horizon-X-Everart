@@ -1,0 +1,162 @@
+{%- style -%}
+  .shelley-teaser {
+    background: var(--bg);
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--bdr);
+    border-bottom: 1px solid var(--bdr);
+    overflow: hidden;
+  }
+
+  .shelley-teaser__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 10%;
+    border-right: 1px solid var(--bdr);
+  }
+
+  .shelley-teaser__label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .shelley-teaser__label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+
+  .shelley-teaser__title {
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: 0.95;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    color: var(--white);
+  }
+
+  .shelley-teaser__narrative {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 48px;
+    max-width: 480px;
+  }
+
+  .shelley-teaser__image-wrap {
+    position: relative;
+    background: var(--surf);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shelley-teaser__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  @media screen and (max-width: 768px) {
+    .shelley-teaser {
+      grid-template-columns: 1fr;
+    }
+    .shelley-teaser__content {
+      padding: 64px 24px;
+      border-right: none;
+      border-bottom: 1px solid var(--bdr);
+    }
+    .shelley-teaser__image-wrap {
+      height: 400px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="ShelleyTeaser-{{ section.id }}" class="shelley-teaser">
+  <div class="shelley-teaser__content">
+    <div class="shelley-teaser__label">{{ section.settings.label }}</div>
+    <h1 class="shelley-teaser__title">{{ section.settings.headline }}</h1>
+    <div class="shelley-teaser__narrative">
+      {{ section.settings.copy }}
+    </div>
+    <div class="shelley-teaser__actions">
+      <a href="{{ section.settings.button_link }}" class="btn btn-p">{{ section.settings.button_text }}</a>
+    </div>
+  </div>
+  
+  <div class="shelley-teaser__image-wrap">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1200 | image_tag: 
+        class: 'shelley-teaser__image',
+        loading: 'eager',
+        fetchpriority: 'high',
+        width: 1200,
+        height: 1500,
+        alt: section.settings.headline
+      }}
+    {%- else -%}
+      <div class="ea-img" style="height:100%; width:100%;">
+        <span class="img-icon">†</span>
+        <span class="img-label">Mary Shelley — Prototype Render<br>Masters of Madness</span>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Everart Shelley Teaser",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Etichetta Superiore",
+      "default": "Masters of Madness — Wave II"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titolo (H1)",
+      "default": "Mary Shelley: The Architect of Shadows"
+    },
+    {
+      "type": "richtext",
+      "id": "copy",
+      "label": "Testo Narrativo",
+      "default": "<p>Non era solo un romanzo; era un esorcismo. Mary Shelley non scrisse Frankenstein, lo partorì nel freddo di Villa Diodati. La nostra opera cattura quel momento preciso.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Testo Bottone",
+      "default": "Attendi il Risveglio"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link Bottone"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Immagine Hero"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Everart Shelley Teaser"
+    }
+  ]
+}
+{% endschema %}

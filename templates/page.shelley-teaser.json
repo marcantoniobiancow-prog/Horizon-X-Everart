@@ -1,0 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "everart-teaser-shelley",
+      "settings": {
+        "label": "Masters of Madness — Wave II",
+        "headline": "Mary Shelley: The Architect of Shadows",
+        "copy": "<p>Non era solo un romanzo; era un esorcismo. Mary Shelley non scrisse Frankenstein, lo partorì nel freddo di Villa Diodati. La nostra opera cattura quel momento preciso: la creatrice sospesa tra il lutto e l'ambizione divina. Una statua che non decora, ma osserva.</p>",
+        "button_text": "Attendi il Risveglio"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
