@@ -119,6 +119,21 @@
   href="{{ canonical_url }}"
 >
 
+{%- liquid
+  assign hreflang_path = request.path
+  unless localization.language.primary
+    assign hreflang_lang_prefix = '/' | append: localization.language.iso_code
+    assign hreflang_path = request.path | remove_first: hreflang_lang_prefix
+  endunless
+-%}
+{%- for lang in localization.available_languages -%}
+  {%- if lang.primary -%}
+    <link rel="alternate" hreflang="{{ lang.iso_code }}" href="{{ shop.url }}{{ hreflang_path }}">
+  {%- else -%}
+    <link rel="alternate" hreflang="{{ lang.iso_code }}" href="{{ shop.url }}/{{ lang.iso_code }}{{ hreflang_path }}">
+  {%- endif -%}
+{%- endfor -%}
+<link rel="alternate" hreflang="x-default" href="{{ shop.url }}{{ hreflang_path }}">
 
 {% if page_description %}
   <meta

@@ -386,5 +386,17 @@
       "label_address": "Address",
       "label_social": "Social",
       "coll_label": "Looking for the Collection?"
+  },
+  "everart": {
+    "blog": {
+      "all_stories": "← All Stories",
+      "min_read": "{{ minutes }} min read",
+      "read_more": "Read more",
+      "article_image": "Article image"
+    },
+    "product": {
+      "bundle_value": "Bundle value",
+      "payment_options": "Payment options"
+    }
   }
 }

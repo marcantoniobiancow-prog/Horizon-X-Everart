@@ -373,5 +373,17 @@
     "label_address": "Dirección",
     "label_social": "Redes sociales",
     "coll_label": "¿Buscas la Colección?"
+  },
+  "everart": {
+    "blog": {
+      "all_stories": "← Todos los artículos",
+      "min_read": "{{ minutes }} min de lectura",
+      "read_more": "Leer más",
+      "article_image": "Imagen del artículo"
+    },
+    "product": {
+      "bundle_value": "Valor del bundle",
+      "payment_options": "Opciones de pago"
+    }
   }
 }
