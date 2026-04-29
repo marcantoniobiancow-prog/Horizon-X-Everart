@@ -72,7 +72,7 @@
 }
 #epr-{{ sid }} .epr-via {
   font-size: 10px;
-  color: #444444;
+  color: #888888;
   margin-top: 3px;
   font-weight: 400;
 }
@@ -90,10 +90,10 @@
   <div class="epr-inner">
     <div class="epr-head">
       {%- if s.eyebrow != blank -%}
-        <span class="epr-label">{{ s.eyebrow }}</span>
+        <span class="epr-label">{{ 'everart.reviews.eyebrow' | t | default: s.eyebrow }}</span>
       {%- endif -%}
       {%- if s.heading != blank -%}
-        <h2 class="epr-title">{{ s.heading }}</h2>
+        <h2 class="epr-title">{{ 'everart.reviews.heading' | t | default: s.heading }}</h2>
       {%- endif -%}
     </div>
     <div class="epr-grid">
@@ -110,7 +110,7 @@
             <div class="epr-author">{{ block.settings.author }}</div>
           {%- endif -%}
           {%- if block.settings.via != blank -%}
-            <div class="epr-via">{{ block.settings.via }}</div>
+            <div class="epr-via">{{ 'everart.reviews.via' | t | default: block.settings.via }}</div>
           {%- endif -%}
         </div>
       {%- endfor -%}

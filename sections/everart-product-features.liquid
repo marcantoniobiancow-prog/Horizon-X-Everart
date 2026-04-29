@@ -88,6 +88,9 @@
   #epf-{{ sid }} .epf-card:first-child { border-top: none; }
   #epf-{{ sid }} .epf-body { padding: 24px 20px 28px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  #epf-{{ sid }} .epf-img img { transition: none; }
+}
 </style>
 
 <div id="epf-{{ sid }}">
@@ -103,14 +106,36 @@
           {%- endif -%}
         </div>
         <div class="epf-body">
-          {%- if block.settings.tag != blank -%}
-            <span class="epf-tag">{{ block.settings.tag }}</span>
+          {%- liquid
+            assign ft_tag   = block.settings.tag
+            assign ft_title = block.settings.title
+            assign ft_desc  = block.settings.description
+            if ft_title contains 'Heads' or ft_title contains 'Teste'
+              assign ft_tag   = 'everart.features.exclusive' | t | default: ft_tag
+              assign ft_title = 'everart.features.heads_title' | t | default: ft_title
+              assign ft_desc  = 'everart.features.heads_desc' | t | default: ft_desc
+            elsif ft_title contains 'Necronomicon'
+              assign ft_tag   = 'everart.features.included' | t | default: ft_tag
+              assign ft_title = 'everart.features.necronomicon_title' | t | default: ft_title
+              assign ft_desc  = 'everart.features.necronomicon_desc' | t | default: ft_desc
+            elsif ft_title contains 'Print' or ft_title contains 'Stampa'
+              assign ft_tag   = 'everart.features.included' | t | default: ft_tag
+              assign ft_title = 'everart.features.artprint_title' | t | default: ft_title
+              assign ft_desc  = 'everart.features.artprint_desc' | t | default: ft_desc
+            elsif ft_title contains 'Certificate' or ft_title contains 'Certificato'
+              assign ft_tag   = 'everart.features.your_number' | t | default: ft_tag
+              assign ft_title = 'everart.features.certificate_title' | t | default: ft_title
+              assign ft_desc  = 'everart.features.certificate_desc' | t | default: ft_desc
+            endif
+          -%}
+          {%- if ft_tag != blank -%}
+            <span class="epf-tag">{{ ft_tag }}</span>
           {%- endif -%}
-          {%- if block.settings.title != blank -%}
-            <div class="epf-title">{{ block.settings.title }}</div>
+          {%- if ft_title != blank -%}
+            <div class="epf-title">{{ ft_title }}</div>
           {%- endif -%}
-          {%- if block.settings.description != blank -%}
-            <p class="epf-desc">{{ block.settings.description }}</p>
+          {%- if ft_desc != blank -%}
+            <p class="epf-desc">{{ ft_desc }}</p>
           {%- endif -%}
         </div>
       </div>

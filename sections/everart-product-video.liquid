@@ -114,9 +114,17 @@
   transition: background .2s, transform .2s;
   flex-shrink: 0;
 }
-#epv-{{ sid }} .epv-cover:hover .epv-play-btn {
+#epv-{{ sid }} .epv-cover:hover .epv-play-btn,
+#epv-{{ sid }} .epv-cover:focus-visible .epv-play-btn {
   background: #a52020;
   transform: scale(1.07);
+}
+#epv-{{ sid }} .epv-cover:focus-visible {
+  outline: 2px solid rgba(255,255,255,.8);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #epv-{{ sid }} .epv-play-btn { transition: none; }
 }
 #epv-{{ sid }} .epv-placeholder {
   position: absolute;
@@ -176,9 +184,9 @@
 <div id="epv-{{ sid }}">
   <div class="epv-inner">
     <div class="epv-head">
-      {%- if s.eyebrow != blank -%}<span class="epv-label">{{ s.eyebrow }}</span>{%- endif -%}
-      {%- if s.heading != blank -%}<h2 class="epv-title">{{ s.heading }}</h2>{%- endif -%}
-      {%- if s.description != blank -%}<p class="epv-desc">{{ s.description }}</p>{%- endif -%}
+      {%- if s.eyebrow != blank -%}<span class="epv-label">{{ 'everart.video.eyebrow' | t | default: s.eyebrow }}</span>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="epv-title">{{ 'everart.video.heading' | t | default: s.heading }}</h2>{%- endif -%}
+      {%- if s.description != blank -%}<p class="epv-desc">{{ 'everart.video.description' | t | default: s.description }}</p>{%- endif -%}
     </div>
 
     <div class="epv-video-wrap">
@@ -197,7 +205,10 @@
           {%- if cover_img != blank -%}
             {%- comment -%} Copertina cliccabile → carica iframe al click {%- endcomment -%}
             <div class="epv-cover" id="epv-cover-{{ sid }}"
-                 data-embed="{{ yt_embed }}?autoplay=1&rel=0">
+                 data-embed="{{ yt_embed }}?autoplay=1&rel=0"
+                 role="button"
+                 tabindex="0"
+                 aria-label="{{ 'everart.video.play_label' | t | default: 'Play unboxing video' }}">
               {%- if s.cover_image != blank -%}
                 <img src="{{ s.cover_image | image_url: width: 1200 }}"
                      alt="{{ s.cover_image.alt | default: s.heading }}"
@@ -242,20 +253,44 @@
       <div class="epv-cells">
         {%- if s.cell1_label != blank or s.cell1_value != blank -%}
           <div class="epv-cell">
-            <div class="epv-cell-label">{{ s.cell1_label }}</div>
-            <div class="epv-cell-value">{{ s.cell1_value }}</div>
+            {%- liquid
+              assign c1_label = s.cell1_label
+              assign c1_value = s.cell1_value
+              if c1_label == 'Packaging' or c1_label == 'Confezione'
+                 assign c1_label = 'everart.video.packaging' | t | default: c1_label
+                 assign c1_value = 'everart.video.packaging_value' | t | default: c1_value
+              endif
+            -%}
+            <div class="epv-cell-label">{{ c1_label }}</div>
+            <div class="epv-cell-value">{{ c1_value }}</div>
           </div>
         {%- endif -%}
         {%- if s.cell2_label != blank or s.cell2_value != blank -%}
           <div class="epv-cell">
-            <div class="epv-cell-label">{{ s.cell2_label }}</div>
-            <div class="epv-cell-value">{{ s.cell2_value }}</div>
+            {%- liquid
+              assign c2_label = s.cell2_label
+              assign c2_value = s.cell2_value
+              if c2_label == 'Shipping' or c2_label == 'Spedizione'
+                 assign c2_label = 'everart.video.shipping' | t | default: c2_label
+                 assign c2_value = 'everart.video.shipping_value' | t | default: c2_value
+              endif
+            -%}
+            <div class="epv-cell-label">{{ c2_label }}</div>
+            <div class="epv-cell-value">{{ c2_value }}</div>
           </div>
         {%- endif -%}
         {%- if s.cell3_label != blank or s.cell3_value != blank -%}
           <div class="epv-cell">
-            <div class="epv-cell-label">{{ s.cell3_label }}</div>
-            <div class="epv-cell-value">{{ s.cell3_value }}</div>
+            {%- liquid
+              assign c3_label = s.cell3_label
+              assign c3_value = s.cell3_value
+              if c3_label == 'Condition' or c3_label == 'Condizione'
+                 assign c3_label = 'everart.video.condition' | t | default: c3_label
+                 assign c3_value = 'everart.video.condition_value' | t | default: c3_value
+              endif
+            -%}
+            <div class="epv-cell-label">{{ c3_label }}</div>
+            <div class="epv-cell-value">{{ c3_value }}</div>
           </div>
         {%- endif -%}
       </div>
@@ -267,7 +302,7 @@
 (function() {
   var cover = document.getElementById('epv-cover-{{ sid }}');
   if (!cover) return;
-  cover.addEventListener('click', function() {
+  function epvActivateCover() {
     var embed = cover.dataset.embed;
     var ratio = cover.parentElement;
     var iframe = document.createElement('iframe');
@@ -277,6 +312,13 @@
     iframe.allowFullscreen = true;
     iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0';
     ratio.replaceChild(iframe, cover);
+  }
+  cover.addEventListener('click', epvActivateCover);
+  cover.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      epvActivateCover();
+    }
   });
 })();
 </script>
