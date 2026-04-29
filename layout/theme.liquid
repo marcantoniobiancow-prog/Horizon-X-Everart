@@ -37,7 +37,6 @@
       {%- render 'theme-editor' -%}
     {% endif %}
 
-
   {%- unless request.design_mode -%}
   <script>
     (function () {
@@ -51,19 +50,14 @@
         d.setFullYear(d.getFullYear() + 1);
         document.cookie = n + '=' + v + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
       }
-      // Respect manual choice: if cookie exists, never auto-redirect again
       if (getCookie(COOKIE)) return;
       setCookie(COOKIE, '1');
-
       var map = { it: 'it', fr: 'fr', de: 'de', es: 'es' };
       var lang = (navigator.language || 'en').split('-')[0].toLowerCase();
-      var target = map[lang] || '';            // '' = English (default, no prefix)
+      var target = map[lang] || '';
       var current = '{{ request.locale.iso_code }}';
       if (current === 'en') current = '';
-
-      if (target === current) return;          // already on the right locale
-
-      // Strip existing locale prefix from path
+      if (target === current) return;
       var path = location.pathname;
       var prefixes = ['it', 'fr', 'de', 'es'];
       for (var i = 0; i < prefixes.length; i++) {
@@ -73,7 +67,6 @@
           break;
         }
       }
-
       var newPath = (target ? '/' + target : '') + path;
       if (!newPath) newPath = '/';
       location.replace(newPath + location.search + location.hash);
