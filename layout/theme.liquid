@@ -37,6 +37,50 @@
       {%- render 'theme-editor' -%}
     {% endif %}
 
+
+  {%- unless request.design_mode -%}
+  <script>
+    (function () {
+      var COOKIE = 'ea_locale_set';
+      function getCookie(n) {
+        var m = document.cookie.match('(^|;) ?' + n + '=([^;]*)(;|$)');
+        return m ? m[2] : null;
+      }
+      function setCookie(n, v) {
+        var d = new Date();
+        d.setFullYear(d.getFullYear() + 1);
+        document.cookie = n + '=' + v + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+      }
+      // Respect manual choice: if cookie exists, never auto-redirect again
+      if (getCookie(COOKIE)) return;
+      setCookie(COOKIE, '1');
+
+      var map = { it: 'it', fr: 'fr', de: 'de', es: 'es' };
+      var lang = (navigator.language || 'en').split('-')[0].toLowerCase();
+      var target = map[lang] || '';            // '' = English (default, no prefix)
+      var current = '{{ request.locale.iso_code }}';
+      if (current === 'en') current = '';
+
+      if (target === current) return;          // already on the right locale
+
+      // Strip existing locale prefix from path
+      var path = location.pathname;
+      var prefixes = ['it', 'fr', 'de', 'es'];
+      for (var i = 0; i < prefixes.length; i++) {
+        var p = '/' + prefixes[i];
+        if (path === p || path.indexOf(p + '/') === 0) {
+          path = path.slice(p.length) || '/';
+          break;
+        }
+      }
+
+      var newPath = (target ? '/' + target : '') + path;
+      if (!newPath) newPath = '/';
+      location.replace(newPath + location.search + location.hash);
+    })();
+  </script>
+  {%- endunless -%}
+
     {{ content_for_header }}
     {% # theme-check-enable RemoteAsset %}
   </head>
