@@ -376,7 +376,77 @@
     },
     "product": {
       "bundle_value": "Bundle-Wert",
-      "payment_options": "Zahlungsoptionen"
+      "payment_options": "Zahlungsoptionen",
+      "collection_label": "Masters of Madness · Kapitel I",
+      "subtitle": "The Forbidden Edition",
+      "ships": "Versand ab Produktion: Juni 2026 · Geschätzte Lieferung: August–September 2026",
+      "bundle_title": "Was enthalten ist",
+      "bundle_discount_label": "Vorbestellungsrabatt",
+      "bundle_total_label": "Ihr Preis heute",
+      "bundle_save_note": "Vorbestellungsangebot — Sie zahlen nur den Statuenpreis, Extras inklusive · EU-Versand: €20",
+      "qty": "Menge",
+      "btn_text": "Vorbestellung — Sichern Sie Ihre Nummer",
+      "secure_checkout": "Sicherer Checkout",
+      "atc_note": "Einmal weg, ist es für immer.",
+      "shipping": "Versand & Rückgabe",
+      "shipping_text": "EU-Pauschale €20 — Versichert & verfolgt · Kostenlose Rücksendung innerhalb von 14 Tagen bei Herstellungsfehlern",
+      "sticky_claimed": "reserviert",
+      "details": "Produktdetails",
+      "details_text": "Hochwertiger Polystone, handbemalt. Maßstab 1/10.",
+      "refund_policy": "Rückgaberecht",
+      "refund_text": "Rückgabe innerhalb von 14 Tagen bei Herstellungsfehlern. Vorbestellungen: innerhalb von 14 Tagen stornierbar, Anzahlung danach nicht erstattungsfähig."
+    },
+    "reviews": {
+      "eyebrow": "Verifizierte Sammler",
+      "heading": "Was sie beim Auspacken sagten.",
+      "via": "Verifizierter Sammler · Facebook"
+    },
+    "video": {
+      "eyebrow": "Real. Ungefiltert.",
+      "heading": "Sehen Sie, was an Ihrer Tür ankommt.",
+      "description": "Kein CGI. Keine Studiobeleuchtungstricks. Ein echtes Unboxing von einem echten Sammler.",
+      "packaging": "Verpackung",
+      "packaging_value": "Individuelle Schutzverpackung",
+      "shipping": "Versand",
+      "shipping_value": "Versichert & verfolgt",
+      "condition": "Zustand",
+      "condition_value": "Vor dem Versand geprüft",
+      "play_label": "Video abspielen"
+    },
+    "features": {
+      "exclusive": "Exklusives Merkmal",
+      "heads_title": "Zwei wechselbare Köpfe",
+      "heads_desc": "Wahnsinn oder Bewusstsein. Zwei austauschbare Porträts erfassen die Dualität des Mythos.",
+      "included": "Enthalten — Vollständige Edition",
+      "necronomicon_title": "Das Necronomicon",
+      "necronomicon_desc": "Eine 12-cm-Harzkopie des verbotenen Bandes. Ein eigenständiges Sammlerstück im Wert von €90.",
+      "artprint_title": "Original Kunstdruck",
+      "artprint_desc": "Schwarz-Weiß-Druck 30×40 cm von Francesco Manna. Feines Papier, Ausstellungsqualität.",
+      "your_number": "Ihre Nummer",
+      "certificate_title": "Nummeriertes Zertifikat",
+      "certificate_desc": "Jedes Stück trägt ein nummeriertes Echtheitszertifikat. Ihre Nummer gehört nur Ihnen."
+    },
+    "email": {
+      "eyebrow": "Für echte Sammler",
+      "heading": "Hinter dem Wahnsinn.",
+      "description": "40 Seiten. Das vollständige Making-of von Kapitel I — kostenlos für unsere Sammlerliste.",
+      "lead_title": "Das Making-of von Kapitel I — PDF",
+      "lead_desc": "Konzeptskizzen, Bildhauerei, Malerei, die erzählerischen Entscheidungen. Exklusiv für unsere Liste.",
+      "placeholder": "Ihre E-Mail-Adresse",
+      "button": "Kostenlos herunterladen",
+      "disclaimer": "Kein Spam. Jederzeit abmelden."
     }
+  },
+  "sections": {
+    "everart_product_main": {
+      "static": {
+        "bundle_value": "Bundle-Wert",
+        "aumenta": "Menge erhöhen",
+        "diminuisci": "Menge verringern"
+      }
+    }
+  },
+  "jsonld": {
+    "shipping_label_standard": "Standardversand"
   }
 }

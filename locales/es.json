@@ -383,7 +383,77 @@
     },
     "product": {
       "bundle_value": "Valor del bundle",
-      "payment_options": "Opciones de pago"
+      "payment_options": "Opciones de pago",
+      "collection_label": "Masters of Madness · Capítulo I",
+      "subtitle": "The Forbidden Edition",
+      "ships": "Envío desde producción: Junio 2026 · Entrega estimada: Agosto–Septiembre 2026",
+      "bundle_title": "Qué está incluido",
+      "bundle_discount_label": "Descuento por preorden",
+      "bundle_total_label": "Tu precio hoy",
+      "bundle_save_note": "Oferta preorden — solo pagas el precio de la estatua, extras incluidos · Envío EU: €20",
+      "qty": "Cantidad",
+      "btn_text": "Preorden — Asegura tu número",
+      "secure_checkout": "Pago seguro",
+      "atc_note": "Una vez agotado, es para siempre.",
+      "shipping": "Envío y Devoluciones",
+      "shipping_text": "Tarifa fija EU €20 — Asegurado y rastreado · Devoluciones gratuitas en 14 días por defectos de fabricación",
+      "sticky_claimed": "reservados",
+      "details": "Detalles del producto",
+      "details_text": "Polystone de alta densidad, pintado a mano. Escala 1/10.",
+      "refund_policy": "Política de reembolso",
+      "refund_text": "Devolución en 14 días por defectos de fabricación. Preórdenes: cancelables en 14 días, depósito no reembolsable después."
+    },
+    "reviews": {
+      "eyebrow": "Coleccionistas Verificados",
+      "heading": "Lo que dijeron al desempaquetarlo.",
+      "via": "Coleccionista verificado · Facebook"
+    },
+    "video": {
+      "eyebrow": "Real. Sin filtrar.",
+      "heading": "Mira lo que llega a tu puerta.",
+      "description": "Sin CGI. Sin trucos de iluminación de estudio. Un unboxing real de un coleccionista real.",
+      "packaging": "Embalaje",
+      "packaging_value": "Caja protectora personalizada",
+      "shipping": "Envío",
+      "shipping_value": "Asegurado y rastreado",
+      "condition": "Condición",
+      "condition_value": "Inspeccionado antes del envío",
+      "play_label": "Reproducir video"
+    },
+    "features": {
+      "exclusive": "Característica Exclusiva",
+      "heads_title": "Dos Cabezas Intercambiables",
+      "heads_desc": "Locura o conciencia. Dos retratos intercambiables capturan la dualidad del mito.",
+      "included": "Incluido — Edición Completa",
+      "necronomicon_title": "El Necronomicón",
+      "necronomicon_desc": "Una réplica en resina de 12 cm del tomo prohibido. Una pieza de colección independiente valorada en €90.",
+      "artprint_title": "Impresión de Arte Original",
+      "artprint_desc": "Impresión en blanco y negro 30×40 cm por Francesco Manna. Papel fino, calidad de exposición.",
+      "your_number": "Tu Número",
+      "certificate_title": "Certificado Numerado",
+      "certificate_desc": "Cada pieza lleva un certificado de autenticidad numerado. Tu número es solo tuyo."
+    },
+    "email": {
+      "eyebrow": "Para verdaderos coleccionistas",
+      "heading": "Detrás de la locura.",
+      "description": "40 páginas. El making of completo del Capítulo I — gratis, para nuestra lista de coleccionistas.",
+      "lead_title": "El Making of del Capítulo I — PDF",
+      "lead_desc": "Bocetos conceptuales, escultura, pintura, las elecciones narrativas. Exclusivo para nuestra lista.",
+      "placeholder": "Tu dirección de email",
+      "button": "Obtenerlo gratis",
+      "disclaimer": "Sin spam. Cancela la suscripción en cualquier momento."
     }
+  },
+  "sections": {
+    "everart_product_main": {
+      "static": {
+        "bundle_value": "Valor del bundle",
+        "aumenta": "Aumentar cantidad",
+        "diminuisci": "Disminuir cantidad"
+      }
+    }
+  },
+  "jsonld": {
+    "shipping_label_standard": "Envío Estándar"
   }
 }

@@ -383,7 +383,77 @@
     },
     "product": {
       "bundle_value": "Valeur du bundle",
-      "payment_options": "Options de paiement"
+      "payment_options": "Options de paiement",
+      "collection_label": "Masters of Madness · Chapitre I",
+      "subtitle": "The Forbidden Edition",
+      "ships": "Expédition depuis la production : Juin 2026 · Livraison estimée : Août–Septembre 2026",
+      "bundle_title": "Ce qui est inclus",
+      "bundle_discount_label": "Remise précommande",
+      "bundle_total_label": "Votre prix aujourd'hui",
+      "bundle_save_note": "Offre précommande — vous payez uniquement le prix de la statue, les extras inclus · Livraison EU : €20",
+      "qty": "Quantité",
+      "btn_text": "Précommande — Réservez votre numéro",
+      "secure_checkout": "Paiement sécurisé",
+      "atc_note": "Une fois parti, c'est pour toujours.",
+      "shipping": "Livraison & Retours",
+      "shipping_text": "Tarif fixe EU €20 — Assuré & suivi · Retours gratuits sous 14 jours pour défauts de fabrication",
+      "sticky_claimed": "réservés",
+      "details": "Détails du produit",
+      "details_text": "Polystone haute densité, peint à la main. Échelle 1/10.",
+      "refund_policy": "Politique de remboursement",
+      "refund_text": "Retour sous 14 jours pour défauts de fabrication. Précommandes : annulables sous 14 jours, dépôt non remboursable après."
+    },
+    "reviews": {
+      "eyebrow": "Collectionneurs Vérifiés",
+      "heading": "Ce qu'ils ont dit lors du déballage.",
+      "via": "Collectionneur vérifié · Facebook"
+    },
+    "video": {
+      "eyebrow": "Réel. Sans filtre.",
+      "heading": "Voyez ce qui arrive à votre porte.",
+      "description": "Pas de CGI. Pas de trucs d'éclairage studio. Un vrai unboxing d'un vrai collectionneur.",
+      "packaging": "Emballage",
+      "packaging_value": "Boîte de protection personnalisée",
+      "shipping": "Livraison",
+      "shipping_value": "Assurée & suivie",
+      "condition": "État",
+      "condition_value": "Inspecté avant expédition",
+      "play_label": "Lire la vidéo"
+    },
+    "features": {
+      "exclusive": "Caractéristique Exclusive",
+      "heads_title": "Deux Têtes Interchangeables",
+      "heads_desc": "Folie ou conscience. Deux portraits interchangeables capturent la dualité du mythe.",
+      "included": "Inclus — Édition Complète",
+      "necronomicon_title": "Le Nécronomicon",
+      "necronomicon_desc": "Une réplique en résine de 12 cm du tome interdit. Un objet de collection autonome d'une valeur de €90.",
+      "artprint_title": "Impression d'Art Originale",
+      "artprint_desc": "Impression noir et blanc 30×40 cm par Francesco Manna. Papier fin, qualité exposition.",
+      "your_number": "Votre Numéro",
+      "certificate_title": "Certificat Numéroté",
+      "certificate_desc": "Chaque pièce porte un certificat d'authenticité numéroté. Votre numéro vous appartient."
+    },
+    "email": {
+      "eyebrow": "Pour de vrais collectionneurs",
+      "heading": "Derrière la folie.",
+      "description": "40 pages. Le making of complet du Chapitre I — gratuit, pour notre liste de collectionneurs.",
+      "lead_title": "Le Making of du Chapitre I — PDF",
+      "lead_desc": "Esquisses conceptuelles, sculpture, peinture, les choix narratifs. Exclusif pour notre liste.",
+      "placeholder": "Votre adresse email",
+      "button": "Obtenir gratuitement",
+      "disclaimer": "Pas de spam. Désinscription à tout moment."
     }
+  },
+  "sections": {
+    "everart_product_main": {
+      "static": {
+        "bundle_value": "Valeur du bundle",
+        "aumenta": "Augmenter la quantité",
+        "diminuisci": "Diminuer la quantité"
+      }
+    }
+  },
+  "jsonld": {
+    "shipping_label_standard": "Livraison Standard"
   }
 }
