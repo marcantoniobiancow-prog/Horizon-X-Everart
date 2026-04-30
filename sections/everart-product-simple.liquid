@@ -18,6 +18,13 @@
   endif
   assign accordion_items = section.blocks | where: 'type', 'accordion_item'
   assign images          = p.media | where: 'media_type', 'image'
+
+  assign can_buy = false
+  for v in p.variants
+    if v.inventory_policy == 'continue' or v.available
+      assign can_buy = true
+    endif
+  endfor
 -%}
 
 {%- render 'everart-jsonld-product', rating_value: s.jsonld_rating, review_count: s.jsonld_review_count -%}
@@ -547,7 +554,7 @@
       {%- form 'product', p, id: "eps-form-{{ sid }}" -%}
 
         {%- unless p.has_only_default_variant -%}
-          <span class="eps-vc-label">Payment options</span>
+          <span class="eps-vc-label">{{ 'everart.product.payment_options' | t }}</span>
           <div class="eps-vc-grid">
             {%- for v in p.variants -%}
               <label class="eps-vc-card" for="eps-var-{{ sid }}-{{ forloop.index0 }}">
@@ -557,7 +564,7 @@
                        value="{{ v.id }}"
                        data-price="{{ v.price }}"
                        {% if v.id == variant.id %}checked{% endif %}
-                       {% unless v.available %}disabled{% endunless %}>
+                       {% unless v.inventory_policy == 'continue' or v.available %}disabled{% endunless %}>
                 <span class="eps-vc-title">{{ v.title }}</span>
                 <div class="eps-vc-price-row">
                   <span class="eps-vc-price">{{ v.price | money }}</span>
@@ -565,7 +572,7 @@
                     <span class="eps-vc-original">{{ v.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
-                {%- unless v.available -%}
+                {%- unless v.inventory_policy == 'continue' or v.available -%}
                   <span class="eps-vc-note">{{ 'products.product.sold_out' | t }}</span>
                 {%- endunless -%}
               </label>
@@ -578,8 +585,8 @@
         <button type="submit"
                 class="eps-atc-btn"
                 id="eps-atc-{{ sid }}"
-                {% unless p.available %}disabled{% endunless %}>
-          {%- if p.available -%}
+                {% unless can_buy %}disabled{% endunless %}>
+          {%- if can_buy -%}
             {%- if s.btn_text != blank -%}{{ s.btn_text }}{%- else -%}{{ 'products.product.add_to_cart' | t }}{%- endif -%}
           {%- else -%}
             {{ 'products.product.sold_out' | t }}
@@ -781,3 +788,4 @@
   "presets": [{ "name": "Prodotto — Simple" }]
 }
 {% endschema %}
+

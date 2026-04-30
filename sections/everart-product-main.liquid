@@ -21,6 +21,13 @@
   assign bundle_items    = section.blocks | where: 'type', 'bundle_item'
   assign accordion_items = section.blocks | where: 'type', 'accordion_item'
   assign pay_opts        = section.blocks | where: 'type', 'payment_option'
+
+  assign can_buy = false
+  for v in p.variants
+    if v.inventory_policy == 'continue' or v.available
+      assign can_buy = true
+    endif
+  endfor
 -%}
 
 {%- render 'everart-jsonld-product', rating_value: s.jsonld_rating, review_count: s.jsonld_review_count -%}
@@ -868,7 +875,7 @@
                        value="{{ v.id }}"
                        data-price="{{ v.price }}"
                        {% if v.id == variant.id %}checked{% endif %}
-                       {% unless v.available %}disabled{% endunless %}>
+                       {% unless v.inventory_policy == 'continue' or v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
                 <div class="epm-vc-price-row">
                   <span class="epm-vc-price">{{ v.price | money }}</span>
@@ -876,7 +883,7 @@
                     <span class="epm-vc-original">{{ v.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
-                {%- unless v.available -%}
+                {%- unless v.inventory_policy == 'continue' or v.available -%}
                   <span class="epm-vc-note">Sold out</span>
                 {%- endunless -%}
               </label>
@@ -901,8 +908,8 @@
         <button type="submit"
                 class="epm-atc-btn"
                 id="epm-atc-{{ sid }}"
-                {% unless p.available %}disabled{% endunless %}>
-          {%- if p.available -%}
+                {% unless can_buy %}disabled{% endunless %}>
+          {%- if can_buy -%}
             {{ 'everart.product.btn_text' | t | default: s.btn_text | default: 'Add to Cart' }}
           {%- else -%}
             {{ 'blocks.sold_out' | t | default: 'Sold Out' }}
@@ -1170,3 +1177,4 @@
   "presets": [{ "name": "Product - Main" }]
 }
 {% endschema %}
+
