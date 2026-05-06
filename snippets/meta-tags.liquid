@@ -28,6 +28,12 @@
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
 
+  assign noindex_handles = 'data-sharing-opt-out' | split: ','
+  assign should_noindex = false
+  if noindex_handles contains page.handle
+    assign should_noindex = true
+  endif
+
   if request.page_type == 'product'
     assign og_type = 'product'
   elsif request.page_type == 'article'
@@ -36,6 +42,10 @@
     assign og_url = request.origin
   endif
 %}
+
+{%- if should_noindex -%}
+  <meta name="robots" content="noindex, nofollow">
+{%- endif -%}
 
 <meta
   property="og:site_name"
