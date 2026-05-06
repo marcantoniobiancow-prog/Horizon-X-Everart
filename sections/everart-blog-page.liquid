@@ -325,7 +325,7 @@
                 {%- if art.image -%}
                   {{ art.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: art.image.alt | default: art.title }}
                 {%- else -%}
-                  <div class="eb-card-img-placeholder">Immagine articolo</div>
+                  <div class="eb-card-img-placeholder">{{ 'everart.blog.article_image' | t }}</div>
                 {%- endif -%}
               </div>
               <div class="eb-card-body">
@@ -337,7 +337,7 @@
                   <p class="eb-card-exc">{{ art.excerpt_or_content | strip_html | truncate: 160 }}</p>
                 {%- endif -%}
                 <p class="eb-card-meta">{{ art.published_at | date: '%B %d, %Y' }}</p>
-                <span class="eb-read-more">Read more</span>
+                <span class="eb-read-more">{{ 'everart.blog.read_more' | t }}</span>
               </div>
             </a>
           {%- endif -%}
@@ -395,6 +395,21 @@
   {%- endif -%}
 
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": {{ s.heading | default: blog.title | json }},
+  "description": {{ s.description | default: blog.description | json }},
+  "url": {{ shop.url | append: blog.url | json }},
+  "publisher": {
+    "@type": "Organization",
+    "name": "Studio Everart",
+    "url": {{ shop.url | json }}
+  }
+}
+</script>
 
 {% schema %}
 {

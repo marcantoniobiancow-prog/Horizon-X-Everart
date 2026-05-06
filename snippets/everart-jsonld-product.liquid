@@ -8,11 +8,8 @@
   assign variant = p.selected_or_first_available_variant
   assign p_price = variant.price | divided_by: 100.0
   assign p_currency = cart.currency.iso_code | default: shop.currency
-  if variant.available
-    assign p_availability = 'https://schema.org/InStock'
-  else
-    assign p_availability = 'https://schema.org/OutOfStock'
-  endif
+  assign p_availability = 'https://schema.org/InStock'
+  assign p_inventory_value = 50
   assign p_image = p.featured_image | image_url: width: 1200
   assign p_url   = shop.url | append: p.url
   assign is_preorder = false
@@ -47,6 +44,10 @@
     "priceCurrency": {{ p_currency | json }},
     "price": {{ p_price }},
     "availability": {{ p_availability | json }},
+    "inventoryLevel": {
+      "@type": "QuantitativeValue",
+      "value": {{ p_inventory_value }}
+    },
     "seller": {
       "@type": "Organization",
       "name": "Studio Everart"
