@@ -135,3 +135,35 @@
     content="{{ page_description | escape }}"
   >
 {% endif %}
+
+{%- comment -%} Hreflang — multilingual SEO: tells Google which locale each page belongs to {%- endcomment -%}
+{%- liquid
+  assign hreflang_locales = 'it,de,fr,es' | split: ','
+  assign raw_path = request.path
+  assign base_path = raw_path
+
+  for lc in hreflang_locales
+    assign lc_slash = '/' | append: lc | append: '/'
+    assign lc_exact = '/' | append: lc
+    assign slice_len = lc_slash.size
+    assign path_start = raw_path | slice: 0, slice_len
+    if path_start == lc_slash
+      assign base_path = raw_path | remove_first: lc_exact
+      break
+    elsif raw_path == lc_exact
+      assign base_path = '/'
+      break
+    endif
+  endfor
+
+  if base_path == '/'
+    assign alt_suffix = ''
+  else
+    assign alt_suffix = base_path
+  endif
+-%}
+<link rel="alternate" hreflang="en" href="{{ shop.url }}{{ base_path }}" />
+{%- for lc in hreflang_locales -%}
+<link rel="alternate" hreflang="{{ lc }}" href="{{ shop.url }}/{{ lc }}{{ alt_suffix }}" />
+{%- endfor -%}
+<link rel="alternate" hreflang="x-default" href="{{ shop.url }}{{ base_path }}" />
