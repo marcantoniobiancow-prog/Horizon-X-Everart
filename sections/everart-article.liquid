@@ -1,18 +1,42 @@
 {%- comment -%}
-  EverArt Article — v1
-  Design fedele all'HTML preview (everart-site-preview.html):
-    • Post hero: category + h1 title + date · reading time
-    • Post body: article.content formattato + featured image + CTA inline
-    • Post nav: ← All Stories | next article →
+  EverArt Article — v2
+  Layout: hero (full-width) → two-column (body + sidebar) → products (full-width)
+  SEO: BreadcrumbList JSON-LD, related articles, collection-auto-detection from tags
 {%- endcomment -%}
 
 {%- liquid
   assign s   = section.settings
   assign sid = section.id
 
-  assign words       = article.content | strip_html | split: ' '
-  assign word_count  = words | size
-  assign read_min    = word_count | divided_by: 200 | plus: 1
+  assign words      = article.content | strip_html | split: ' '
+  assign word_count = words | size
+  assign read_min   = word_count | divided_by: 200 | plus: 1
+
+  -%}
+{%- liquid
+  assign coll_handle = s.collection_handle | default: ''
+  if coll_handle == blank
+    for tag in article.tags
+      assign t = tag | downcase | strip
+      if t contains 'lovecraft' or t == 'masters of madness' or t == 'masters-of-madness' or t == 'chapter i' or t == 'chapter-i'
+        assign coll_handle = 'masters-of-madness'
+        break
+      endif
+      if t contains 'shelley' or t contains 'frankenstein'
+        assign coll_handle = 'mary-shelley'
+        break
+      endif
+      if t contains 'stoker' or t contains 'dracula'
+        assign coll_handle = 'dracula'
+        break
+      endif
+    endfor
+  endif
+  assign rel_coll = collections[coll_handle]
+  assign show_products = false
+  if rel_coll != blank and rel_coll.products_count > 0
+    assign show_products = true
+  endif
 -%}
 
 <style>
@@ -72,12 +96,41 @@
   font-weight: 500;
 }
 
-/* ── POST BODY ── */
-#ea-art-{{ sid }} .ea-post-body {
-  max-width: 720px;
+/* ── BREADCRUMB ── */
+#ea-art-{{ sid }} .ea-breadcrumb {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 80px 48px 120px;
+  padding: 20px 48px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid #191919;
 }
+#ea-art-{{ sid }} .ea-breadcrumb a,
+#ea-art-{{ sid }} .ea-breadcrumb span {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #555555;
+  text-decoration: none;
+  font-weight: 500;
+}
+#ea-art-{{ sid }} .ea-breadcrumb a:hover { color: #888888; }
+#ea-art-{{ sid }} .ea-breadcrumb .ea-bc-sep { color: #2a2a2a; }
+#ea-art-{{ sid }} .ea-breadcrumb .ea-bc-current { color: #888888; }
+
+/* ── TWO-COLUMN LAYOUT ── */
+#ea-art-{{ sid }} .ea-article-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 72px 48px 100px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 72px;
+  align-items: start;
+}
+
+/* ── POST BODY ── */
 #ea-art-{{ sid }} .ea-post-body h2 {
   font-size: 28px;
   font-weight: 700;
@@ -108,15 +161,8 @@
   line-height: 1.85;
   font-size: 14px;
 }
-#ea-art-{{ sid }} .ea-post-body strong {
-  color: #ffffff;
-  font-weight: 600;
-}
-#ea-art-{{ sid }} .ea-post-body a {
-  color: #a52020;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+#ea-art-{{ sid }} .ea-post-body strong { color: #ffffff; font-weight: 600; }
+#ea-art-{{ sid }} .ea-post-body a { color: #a52020; text-decoration: underline; text-underline-offset: 3px; }
 #ea-art-{{ sid }} .ea-post-body blockquote {
   border-left: 2px solid #8b1a1a;
   padding-left: 24px;
@@ -131,15 +177,12 @@
 /* ── FEATURED IMAGE ── */
 #ea-art-{{ sid }} .ea-post-img {
   aspect-ratio: 16/8;
-  margin: 48px 0;
+  margin: 0 0 48px;
   overflow: hidden;
   background: #212121;
 }
 #ea-art-{{ sid }} .ea-post-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 
 /* ── CTA INLINE ── */
@@ -156,16 +199,13 @@
 #ea-art-{{ sid }} .ea-post-cta-text h3 {
   font-size: 17px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin: 0 0 6px;
   color: #ffffff;
   letter-spacing: -.01em;
-  margin-top: 0;
 }
-#ea-art-{{ sid }} .ea-post-cta-text p {
-  font-size: 13px;
-  color: #888888;
-  margin: 0;
-}
+#ea-art-{{ sid }} .ea-post-cta-text p { font-size: 13px; color: #888888; margin: 0; }
+
+/* ── BUTTONS ── */
 #ea-art-{{ sid }} .ea-btn {
   display: inline-block;
   padding: 14px 32px;
@@ -179,20 +219,14 @@
   border: none;
   text-decoration: none;
 }
-#ea-art-{{ sid }} .ea-btn-primary {
-  background: #8b1a1a;
-  color: #ffffff;
-}
+#ea-art-{{ sid }} .ea-btn-primary { background: #8b1a1a; color: #ffffff; }
 #ea-art-{{ sid }} .ea-btn-primary:hover { background: #a52020; }
 #ea-art-{{ sid }} .ea-btn-ghost {
   background: transparent;
   border: 1px solid #2a2a2a;
   color: #b8b5b0;
 }
-#ea-art-{{ sid }} .ea-btn-ghost:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-}
+#ea-art-{{ sid }} .ea-btn-ghost:hover { border-color: #ffffff; color: #ffffff; }
 
 /* ── POST NAV ── */
 #ea-art-{{ sid }} .ea-post-nav {
@@ -204,12 +238,191 @@
   border-top: 1px solid #2a2a2a;
 }
 
+/* ── SIDEBAR ── */
+#ea-art-{{ sid }} .ea-sidebar {
+  position: sticky;
+  top: 96px;
+}
+#ea-art-{{ sid }} .ea-sidebar-label {
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #555555;
+  font-weight: 700;
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a2a;
+  display: block;
+}
+
+/* ── SIDEBAR CARD ── */
+#ea-art-{{ sid }} .ea-sidebar-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #1c1c1c;
+  transition: opacity .2s;
+}
+#ea-art-{{ sid }} .ea-sidebar-card:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+#ea-art-{{ sid }} .ea-sidebar-card:hover { opacity: .75; }
+#ea-art-{{ sid }} .ea-sidebar-card-img {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #1a1a1a;
+  margin-bottom: 12px;
+}
+#ea-art-{{ sid }} .ea-sidebar-card-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .4s ease;
+}
+#ea-art-{{ sid }} .ea-sidebar-card:hover .ea-sidebar-card-img img { transform: scale(1.04); }
+#ea-art-{{ sid }} .ea-sidebar-card-cat {
+  font-size: 8.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #a52020;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+}
+#ea-art-{{ sid }} .ea-sidebar-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  letter-spacing: -.01em;
+}
+#ea-art-{{ sid }} .ea-sidebar-card-meta {
+  font-size: 10px;
+  color: #444444;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* ── PRODUCTS SECTION ── */
+#ea-art-{{ sid }} .ea-rel-products {
+  border-top: 1px solid #2a2a2a;
+  padding: 80px 48px 100px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+#ea-art-{{ sid }} .ea-rel-prod-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+#ea-art-{{ sid }} .ea-rel-prod-titles {}
+#ea-art-{{ sid }} .ea-rel-prod-label {
+  font-size: 9.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #555555;
+  font-weight: 700;
+  margin: 0 0 10px;
+  display: block;
+}
+#ea-art-{{ sid }} .ea-rel-prod-title {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+}
+#ea-art-{{ sid }} .ea-rel-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #1e1e1e;
+}
+#ea-art-{{ sid }} .ea-rel-prod-card {
+  background: #0a0a0a;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: background .2s;
+}
+#ea-art-{{ sid }} .ea-rel-prod-card:hover { background: #0f0f0f; }
+#ea-art-{{ sid }} .ea-rel-prod-img {
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: #161616;
+}
+#ea-art-{{ sid }} .ea-rel-prod-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s ease;
+}
+#ea-art-{{ sid }} .ea-rel-prod-card:hover .ea-rel-prod-img img { transform: scale(1.03); }
+#ea-art-{{ sid }} .ea-rel-prod-body {
+  padding: 18px 20px 24px;
+  border-top: 1px solid #1e1e1e;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#ea-art-{{ sid }} .ea-rel-prod-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 10px;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+}
+#ea-art-{{ sid }} .ea-rel-prod-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -.02em;
+}
+#ea-art-{{ sid }} .ea-rel-prod-compare {
+  font-size: 12px;
+  color: #444444;
+  text-decoration: line-through;
+  margin-left: 6px;
+}
+#ea-art-{{ sid }} .ea-rel-prod-limited {
+  font-size: 8.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #8b1a1a;
+  font-weight: 700;
+  margin-top: 6px;
+  display: block;
+}
+
 /* ── RESPONSIVE ── */
+@media (max-width: 1023px) {
+  #ea-art-{{ sid }} .ea-article-layout {
+    grid-template-columns: 1fr;
+    gap: 64px;
+  }
+  #ea-art-{{ sid }} .ea-sidebar {
+    position: static;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 48px;
+  }
+  #ea-art-{{ sid }} .ea-rel-prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 767px) {
   #ea-art-{{ sid }} .ea-post-hero { padding: 64px 24px 48px; }
-  #ea-art-{{ sid }} .ea-post-body { padding: 48px 24px 80px; }
+  #ea-art-{{ sid }} .ea-breadcrumb { padding: 16px 24px; }
+  #ea-art-{{ sid }} .ea-article-layout { padding: 48px 24px 80px; gap: 48px; }
   #ea-art-{{ sid }} .ea-post-cta { flex-direction: column; gap: 20px; align-items: flex-start; }
   #ea-art-{{ sid }} .ea-post-nav { flex-direction: column; gap: 16px; }
+  #ea-art-{{ sid }} .ea-rel-products { padding: 60px 24px 80px; }
+  #ea-art-{{ sid }} .ea-rel-prod-grid { grid-template-columns: 1fr; }
+  #ea-art-{{ sid }} .ea-rel-prod-head { flex-direction: column; align-items: flex-start; gap: 20px; }
 }
 </style>
 
@@ -231,71 +444,213 @@
     {%- assign _opa = s.overlay_opacity | default: 40 | times: 1.0 | divided_by: 100 -%}
     <div class="ea-post-hero-overlay" style="background-color: {{ s.overlay_color | default: '#000000' }}; opacity: {{ _opa }};"></div>
     <div class="ea-wrap">
-
-      {%- comment -%} Category (primo tag o custom label) {%- endcomment -%}
       {%- if article.tags.size > 0 -%}
         <span class="ea-post-cat">{{ article.tags | first }}</span>
       {%- elsif s.default_category != blank -%}
         <span class="ea-post-cat">{{ s.default_category }}</span>
       {%- endif -%}
-
       <h1 class="ea-post-title">{{ article.title }}</h1>
-
       <p class="ea-post-meta">
         {{ article.published_at | date: '%B %d, %Y' }}
         &nbsp;·&nbsp;
         {{ read_min }} min read
       </p>
-
     </div>
   </div>
 
-  {%- comment -%} ── POST BODY ── {%- endcomment -%}
-  <div class="ea-post-body">
+  {%- comment -%} ── BREADCRUMB ── {%- endcomment -%}
+  <nav class="ea-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span class="ea-bc-sep">›</span>
+    <a href="{{ blog.url }}">Stories</a>
+    <span class="ea-bc-sep">›</span>
+    <span class="ea-bc-current">{{ article.title | truncate: 48 }}</span>
+  </nav>
 
-    {%- comment -%} Featured image {%- endcomment -%}
-    {%- if article.image -%}
-      <div class="ea-post-img">
-        {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: article.image.alt | default: article.title }}
+  {%- comment -%} ── TWO-COLUMN LAYOUT ── {%- endcomment -%}
+  <div class="ea-article-layout">
+
+    {%- comment -%} ── MAIN BODY ── {%- endcomment -%}
+    <div class="ea-post-body">
+
+      {%- if article.image -%}
+        <div class="ea-post-img">
+          {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', alt: article.image.alt | default: article.title }}
+        </div>
+      {%- endif -%}
+
+      <div class="rte">
+        {{ article.content }}
       </div>
-    {%- endif -%}
 
-    {%- comment -%} Article content {%- endcomment -%}
-    <div class="rte">
-      {{ article.content }}
-    </div>
-
-    {%- comment -%} Optional inline CTA {%- endcomment -%}
-    {%- if s.cta_heading != blank -%}
-      <div class="ea-post-cta">
-        <div class="ea-post-cta-text">
-          <h3>{{ s.cta_heading }}</h3>
-          {%- if s.cta_subtext != blank -%}
-            <p>{{ s.cta_subtext }}</p>
+      {%- if s.cta_heading != blank -%}
+        <div class="ea-post-cta">
+          <div class="ea-post-cta-text">
+            <h3>{{ s.cta_heading }}</h3>
+            {%- if s.cta_subtext != blank -%}
+              <p>{{ s.cta_subtext }}</p>
+            {%- endif -%}
+          </div>
+          {%- if s.cta_link != blank and s.cta_label != blank -%}
+            <a class="ea-btn ea-btn-primary" href="{{ s.cta_link }}">{{ s.cta_label }}</a>
           {%- endif -%}
         </div>
-        {%- if s.cta_link != blank and s.cta_label != blank -%}
-          <a class="ea-btn ea-btn-primary" href="{{ s.cta_link }}">{{ s.cta_label }}</a>
+      {%- endif -%}
+
+      <div class="ea-post-nav">
+        <a class="ea-btn ea-btn-ghost" href="{{ blog.url }}">← All Stories</a>
+        {%- if blog.next_article -%}
+          <a class="ea-btn ea-btn-ghost" href="{{ blog.next_article.url }}">{{ blog.next_article.title | truncate: 40 }} →</a>
+        {%- elsif blog.previous_article -%}
+          <a class="ea-btn ea-btn-ghost" href="{{ blog.previous_article.url }}">{{ blog.previous_article.title | truncate: 40 }} →</a>
         {%- endif -%}
       </div>
-    {%- endif -%}
 
-    {%- comment -%} ── POST NAV ── {%- endcomment -%}
-    <div class="ea-post-nav">
-      <a class="ea-btn ea-btn-ghost" href="{{ blog.url }}">← All Stories</a>
-      {%- if blog.next_article -%}
-        <a class="ea-btn ea-btn-ghost" href="{{ blog.next_article.url }}">{{ blog.next_article.title | truncate: 40 }} →</a>
-      {%- elsif blog.previous_article -%}
-        <a class="ea-btn ea-btn-ghost" href="{{ blog.previous_article.url }}">{{ blog.previous_article.title | truncate: 40 }} →</a>
-      {%- endif -%}
     </div>
 
+    {%- comment -%} ── SIDEBAR: RELATED ARTICLES ── {%- endcomment -%}
+    <aside class="ea-sidebar" aria-label="Related articles">
+      <span class="ea-sidebar-label">Related Articles</span>
+
+      {%- assign sidebar_count = 0 -%}
+      {%- assign first_tag = article.tags | first -%}
+
+      {%- for art in blog.articles -%}
+        {%- if sidebar_count >= 4 -%}{%- break -%}{%- endif -%}
+        {%- if art.id == article.id -%}{%- continue -%}{%- endif -%}
+
+        {%- assign is_related = false -%}
+        {%- if first_tag != blank and art.tags contains first_tag -%}
+          {%- assign is_related = true -%}
+        {%- endif -%}
+        {%- if is_related == false and sidebar_count == 0 and forloop.last -%}
+          {%- assign is_related = true -%}
+        {%- endif -%}
+
+        {%- if is_related -%}
+          {%- assign art_words = art.content | strip_html | split: ' ' -%}
+          {%- assign art_read  = art_words | size | divided_by: 200 | plus: 1 -%}
+          <a class="ea-sidebar-card" href="{{ art.url }}">
+            {%- if art.image -%}
+              <div class="ea-sidebar-card-img">
+                {{ art.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: art.image.alt | default: art.title }}
+              </div>
+            {%- else -%}
+              <div class="ea-sidebar-card-img" style="display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;color:#333;letter-spacing:.1em;text-transform:uppercase;">Studio Everart</span>
+              </div>
+            {%- endif -%}
+            {%- if art.tags.size > 0 -%}
+              <span class="ea-sidebar-card-cat">{{ art.tags | first }}</span>
+            {%- endif -%}
+            <p class="ea-sidebar-card-title">{{ art.title }}</p>
+            <span class="ea-sidebar-card-meta">{{ art.published_at | date: '%b %d, %Y' }} · {{ art_read }} min</span>
+          </a>
+          {%- assign sidebar_count = sidebar_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Fallback: se non abbastanza articoli per tag, mostra i più recenti {%- endcomment -%}
+      {%- if sidebar_count < 4 -%}
+        {%- for art in blog.articles -%}
+          {%- if sidebar_count >= 4 -%}{%- break -%}{%- endif -%}
+          {%- if art.id == article.id -%}{%- continue -%}{%- endif -%}
+          {%- if first_tag != blank and art.tags contains first_tag -%}{%- continue -%}{%- endif -%}
+
+          {%- assign art_words = art.content | strip_html | split: ' ' -%}
+          {%- assign art_read  = art_words | size | divided_by: 200 | plus: 1 -%}
+          <a class="ea-sidebar-card" href="{{ art.url }}">
+            {%- if art.image -%}
+              <div class="ea-sidebar-card-img">
+                {{ art.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: art.image.alt | default: art.title }}
+              </div>
+            {%- else -%}
+              <div class="ea-sidebar-card-img" style="display:flex;align-items:center;justify-content:center;"></div>
+            {%- endif -%}
+            {%- if art.tags.size > 0 -%}
+              <span class="ea-sidebar-card-cat">{{ art.tags | first }}</span>
+            {%- endif -%}
+            <p class="ea-sidebar-card-title">{{ art.title }}</p>
+            <span class="ea-sidebar-card-meta">{{ art.published_at | date: '%b %d, %Y' }} · {{ art_read }} min</span>
+          </a>
+          {%- assign sidebar_count = sidebar_count | plus: 1 -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+    </aside>
+
   </div>
+
+  {%- comment -%} ── RELATED PRODUCTS ── {%- endcomment -%}
+  {%- if show_products -%}
+    <div class="ea-rel-products">
+      <div class="ea-rel-prod-head">
+        <div class="ea-rel-prod-titles">
+          <span class="ea-rel-prod-label">{{ s.products_label | default: 'The Collection' }}</span>
+          <h2 class="ea-rel-prod-title">{{ s.products_heading | default: rel_coll.title }}</h2>
+        </div>
+        <a class="ea-btn ea-btn-ghost" href="{{ rel_coll.url }}">View all →</a>
+      </div>
+      <div class="ea-rel-prod-grid">
+        {%- assign prod_limit = s.products_limit | default: 4 -%}
+        {%- for product in rel_coll.products limit: prod_limit -%}
+          <a class="ea-rel-prod-card" href="{{ product.url }}">
+            <div class="ea-rel-prod-img">
+              {%- if product.featured_image != blank -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+              {%- endif -%}
+            </div>
+            <div class="ea-rel-prod-body">
+              <p class="ea-rel-prod-name">{{ product.title }}</p>
+              <div>
+                <span class="ea-rel-prod-price">{{ product.price | money }}</span>
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="ea-rel-prod-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+                {%- if product.available == false -%}
+                  <span class="ea-rel-prod-limited">Sold out</span>
+                {%- else -%}
+                  <span class="ea-rel-prod-limited">Limited edition</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
 
 </div>
 
 <script type="application/ld+json">
-  {{ article | structured_data }}
+{{ article | structured_data }}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ shop.url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ blog.title | escape }}",
+      "item": "{{ shop.url }}{{ blog.url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ article.title | escape }}",
+      "item": "{{ canonical_url }}"
+    }
+  ]
+}
 </script>
 
 {% schema %}
@@ -307,44 +662,25 @@
     { "type": "header", "content": "Hero Image" },
     { "type": "image_picker", "id": "hero_image_desktop", "label": "Image — Desktop" },
     { "type": "image_picker", "id": "hero_image_mobile",  "label": "Image — Mobile" },
-    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
-    {
-      "type": "header",
-      "content": "Categoria di default"
-    },
-    {
-      "type": "text",
-      "id": "default_category",
-      "label": "Categoria (se nessun tag)",
-      "default": "Studio Everart"
-    },
-    {
-      "type": "header",
-      "content": "CTA inline (opzionale)"
-    },
+    { "type": "color",  "id": "overlay_color",   "label": "Overlay color",   "default": "#000000" },
+    { "type": "range",  "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
+    { "type": "header", "content": "Categoria di default" },
+    { "type": "text",   "id": "default_category", "label": "Categoria (se nessun tag)", "default": "Studio Everart" },
+    { "type": "header", "content": "CTA inline (opzionale)" },
+    { "type": "text",   "id": "cta_heading", "label": "Titolo CTA", "info": "Lascia vuoto per nascondere" },
+    { "type": "text",   "id": "cta_subtext", "label": "Testo CTA" },
+    { "type": "url",    "id": "cta_link",    "label": "Link CTA" },
+    { "type": "text",   "id": "cta_label",   "label": "Label bottone CTA", "default": "Scopri la collezione" },
+    { "type": "header", "content": "Prodotti correlati" },
     {
       "type": "text",
-      "id": "cta_heading",
-      "label": "Titolo CTA",
-      "info": "Lascia vuoto per nascondere il blocco CTA"
+      "id": "collection_handle",
+      "label": "Collection handle (auto-detect se vuoto)",
+      "info": "Lascia vuoto per rilevare automaticamente dai tag articolo. Es: masters-of-madness"
     },
-    {
-      "type": "text",
-      "id": "cta_subtext",
-      "label": "Testo CTA"
-    },
-    {
-      "type": "url",
-      "id": "cta_link",
-      "label": "Link CTA"
-    },
-    {
-      "type": "text",
-      "id": "cta_label",
-      "label": "Label bottone CTA",
-      "default": "Scopri la collezione"
-    }
+    { "type": "text",  "id": "products_label",   "label": "Label sezione prodotti",  "default": "The Collection" },
+    { "type": "text",  "id": "products_heading",  "label": "Titolo sezione prodotti", "info": "Lascia vuoto per usare il nome della collection" },
+    { "type": "range", "id": "products_limit",    "label": "Max prodotti",            "min": 2, "max": 8, "step": 1, "default": 4 }
   ]
 }
 {% endschema %}
