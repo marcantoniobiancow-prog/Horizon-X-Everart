@@ -245,14 +245,14 @@
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "{{ collection.title | escape }}",
-  "description": "{{ collection.description | strip_html | truncate: 200 | escape }}",
-  "url": "{{ canonical_url }}",
+  "name": {{ collection.title | json }},
+  "description": {{ collection.description | strip_html | strip_newlines | truncate: 200 | json }},
+  "url": {{ canonical_url | json }},
   "breadcrumb": {
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Home","item":"{{ shop.url }}"},
-      {"@type":"ListItem","position":2,"name":"{{ collection.title | escape }}","item":"{{ canonical_url }}"}
+      {"@type":"ListItem","position":1,"name":"Home","item":{{ shop.url | json }}},
+      {"@type":"ListItem","position":2,"name":{{ collection.title | json }},"item":{{ canonical_url | json }}}
     ]
   },
   "mainEntity": {
@@ -261,34 +261,29 @@
     "itemListElement": [
       {%- for product in collection.products limit: 10 -%}
         {%- assign prod_price = product.price | divided_by: 100.0 -%}
-        {%- assign prod_avail = 'https://schema.org/OutOfStock' -%}
-        {%- if product.available -%}{%- assign prod_avail = 'https://schema.org/InStock' -%}{%- endif -%}
-        {%- assign prod_img = '' -%}
-        {%- if product.featured_image -%}{%- assign prod_img = product.featured_image | image_url: width: 800 -%}{%- endif -%}
+        {%- if product.available -%}{%- assign prod_avail = 'https://schema.org/InStock' -%}{%- else -%}{%- assign prod_avail = 'https://schema.org/OutOfStock' -%}{%- endif -%}
+        {%- assign prod_img = '' -%}{%- if product.featured_image -%}{%- assign prod_img = product.featured_image | image_url: width: 800 -%}{%- endif -%}
+        {%- assign prod_desc = product.description | strip_html | strip_newlines | truncate: 200 -%}
+        {%- assign prod_url = shop.url | append: product.url -%}
       {
         "@type": "ListItem",
         "position": {{ forloop.index }},
         "item": {
           "@type": "Product",
-          "name": "{{ product.title | escape }}",
-          "url": "{{ shop.url }}{{ product.url }}",
-          "image": "{{ prod_img }}",
-          "description": "{{ product.description | strip_html | truncate: 200 | escape }}",
+          "name": {{ product.title | json }},
+          "url": {{ prod_url | json }},
+          "image": {{ prod_img | json }},
+          "description": {{ prod_desc | json }},
           "brand": {"@type":"Brand","name":"Studio Everart"},
-          "sku": "{{ product.variants.first.sku | escape }}",
           "offers": {
             "@type": "Offer",
-            "priceCurrency": "{{ cart.currency.iso_code | default: 'EUR' }}",
-            "price": "{{ prod_price }}",
-            "availability": "{{ prod_avail }}",
-            "url": "{{ shop.url }}{{ product.url }}",
+            "priceCurrency": "EUR",
+            "price": {{ prod_price }},
+            "availability": {{ prod_avail | json }},
+            "url": {{ prod_url | json }},
             "itemCondition": "https://schema.org/NewCondition",
             "priceValidUntil": "2027-12-31",
-            "seller": {
-              "@type": "Organization",
-              "name": "{{ shop.name | escape }}",
-              "url": "{{ shop.url }}"
-            }
+            "seller": {"@type":"Organization","name":"Studio Everart","url":{{ shop.url | json }}}
           }
         }
       }{% unless forloop.last %},{% endunless %}
