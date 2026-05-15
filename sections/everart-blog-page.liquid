@@ -303,7 +303,11 @@
       <p class="eb-eyebrow">{{ s.eyebrow }}</p>
     {%- endif -%}
     {%- if s.heading != blank -%}
+      {%- if request.page_type == 'index' -%}
+      <h2 class="eb-title">{{ s.heading }}</h2>
+    {%- else -%}
       <h1 class="eb-title">{{ s.heading }}</h1>
+    {%- endif -%}
     {%- endif -%}
     {%- if s.description != blank -%}
       <p class="eb-desc">{{ s.description }}</p>
