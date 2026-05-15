@@ -246,7 +246,7 @@
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": {{ collection.title | json }},
-  "description": {{ collection.description | strip_html | strip_newlines | truncate: 200 | json }},
+  "description": {{ collection.description | strip_html | replace: '\n', ' ' | replace: '\r', ' ' | replace: '\t', ' ' | truncate: 200 | json }},
   "url": {{ canonical_url | json }},
   "breadcrumb": {
     "@type": "BreadcrumbList",
@@ -263,7 +263,7 @@
         {%- assign prod_price = product.price | divided_by: 100.0 -%}
         {%- if product.available -%}{%- assign prod_avail = 'https://schema.org/InStock' -%}{%- else -%}{%- assign prod_avail = 'https://schema.org/OutOfStock' -%}{%- endif -%}
         {%- assign prod_img = '' -%}{%- if product.featured_image -%}{%- assign prod_img = product.featured_image | image_url: width: 800 -%}{%- endif -%}
-        {%- assign prod_desc = product.description | strip_html | strip_newlines | truncate: 200 -%}
+        {%- assign prod_desc = product.description | strip_html | replace: '\n', ' ' | replace: '\r', ' ' | replace: '\t', ' ' | truncate: 200 -%}
         {%- assign prod_url = shop.url | append: product.url -%}
       {
         "@type": "ListItem",
