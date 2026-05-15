@@ -13,10 +13,14 @@
       "type": "everart-article",
       "settings": {
         "default_category": "Studio Everart",
-        "cta_heading": "H.P. Lovecraft — Edizione Limitata",
+        "cta_heading": "H.P. Lovecraft \u2014 Edizione Limitata",
         "cta_subtext": "100 copie numerate. Artigianato italiano. IP originale.",
         "cta_link": "/collections/masters-of-madness",
-        "cta_label": "Scopri la collezione"
+        "cta_label": "Scopri la collezione",
+        "collection_handle": "",
+        "products_label": "The Collection",
+        "products_heading": "",
+        "products_limit": 4
       }
     }
   },
