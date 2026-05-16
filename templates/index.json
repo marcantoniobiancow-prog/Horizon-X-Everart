@@ -105,11 +105,23 @@
             "padding-inline-end": 0
           },
           "blocks": {}
+        },
+        "button_hero_cta": {
+          "type": "button",
+          "name": "Hero CTA",
+          "settings": {
+            "label": "SCOPRI LA FORBIDDEN EDITION",
+            "link": "shopify://products/h-p-lovecraft-the-forbidden-edition",
+            "open_in_new_tab": false,
+            "width": "fit-content"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "group_mJHMCa",
-        "text_xYrnxL"
+        "text_xYrnxL",
+        "button_hero_cta"
       ],
       "name": "t:names.hero",
       "settings": {

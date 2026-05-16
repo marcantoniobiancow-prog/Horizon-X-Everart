@@ -778,7 +778,8 @@
       {%- if col_title != blank -%}
         <span class="epm-tag">{{ 'everart.product.collection_label' | t | default: col_title }}</span>
       {%- endif -%}
-      <h1 class="epm-title">{{ p.title }}</h1>
+      {%- assign display_title = s.display_title | default: p.title -%}
+      <h1 class="epm-title">{{ display_title }}</h1>
       {%- assign sub = s.subtitle | default: p.type -%}
       {%- if sub != blank -%}
         <div class="epm-sub">{{ 'everart.product.subtitle' | t | default: sub }}</div>
@@ -877,9 +878,16 @@
                        {% if v.id == variant.id %}checked{% endif %}
                        {% unless v.inventory_policy == 'continue' or v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
+                {%- liquid
+                  assign is_deposit_variant = false
+                  assign v_title_lower = v.title | downcase
+                  if v_title_lower contains 'acconto' or v_title_lower contains 'deposit' or v_title_lower contains 'caparra'
+                    assign is_deposit_variant = true
+                  endif
+                -%}
                 <div class="epm-vc-price-row">
                   <span class="epm-vc-price">{{ v.price | money }}</span>
-                  {%- if v.compare_at_price > v.price -%}
+                  {%- if v.compare_at_price > v.price and is_deposit_variant == false -%}
                     <span class="epm-vc-original">{{ v.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
@@ -1150,6 +1158,7 @@
     }
   ],
   "settings": [
+    { "type": "text",     "id": "display_title",         "label": "Titolo display (breve, sovrascrive titolo SEO)" },
     { "type": "text",     "id": "collection_label",      "label": "sections.everart_product_main.schema.label_collezione_override_auto" },
     { "type": "text",     "id": "subtitle",              "label": "sections.everart_product_main.schema.sottotitolo_italic" },
     { "type": "header",   "content": "Edition counter" },
