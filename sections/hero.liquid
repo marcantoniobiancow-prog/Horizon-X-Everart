@@ -454,6 +454,16 @@
   {% endif %}
 {% endcapture %}
 
+{%- if section.settings.media_type_1 == 'video' and section.settings.video_1 != blank -%}
+  {%- assign _lcp_poster_url = section.settings.video_1.preview_image | image_url: width: 1920 -%}
+  {%- if _lcp_poster_url != blank -%}
+    <link rel="preload" as="image" href="{{ _lcp_poster_url }}" fetchpriority="high">
+  {%- endif -%}
+{%- elsif section.settings.media_type_1 == 'image' and section.settings.image_1 != blank -%}
+  <link rel="preload" as="image"
+    href="{{ section.settings.image_1 | image_url: width: 1920 }}"
+    fetchpriority="high">
+{%- endif -%}
 <div
   id="Hero-{{ section.id }}"
   class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
