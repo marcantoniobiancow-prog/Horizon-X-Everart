@@ -82,6 +82,41 @@
   </script>
   {%- endunless -%}
 
+    <script data-ea-perf="1">
+(function(){
+  var P=['fbevents','connect.facebook.net/en_US/fb','static.klaviyo.com/onsite/js'];
+  var q=[],done=false,orig=document.createElement.bind(document);
+  document.createElement=function(t){
+    var el=orig(t);
+    if(typeof t!=='string'||t.toLowerCase()!=='script') return el;
+    var _s='';
+    Object.defineProperty(el,'src',{
+      get:function(){return _s;},
+      set:function(v){
+        if(!done&&P.some(function(p){return v.indexOf(p)!==-1;})){
+          _s=v; q.push(v);
+        } else {
+          _s=v; el.setAttribute('src',v);
+        }
+      },
+      configurable:true,enumerable:true
+    });
+    return el;
+  };
+  function flush(){
+    if(done)return; done=true;
+    document.createElement=orig;
+    q.forEach(function(src){
+      var s=orig('script'); s.src=src; s.async=true;
+      document.head.appendChild(s);
+    });
+  }
+  setTimeout(flush,3000);
+  ['touchstart','mouseover','scroll','click'].forEach(function(e){
+    document.addEventListener(e,flush,{passive:true,once:true});
+  });
+})();
+</script>
     {{ content_for_header }}
     {% # theme-check-enable RemoteAsset %}
     {%- render 'everart-clarity' -%}
