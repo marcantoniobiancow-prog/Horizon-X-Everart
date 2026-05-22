@@ -166,10 +166,11 @@
 
   {%- if media_1 == 'video' -%}
     <div class="{{ media_wrapper_desktop_class }}">
-      {{
+      {%- assign _poster_video_1 = section.settings.video_1.preview_image | image_url: width: 1920 -%}
+{{
         section.settings.video_1
         | video_tag:
-          poster: section.settings.video_1.preview_image | image_url: width: 1920,
+          poster: _poster_video_1,
           autoplay: true,
           loop: true,
           controls: false,
@@ -202,10 +203,11 @@
 
     {%- if media_1_mobile == 'video' -%}
       <div class="{{ media_wrapper_mobile_class }}">
-        {{
+        {%- assign _poster_video_1_mobile = section.settings.video_1_mobile.preview_image | image_url: width: 1920 -%}
+{{
           section.settings.video_1_mobile
           | video_tag:
-            poster: section.settings.video_1_mobile.preview_image | image_url: width: 1920,
+            poster: _poster_video_1_mobile,
             autoplay: true,
             loop: true,
             controls: false,
@@ -270,10 +272,11 @@
 
   {%- if media_2 == 'video' -%}
     <div class="{{ media_wrapper_desktop_class }}">
-      {{
+      {%- assign _poster_video_2 = section.settings.video_2.preview_image | image_url: width: 1920 -%}
+{{
         section.settings.video_2
         | video_tag:
-          poster: section.settings.video_2.preview_image | image_url: width: 1920,
+          poster: _poster_video_2,
           autoplay: true,
           loop: true,
           controls: false,
@@ -306,10 +309,11 @@
 
     {%- if media_2_mobile == 'video' -%}
       <div class="{{ media_wrapper_mobile_class }}">
-        {{
+        {%- assign _poster_video_2_mobile = section.settings.video_2_mobile.preview_image | image_url: width: 1920 -%}
+{{
           section.settings.video_2_mobile
           | video_tag:
-            poster: section.settings.video_2_mobile.preview_image | image_url: width: 1920,
+            poster: _poster_video_2_mobile,
             autoplay: true,
             loop: true,
             controls: false,
