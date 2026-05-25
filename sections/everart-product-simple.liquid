@@ -772,7 +772,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: 'mutation C($i:CartInput!){cartCreate(input:$i){cart{checkoutUrl}userErrors{message}}}',
-          variables: { i: { lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }] } }
+          variables: (function(){
+            var locale = (window.Shopify && window.Shopify.locale) || document.documentElement.lang || 'en';
+            var country = (window.Shopify && window.Shopify.country) || 'ZZ';
+            var input = { lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }] };
+            if (country && country !== 'ZZ') input.buyerIdentity = { countryCode: country };
+            return { i: input };
+          })()
         })
       })
       .then(function(r) { return r.json(); })
