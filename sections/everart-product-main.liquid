@@ -1119,6 +1119,47 @@
       zoomImg.style.transformOrigin = 'center center';
     });
   });
+
+  /* ── Storefront API cart (workaround: legacy /cart/add returns 422 for this store) ── */
+  (function() {
+    var epmCartForm = document.getElementById('epm-form-{{ sid }}');
+    if (!epmCartForm) return;
+    epmCartForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var radio = epmCartForm.querySelector('input[name="id"]:checked') || epmCartForm.querySelector('input[name="id"]');
+      var variantId = radio ? radio.value : null;
+      if (!variantId) return;
+      var qtyEl = epmCartForm.querySelector('input[name="quantity"]');
+      var qty = qtyEl ? (parseInt(qtyEl.value, 10) || 1) : 1;
+      var btn = epmCartForm.querySelector('[type="submit"]');
+      var origText = btn ? btn.textContent.trim() : '';
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
+      fetch('/api/2024-10/graphql.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: 'mutation C($i:CartInput!){cartCreate(input:$i){cart{checkoutUrl}userErrors{message}}}',
+          variables: { i: { lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }] } }
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var cart = d && d.data && d.data.cartCreate && d.data.cartCreate.cart;
+        var errs = d && d.data && d.data.cartCreate && d.data.cartCreate.userErrors;
+        if (cart && cart.checkoutUrl) {
+          window.location.href = cart.checkoutUrl;
+        } else {
+          var msg = (errs && errs.length) ? errs[0].message : 'Errore. Riprova.';
+          if (btn) { btn.disabled = false; btn.textContent = origText; }
+          console.error('cartCreate error:', msg);
+        }
+      })
+      .catch(function(err) {
+        console.error('cartCreate fetch error:', err);
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
+      });
+    });
+  })();
 })();
 </script>
 
