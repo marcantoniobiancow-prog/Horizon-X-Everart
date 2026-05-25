@@ -1140,9 +1140,15 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: 'mutation C($i:CartInput!){cartCreate(input:$i){cart{checkoutUrl}userErrors{message}}}',
-          variables: { i: {
-            lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }],
-            buyerIdentity: { countryCode: '{{ localization.country.iso_code | default: "ZZ" }}' }
+          {%- case request.locale.iso_code -%}
+          {%- when 'it' -%}{%- assign _buyer_cc = 'IT' -%}
+          {%- when 'fr' -%}{%- assign _buyer_cc = 'FR' -%}
+          {%- when 'de' -%}{%- assign _buyer_cc = 'DE' -%}
+          {%- when 'es' -%}{%- assign _buyer_cc = 'ES' -%}
+          {%- else -%}{%- assign _buyer_cc = '' -%}
+          {%- endcase -%}variables: { i: {
+            lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }]{%- if _buyer_cc != '' -%},
+            buyerIdentity: { countryCode: '{{ _buyer_cc }}' }{%- endif -%}
           } }
         })
       })
