@@ -8,6 +8,7 @@
 
 {%- assign s       = section.settings -%}
 {%- assign sid     = section.id | replace: '-', '_' -%}
+{%- assign _form_id = "eps-form-" | append: sid -%}
 {%- assign p       = product -%}
 {%- assign variant = p.selected_or_first_available_variant -%}
 
@@ -551,7 +552,7 @@
       </div>
 
       {%- comment -%} Form: varianti + ATC {%- endcomment -%}
-      {%- form 'product', p, id: "eps-form-{{ sid }}" -%}
+      {%- form 'product', p, id: _form_id -%}
 
         {%- unless p.has_only_default_variant -%}
           <span class="eps-vc-label">{{ 'everart.product.payment_options' | t }}</span>

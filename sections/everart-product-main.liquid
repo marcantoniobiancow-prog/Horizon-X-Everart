@@ -8,6 +8,7 @@
 
 {%- assign s       = section.settings -%}
 {%- assign sid     = section.id | replace: '-', '_' -%}
+{%- assign _form_id = "epm-form-" | append: sid -%}
 {%- assign p       = product -%}
 {%- assign variant = p.selected_or_first_available_variant -%}
 {%- assign media   = p.media -%}
@@ -862,7 +863,7 @@
       {%- endif -%}
 
       {%- comment -%} Quantità + ATC {%- endcomment -%}
-      {%- form 'product', p, id: "epm-form-{{ sid }}" -%}
+      {%- form 'product', p, id: _form_id -%}
 
         {%- comment -%} Variant cards — dentro il form così name="id" viene inviato {%- endcomment -%}
         {%- unless p.has_only_default_variant -%}
