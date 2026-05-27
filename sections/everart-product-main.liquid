@@ -13,6 +13,33 @@
 {%- assign variant = p.selected_or_first_available_variant -%}
 {%- assign media   = p.media -%}
 
+{%- comment -%} Klarna: mercato FR/DE via handle o country code {%- endcomment -%}
+{%- assign epm_market  = localization.market.handle | downcase -%}
+{%- assign epm_country = localization.country.iso_code | upcase -%}
+{%- assign epm_show_klarna = false -%}
+{%- if epm_market == 'france' or epm_market == 'germany' or epm_country == 'FR' or epm_country == 'DE' -%}
+  {%- assign epm_show_klarna = true -%}
+{%- endif -%}
+{%- assign epm_is_fr = false -%}
+{%- if epm_market == 'france' or epm_country == 'FR' -%}
+  {%- assign epm_is_fr = true -%}
+{%- endif -%}
+
+{%- comment -%} Trova la variante full-price (non deposit) per il pulsante Klarna {%- endcomment -%}
+{%- assign epm_full_variant = nil -%}
+{%- for _kv in p.variants -%}
+  {%- assign _kv_title = _kv.title | downcase -%}
+  {%- unless _kv_title contains 'acconto' or _kv_title contains 'deposit' or _kv_title contains 'caparra' -%}
+    {%- if epm_full_variant == nil -%}
+      {%- assign epm_full_variant = _kv -%}
+    {%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- if epm_full_variant == nil -%}
+  {%- assign epm_full_variant = variant -%}
+{%- endif -%}
+{%- assign epm_klarna_installment = epm_full_variant.price | divided_by: 3 | money -%}
+
 {%- liquid
   assign col_title = s.collection_label
   if col_title == blank and p.collections.size > 0
@@ -726,6 +753,95 @@
   .epm-sticky { transition: none; }
 }
 
+.epm-klarna-cta {
+  margin-top: 14px;
+
+  .epm-klarna-cta__divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    &::before, &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--epm-bdr);
+    }
+
+    span {
+      font-size: 9.5px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--epm-dim);
+    }
+  }
+
+  .epm-klarna-cta__card {
+    background: rgba(255, 182, 200, .06);
+    border: 1px solid rgba(255, 182, 200, .22);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .epm-klarna-cta__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .epm-klarna-cta__label {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--epm-dim);
+  }
+
+  .epm-klarna-cta__rate {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--epm-fg);
+    letter-spacing: .02em;
+  }
+
+  .epm-klarna-cta__logo {
+    height: 13px;
+    width: auto;
+    opacity: .6;
+    margin-top: 5px;
+    display: block;
+  }
+
+  .epm-klarna-cta__btn {
+    background: #ffb6c8;
+    color: #0a0a0a;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 22px;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover { opacity: .85; }
+    &:disabled { opacity: .5; cursor: not-allowed; }
+  }
+
+  @media (max-width: 480px) {
+    .epm-klarna-cta__card { flex-direction: column; align-items: flex-start; }
+    .epm-klarna-cta__btn { width: 100%; text-align: center; }
+  }
+}
+
 {% endstylesheet %}
 
 <div class="epm-wrapper" id="epm-wrapper-{{ sid }}">
@@ -870,6 +986,16 @@
           <span class="epm-vc-label">{{ 'everart.product.payment_options' | t | default: 'Payment options' }}</span>
           <div class="epm-vc-grid">
             {%- for v in p.variants -%}
+              {%- liquid
+                assign is_deposit_variant = false
+                assign v_title_lower = v.title | downcase
+                if v_title_lower contains 'acconto' or v_title_lower contains 'deposit' or v_title_lower contains 'caparra'
+                  assign is_deposit_variant = true
+                endif
+              -%}
+              {%- if epm_show_klarna and is_deposit_variant -%}
+                {%- comment -%} Deposit card sostituita dal blocco Klarna sotto {%- endcomment -%}
+              {%- else -%}
               <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
                 <input type="radio"
                        id="epm-var-{{ sid }}-{{ forloop.index0 }}"
@@ -879,13 +1005,6 @@
                        {% if v.id == variant.id %}checked{% endif %}
                        {% unless v.inventory_policy == 'continue' or v.available %}disabled{% endunless %}>
                 <span class="epm-vc-title">{{ v.title }}</span>
-                {%- liquid
-                  assign is_deposit_variant = false
-                  assign v_title_lower = v.title | downcase
-                  if v_title_lower contains 'acconto' or v_title_lower contains 'deposit' or v_title_lower contains 'caparra'
-                    assign is_deposit_variant = true
-                  endif
-                -%}
                 <div class="epm-vc-price-row">
                   <span class="epm-vc-price">{{ v.price | money }}</span>
                   {%- if v.compare_at_price > v.price and is_deposit_variant == false -%}
@@ -896,6 +1015,7 @@
                   <span class="epm-vc-note">Sold out</span>
                 {%- endunless -%}
               </label>
+              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- else -%}
@@ -926,7 +1046,52 @@
         </button>
       {%- endform -%}
 
-      {%- render 'klarna-badge', price: variant.price -%}
+      {%- if epm_show_klarna -%}
+      <div class="epm-klarna-cta">
+        <div class="epm-klarna-cta__divider">
+          <span>{%- if epm_is_fr -%}ou{%- else -%}oder{%- endif -%}</span>
+        </div>
+        <div class="epm-klarna-cta__card">
+          <div class="epm-klarna-cta__info">
+            <span class="epm-klarna-cta__label">
+              {%- if epm_is_fr -%}Paiement en 3 fois sans frais{%- else -%}Jetzt kaufen, später zahlen{%- endif -%}
+            </span>
+            <span class="epm-klarna-cta__rate">3 × {{ epm_klarna_installment }}</span>
+            <svg class="epm-klarna-cta__logo" viewBox="0 0 56 24" xmlns="http://www.w3.org/2000/svg" aria-label="Klarna" role="img">
+              <path d="M50.442 0c-3.047 0-5.507 2.474-5.507 5.529v13.024c0 .534.432.966.966.966H48.5a.966.966 0 0 0 .965-.966V5.529c0-2.044 1.657-3.707 3.698-3.707h1.87A.966.966 0 0 0 56 .856V.966A.966.966 0 0 0 55.034 0h-4.592zM33.15 5.24c-3.22 0-5.831 2.612-5.831 5.832v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-1.268 1.032-2.3 2.3-2.3 1.268 0 2.3 1.032 2.3 2.3v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-3.22-2.611-5.832-5.831-5.832zm-11.5 0a.966.966 0 0 0-.966.966v12.339c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965V6.206a.966.966 0 0 0-.965-.966h-2.6zm-9.67 0a.966.966 0 0 0-.965.966v12.339c0 .534.432.965.965.965h2.6a.966.966 0 0 0 .966-.965V6.206a.966.966 0 0 0-.966-.966h-2.6zm-4.2-5.24C4.74 0 1.3 3.05.18 7.354a.966.966 0 0 0 .933 1.21h2.643c.433 0 .813-.287.935-.702C5.357 5.867 6.84 4.69 8.62 4.466V18.58c0 .534.433.966.966.966h2.6a.966.966 0 0 0 .965-.966V.966A.966.966 0 0 0 12.186 0H7.78z" fill="#ffb6c8"/>
+            </svg>
+          </div>
+          <button type="button"
+                  class="epm-klarna-cta__btn"
+                  id="epm-klarna-btn-{{ sid }}"
+                  onclick="epmKlarna_{{ sid }}()">
+            {%- if epm_is_fr -%}Payer avec Klarna{%- else -%}Mit Klarna zahlen{%- endif -%}
+          </button>
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        function epmKlarna_{{ sid }}() {
+          var btn = document.getElementById('epm-klarna-btn-{{ sid }}');
+          if (btn) { btn.disabled = true; btn.textContent = '…'; }
+          fetch('/cart/clear.js', { method: 'POST' })
+            .then(function() {
+              return fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: {{ epm_full_variant.id }}, quantity: 1 })
+              });
+            })
+            .then(function() { window.location = '/checkout'; })
+            .catch(function() {
+              if (btn) { btn.disabled = false; btn.textContent = '{%- if epm_is_fr -%}Payer avec Klarna{%- else -%}Mit Klarna zahlen{%- endif -%}'; }
+            });
+        }
+        window.epmKlarna_{{ sid }} = epmKlarna_{{ sid }};
+      })();
+      </script>
+      {%- endif -%}
 
       <div class="epm-secure-checkout">
         <span class="epm-secure-checkout__label">
@@ -1239,4 +1404,3 @@
   "presets": [{ "name": "Product - Main" }]
 }
 {% endschema %}
-
