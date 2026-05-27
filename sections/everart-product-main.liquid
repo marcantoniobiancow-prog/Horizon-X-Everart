@@ -1046,7 +1046,6 @@
         </button>
       {%- endform -%}
 
-      {%- if epm_show_klarna -%}
       <div class="epm-klarna-cta">
         <div class="epm-klarna-cta__divider">
           <span>{%- if epm_is_fr -%}ou{%- else -%}oder{%- endif -%}</span>
@@ -1091,7 +1090,6 @@
         window.epmKlarna_{{ sid }} = epmKlarna_{{ sid }};
       })();
       </script>
-      {%- endif -%}
 
       <div class="epm-secure-checkout">
         <span class="epm-secure-checkout__label">
