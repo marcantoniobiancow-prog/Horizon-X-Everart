@@ -24,11 +24,7 @@
 {%- if epm_market == 'italy' or epm_country == 'IT' -%}
   {%- assign epm_is_it = true -%}
 {%- endif -%}
-{%- assign epm_show_alma = false -%}
-{%- if epm_market == 'france' or epm_market == 'germany' or epm_market == 'italy'
-    or epm_country == 'FR' or epm_country == 'DE' or epm_country == 'IT' -%}
-  {%- assign epm_show_alma = true -%}
-{%- endif -%}
+{%- assign epm_show_alma = true -%}
 
 {%- comment -%} Trova la variante full-price (non deposit) per il pulsante Alma {%- endcomment -%}
 {%- assign epm_full_variant = nil -%}
@@ -758,92 +754,73 @@
   .epm-sticky { transition: none; }
 }
 
-.epm-alma-cta {
+.epm-alma-widget {
   margin-top: 14px;
+  border: 1px solid var(--epm-bdr);
+  border-radius: 8px;
+  padding: 14px 16px;
 
-  .epm-alma-cta__divider {
+  .epm-alma-widget__top {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-
-    &::before, &::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--epm-bdr);
-    }
-
-    span {
-      font-size: 9.5px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--epm-dim);
-    }
-  }
-
-  .epm-alma-cta__card {
-    background: rgba(250, 80, 34, .05);
-    border: 1px solid rgba(250, 80, 34, .22);
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
   }
 
-  .epm-alma-cta__info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .epm-alma-cta__label {
-    font-size: 10px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--epm-dim);
-  }
-
-  .epm-alma-cta__rate {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--epm-fg);
-    letter-spacing: .02em;
-  }
-
-  .epm-alma-cta__logo {
-    font-size: 13px;
+  .epm-alma-widget__logo {
+    font-size: 17px;
     font-weight: 800;
     color: #FA5022;
-    letter-spacing: .05em;
-    margin-top: 3px;
+    letter-spacing: .01em;
+    flex-shrink: 0;
   }
 
-  .epm-alma-cta__btn {
-    background: #FA5022;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 12px 22px;
-    font-size: 11.5px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity .2s;
-    white-space: nowrap;
-    flex-shrink: 0;
+  .epm-alma-widget__pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
 
-    &:hover { opacity: .85; }
-    &:disabled { opacity: .5; cursor: not-allowed; }
+  .epm-alma-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 11px;
+    border: 1px solid var(--epm-bdr);
+    border-radius: 5px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--epm-muted);
+    background: transparent;
+    cursor: default;
+    transition: none;
+
+    &.is-active {
+      background: var(--epm-fg);
+      color: var(--epm-bg);
+      border-color: var(--epm-fg);
+      font-weight: 700;
+    }
+  }
+
+  .epm-alma-widget__link {
+    display: inline-block;
+    margin-top: 9px;
+    font-size: 11px;
+    color: var(--epm-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+
+    &:hover { color: var(--epm-fg); }
   }
 
   @media (max-width: 480px) {
-    .epm-alma-cta__card { flex-direction: column; align-items: flex-start; }
-    .epm-alma-cta__btn { width: 100%; text-align: center; }
+    .epm-alma-widget__top { gap: 10px; }
+    .epm-alma-pill { padding: 4px 9px; font-size: 12px; }
   }
 }
 
@@ -1052,48 +1029,21 @@
       {%- endform -%}
 
       {%- if epm_show_alma -%}
-      <div class="epm-alma-cta">
-        <div class="epm-alma-cta__divider">
-          <span>{%- if epm_is_fr -%}ou{%- elsif epm_is_it -%}o{%- else -%}oder{%- endif -%}</span>
-        </div>
-        <div class="epm-alma-cta__card">
-          <div class="epm-alma-cta__info">
-            <span class="epm-alma-cta__label">
-              {%- if epm_is_fr -%}Paiement en plusieurs fois — sans intérêts{%- elsif epm_is_it -%}Pagamento rateale — senza interessi{%- else -%}Ratenzahlung — zinsfrei{%- endif -%}
-            </span>
-            <span class="epm-alma-cta__rate">2× &middot; 3× &middot; 4×</span>
-            <span class="epm-alma-cta__logo" aria-label="Alma">alma</span>
+      <div class="epm-alma-widget">
+        <div class="epm-alma-widget__top">
+          <span class="epm-alma-widget__logo">Alma</span>
+          <div class="epm-alma-widget__pills">
+            <span class="epm-alma-pill">2×</span>
+            <span class="epm-alma-pill">3×</span>
+            <span class="epm-alma-pill">4×</span>
+            <span class="epm-alma-pill">10×</span>
+            <span class="epm-alma-pill is-active">12×</span>
           </div>
-          <button type="button"
-                  class="epm-alma-cta__btn"
-                  id="epm-alma-btn-{{ sid }}"
-                  onclick="epmAlma_{{ sid }}()">
-            {%- if epm_is_fr -%}Payer avec Alma{%- elsif epm_is_it -%}Paga con Alma{%- else -%}Mit Alma zahlen{%- endif -%}
-          </button>
         </div>
+        <a href="https://www.almapay.com/compradores" target="_blank" rel="noopener" class="epm-alma-widget__link">
+          {%- if epm_is_fr -%}En savoir plus{%- elsif epm_is_it -%}Scopri di più{%- else -%}Click to find out more{%- endif -%}
+        </a>
       </div>
-
-      <script>
-      (function() {
-        function epmAlma_{{ sid }}() {
-          var btn = document.getElementById('epm-alma-btn-{{ sid }}');
-          if (btn) { btn.disabled = true; btn.textContent = '…'; }
-          fetch('/cart/clear.js', { method: 'POST' })
-            .then(function() {
-              return fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: {{ epm_full_variant.id }}, quantity: 1 })
-              });
-            })
-            .then(function() { window.location = '/checkout'; })
-            .catch(function() {
-              if (btn) { btn.disabled = false; btn.textContent = '{%- if epm_is_fr -%}Payer avec Alma{%- elsif epm_is_it -%}Paga con Alma{%- else -%}Mit Alma zahlen{%- endif -%}'; }
-            });
-        }
-        window.epmAlma_{{ sid }} = epmAlma_{{ sid }};
-      })();
-      </script>
       {%- endif -%}
 
       <div class="epm-secure-checkout">

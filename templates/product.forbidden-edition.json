@@ -82,7 +82,7 @@
       "settings": {
         "collection_label": "Masters of Madness · Chapter I",
         "subtitle": "The Forbidden Edition",
-        "show_edition": true,
+        "show_edition": false,
         "edition_claimed": 46,
         "edition_total": 100,
         "edition_ships": "Ships from production: June 2026 · Estimated delivery: August–September 2026",
