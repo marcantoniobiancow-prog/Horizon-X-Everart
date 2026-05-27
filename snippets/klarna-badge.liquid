@@ -1,17 +1,28 @@
 {%- comment -%}
-  klarna-badge.liquid — mostra badge Klarna solo per mercati FR e DE
+  klarna-badge.liquid — mostra badge Klarna solo per FR e DE
   Parametri: price (centesimi, default: variant.price)
 {%- endcomment -%}
 
-{%- assign kb_market = localization.market.handle | downcase -%}
+{%- assign kb_market  = localization.market.handle | downcase -%}
+{%- assign kb_country = localization.country.iso_code | upcase -%}
 
-{%- if kb_market == 'france' or kb_market == 'germany' -%}
+{%- assign show_klarna = false -%}
+{%- if kb_market == 'france' or kb_market == 'germany' or kb_country == 'FR' or kb_country == 'DE' -%}
+  {%- assign show_klarna = true -%}
+{%- endif -%}
+
+{%- if show_klarna -%}
 
 {%- assign kb_price       = price | default: variant.price -%}
 {%- assign kb_installment = kb_price | divided_by: 3 | money -%}
 {%- assign kb_modal_id    = 'klarna-modal-' | append: kb_price -%}
 
-{%- if kb_market == 'france' -%}
+{%- assign kb_is_fr = false -%}
+{%- if kb_market == 'france' or kb_country == 'FR' -%}
+  {%- assign kb_is_fr = true -%}
+{%- endif -%}
+
+{%- if kb_is_fr -%}
   {%- assign kb_sublabel   = '3 fois sans frais de' -%}
   {%- assign kb_modal_h    = 'Paiement en 3 fois sans frais' -%}
   {%- assign kb_modal_body = 'Divisez en 3 versements de <strong>' | append: kb_installment | append: '</strong> — sans intérêts. Choisissez Klarna au checkout.' -%}
