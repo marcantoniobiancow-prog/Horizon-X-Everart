@@ -61,8 +61,10 @@
       if (getCookie(COOKIE)) return;
       setCookie(COOKIE, '1');
       var map = { it: 'it', fr: 'fr', de: 'de', es: 'es' };
+      var countryMap = { IT: 'it', FR: 'fr', DE: 'de', ES: 'es' };
       var lang = (navigator.language || 'en').split('-')[0].toLowerCase();
-      var target = map[lang] || '';
+      var shopifyCountry = '{{ localization.country.iso_code }}';
+      var target = map[lang] || countryMap[shopifyCountry] || '';
       var current = '{{ request.locale.iso_code }}';
       if (current === 'en') current = '';
       if (target === current) return;
