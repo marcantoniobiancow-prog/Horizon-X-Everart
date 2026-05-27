@@ -1,79 +1,29 @@
 {%- comment -%}
-  klarna-badge.liquid — mostra badge Klarna solo per FR e DE
-  Parametri: price (centesimi, default: variant.price)
+  klarna-badge.liquid — TEST: nessun filtro mercato
 {%- endcomment -%}
 
-{%- assign kb_market  = localization.market.handle | downcase -%}
-{%- assign kb_country = localization.country.iso_code | upcase -%}
-
-{%- assign show_klarna = false -%}
-{%- if kb_market == 'france' or kb_market == 'germany' or kb_country == 'FR' or kb_country == 'DE' -%}
-  {%- assign show_klarna = true -%}
-{%- endif -%}
-
-{%- if show_klarna -%}
-
-{%- assign kb_price       = price | default: variant.price -%}
+{%- assign kb_price       = price | default: 70000 -%}
 {%- assign kb_installment = kb_price | divided_by: 3 | money -%}
 {%- assign kb_modal_id    = 'klarna-modal-' | append: kb_price -%}
-
-{%- assign kb_is_fr = false -%}
-{%- if kb_market == 'france' or kb_country == 'FR' -%}
-  {%- assign kb_is_fr = true -%}
-{%- endif -%}
-
-{%- if kb_is_fr -%}
-  {%- assign kb_sublabel   = '3 fois sans frais de' -%}
-  {%- assign kb_modal_h    = 'Paiement en 3 fois sans frais' -%}
-  {%- assign kb_modal_body = 'Divisez en 3 versements de <strong>' | append: kb_installment | append: '</strong> — sans intérêts. Choisissez Klarna au checkout.' -%}
-{%- else -%}
-  {%- assign kb_sublabel   = '3 Raten à' -%}
-  {%- assign kb_modal_h    = 'Jetzt kaufen, später zahlen' -%}
-  {%- assign kb_modal_body = '3 zinslose Raten à <strong>' | append: kb_installment | append: '</strong>. Klarna beim Checkout auswählen.' -%}
-{%- endif -%}
+{%- assign kb_market      = localization.market.handle | downcase -%}
+{%- assign kb_country     = localization.country.iso_code | upcase -%}
 
 <style>
-.klarna-bdg{display:inline-flex;align-items:center;gap:7px;background:rgba(255,182,200,.07);border:1px solid rgba(255,182,200,.18);border-radius:6px;padding:9px 13px;margin:10px 0 2px;cursor:default}
+.klarna-bdg{display:inline-flex;align-items:center;gap:7px;background:rgba(255,182,200,.12);border:1px solid rgba(255,182,200,.3);border-radius:6px;padding:9px 13px;margin:10px 0 2px;cursor:default}
 .klarna-bdg__txt{font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.3}
 .klarna-bdg__txt strong{color:#fff}
 .klarna-bdg__logo{height:15px;width:auto;flex-shrink:0;opacity:.85}
 .klarna-bdg__btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.38);padding:0;display:flex;line-height:1;transition:color .2s}
 .klarna-bdg__btn:hover{color:rgba(255,255,255,.8)}
-.klarna-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center}
-.klarna-overlay.open{display:flex}
-.klarna-dialog{background:#fff;border-radius:8px;padding:28px 28px 24px;max-width:380px;width:92%;position:relative}
-.klarna-dialog h3{margin:0 0 10px;font-size:16px;color:#17120f;font-weight:700}
-.klarna-dialog p{margin:0 0 10px;font-size:13.5px;color:#555;line-height:1.6}
-.klarna-dialog__close{position:absolute;top:14px;right:16px;background:none;border:none;cursor:pointer;font-size:20px;color:#999;line-height:1}
+.klarna-debug{font-size:9px;color:rgba(255,100,100,.8);margin-bottom:4px;font-family:monospace}
 </style>
 
+<div class="klarna-debug">market={{ kb_market }} | country={{ kb_country }} | price={{ kb_price }}</div>
 <div class="klarna-bdg" role="note" aria-label="Klarna installment option">
   <span class="klarna-bdg__txt">
-    {{ kb_sublabel }}&nbsp;<strong>{{ kb_installment }}</strong>&nbsp;con
+    3 Raten à&nbsp;<strong>{{ kb_installment }}</strong>&nbsp;con
   </span>
   <svg class="klarna-bdg__logo" viewBox="0 0 56 24" xmlns="http://www.w3.org/2000/svg" aria-label="Klarna">
     <path d="M50.442 0c-3.047 0-5.507 2.474-5.507 5.529v13.024c0 .534.432.966.966.966H48.5a.966.966 0 0 0 .965-.966V5.529c0-2.044 1.657-3.707 3.698-3.707h1.87A.966.966 0 0 0 56 .856V.966A.966.966 0 0 0 55.034 0h-4.592zM33.15 5.24c-3.22 0-5.831 2.612-5.831 5.832v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-1.268 1.032-2.3 2.3-2.3 1.268 0 2.3 1.032 2.3 2.3v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-3.22-2.611-5.832-5.831-5.832zm-11.5 0a.966.966 0 0 0-.966.966v12.339c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965V6.206a.966.966 0 0 0-.965-.966h-2.6zm-9.67 0a.966.966 0 0 0-.965.966v12.339c0 .534.432.965.965.965h2.6a.966.966 0 0 0 .966-.965V6.206a.966.966 0 0 0-.966-.966h-2.6zm-4.2-5.24C4.74 0 1.3 3.05.18 7.354a.966.966 0 0 0 .933 1.21h2.643c.433 0 .813-.287.935-.702C5.357 5.867 6.84 4.69 8.62 4.466V18.58c0 .534.433.966.966.966h2.6a.966.966 0 0 0 .965-.966V.966A.966.966 0 0 0 12.186 0H7.78z" fill="#ffb6c8"/>
   </svg>
-  <button class="klarna-bdg__btn"
-          onclick="document.getElementById('{{ kb_modal_id }}').classList.add('open')"
-          aria-label="Info Klarna">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-  </button>
 </div>
-
-<div id="{{ kb_modal_id }}" class="klarna-overlay"
-     onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="klarna-dialog">
-    <button class="klarna-dialog__close"
-            onclick="document.getElementById('{{ kb_modal_id }}').classList.remove('open')"
-            aria-label="Close">&#10005;</button>
-    <svg viewBox="0 0 56 24" xmlns="http://www.w3.org/2000/svg" style="height:18px;margin-bottom:14px;display:block;">
-      <path d="M50.442 0c-3.047 0-5.507 2.474-5.507 5.529v13.024c0 .534.432.966.966.966H48.5a.966.966 0 0 0 .965-.966V5.529c0-2.044 1.657-3.707 3.698-3.707h1.87A.966.966 0 0 0 56 .856V.966A.966.966 0 0 0 55.034 0h-4.592zM33.15 5.24c-3.22 0-5.831 2.612-5.831 5.832v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-1.268 1.032-2.3 2.3-2.3 1.268 0 2.3 1.032 2.3 2.3v7.473c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965v-7.473c0-3.22-2.611-5.832-5.831-5.832zm-11.5 0a.966.966 0 0 0-.966.966v12.339c0 .534.433.965.966.965h2.6a.966.966 0 0 0 .965-.965V6.206a.966.966 0 0 0-.965-.966h-2.6zm-9.67 0a.966.966 0 0 0-.965.966v12.339c0 .534.432.965.965.965h2.6a.966.966 0 0 0 .966-.965V6.206a.966.966 0 0 0-.966-.966h-2.6zm-4.2-5.24C4.74 0 1.3 3.05.18 7.354a.966.966 0 0 0 .933 1.21h2.643c.433 0 .813-.287.935-.702C5.357 5.867 6.84 4.69 8.62 4.466V18.58c0 .534.433.966.966.966h2.6a.966.966 0 0 0 .965-.966V.966A.966.966 0 0 0 12.186 0H7.78z" fill="#17120f"/>
-    </svg>
-    <h3>{{ kb_modal_h }}</h3>
-    <p>{{ kb_modal_body }}</p>
-    <p style="font-size:11.5px;color:#bbb;margin:0;">Powered by Klarna via Shopify Payments.</p>
-  </div>
-</div>
-
-{%- endif -%}
