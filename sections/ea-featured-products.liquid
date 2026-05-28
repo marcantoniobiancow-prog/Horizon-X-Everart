@@ -282,7 +282,7 @@
         {%- else -%}
           {%- for i in (1..4) -%}
             <div class="ea-fp-card">
-              <div class="ea-fp-img-link">
+              <div class="ea-fp-img-link" role="presentation">
                 <div class="ea-fp-img-placeholder"></div>
                 <div class="ea-fp-badge-wrap"><span class="ea-fp-badge">SALE</span></div>
               </div>
@@ -305,7 +305,7 @@
       {%- assign dot_count = limit -%}
       {%- if has_products -%}{%- assign dot_count = collection.products.size | at_most: limit -%}{%- endif -%}
       {%- for i in (1..dot_count) -%}
-        <div class="ea-fp-dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+        <div class="ea-fp-dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" role="button" tabindex="0" aria-label="{{ 'accessibility.go_to_slide' | t: slide: forloop.index | default: 'Go to slide ' | append: forloop.index }}"></div>
       {%- endfor -%}
     </div>
 
@@ -349,10 +349,16 @@
     });
   }
 
-  // dot click
+  // dot click + keyboard
   dots.forEach(function (d) {
     d.addEventListener('click', function () {
       update(parseInt(d.getAttribute('data-index')));
+    });
+    d.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        d.click();
+      }
     });
   });
 

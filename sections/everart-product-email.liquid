@@ -190,10 +190,17 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%}
+        Newsletter form — submits to Shopify Customer API.
+        Klaviyo intercepts via klaviyo.js if loaded.
+        Fallback: creates/updates Shopify customer with accepts_marketing: true.
+      {%- endcomment -%}
       {%- render 'klaviyo-subscribe', form_selector: '#epe-form-{{ sid }}', list_id: 'RxHPMs' -%}
       <form class="epe-form" action="/contact#contact_form" method="post" id="epe-form-{{ sid }}">
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[tags]" value="newsletter,prospect">
+        <input type="hidden" name="contact[accepts_marketing]" value="true">
         <label for="epe-email-{{ sid }}" class="epe-sr-only">
           {{- 'everart.email.placeholder' | t | default: s.input_placeholder | default: 'Your email address' -}}
         </label>

@@ -8,7 +8,6 @@
 
 {%- assign s       = section.settings -%}
 {%- assign sid     = section.id | replace: '-', '_' -%}
-{%- assign _form_id = "eps-form-" | append: sid -%}
 {%- assign p       = product -%}
 {%- assign variant = p.selected_or_first_available_variant -%}
 
@@ -462,6 +461,34 @@
   }
 }
 
+/* ── Sticky CTA — flat fallback per CSS nesting (Safari iOS < 17.2) ── */
+/* Flat equivalents of nested selectors inside #eps-sticky-{{ sid }} */
+#eps-sticky-{{ sid }}.vis            { transform: translateY(0); }
+#eps-sticky-{{ sid }} .sc-btn:hover  { background: var(--eps-red2, #a52020); }
+
+/* Flat fallbacks per .eps-wrapper figli nested */
+.eps-wrapper .eps-breadcrumb a               { color: var(--eps-muted); text-decoration: none; transition: color .2s; }
+.eps-wrapper .eps-breadcrumb a:hover         { color: var(--eps-fg); }
+.eps-wrapper .eps-main img                   { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .3s; }
+.eps-wrapper .eps-thumb.active               { opacity: 1; }
+.eps-wrapper .eps-thumb:hover                { opacity: .85; }
+.eps-wrapper .eps-thumb img                  { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eps-wrapper .eps-slide img                  { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eps-wrapper .eps-dot.active                 { background: #fff; transform: scale(1.25); }
+.eps-wrapper .eps-vc-card input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.eps-wrapper .eps-vc-card:has(input:checked)  { border-color: var(--eps-fg); }
+.eps-wrapper .eps-vc-card:has(input:disabled) { opacity: .4; cursor: default; }
+.eps-wrapper .eps-atc-btn:hover              { background: var(--eps-red2); }
+.eps-wrapper .eps-atc-btn:disabled           { opacity: .45; cursor: default; background: var(--eps-red); }
+.eps-wrapper .eps-secondary-btn:hover        { border-color: var(--eps-fg); color: var(--eps-fg); }
+.eps-wrapper .eps-acc-h:hover                { color: var(--eps-fg); }
+.eps-wrapper .eps-acc-arrow.open             { transform: rotate(180deg); }
+.eps-wrapper .eps-acc-b.open                 { display: block; }
+.eps-wrapper .eps-acc-b p                    { margin-bottom: 12px; }
+.eps-wrapper .eps-secure-checkout__icons li  { display: flex; align-items: center; }
+.eps-wrapper .eps-secure-checkout__icons svg,
+.eps-wrapper .eps-secure-checkout__icons img { height: 26px; width: auto; }
+
 {% endstylesheet %}
 
 <div class="eps-wrapper" id="eps-wrapper-{{ sid }}">
@@ -552,7 +579,7 @@
       </div>
 
       {%- comment -%} Form: varianti + ATC {%- endcomment -%}
-      {%- form 'product', p, id: _form_id -%}
+      {%- form 'product', p, id: "eps-form-{{ sid }}" -%}
 
         {%- unless p.has_only_default_variant -%}
           <span class="eps-vc-label">{{ 'everart.product.payment_options' | t }}</span>
@@ -596,8 +623,6 @@
 
       {%- endform -%}
 
-      {%- render 'klarna-badge', price: variant.price -%}
-
       <div class="eps-secure-checkout">
         <span class="eps-secure-checkout__label">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
@@ -625,7 +650,8 @@
         <div class="eps-accordion">
           {%- for block in accordion_items -%}
             <div class="eps-acc-item" {{ block.shopify_attributes }}>
-              <button class="eps-acc-h" onclick="epsToggleAcc_{{ sid }}(this)">
+              <button class="eps-acc-h" onclick="epsToggleAcc_{{ sid }}(this)"
+                      aria-expanded="{{ forloop.first | json }}">
                 {{ block.settings.heading }}
                 <span class="eps-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
               </button>
@@ -672,6 +698,7 @@
     var open  = body.classList.contains('open');
     body.classList.toggle('open', !open);
     if (arrow) arrow.classList.toggle('open', !open);
+    header.setAttribute('aria-expanded', String(!open));
   }
   window.epsToggleAcc_{{ sid }} = epsToggleAcc_{{ sid }};
 
@@ -754,56 +781,6 @@
     });
   }
 
-
-  /* ── Storefront API cart (workaround: legacy /cart/add returns 422 for this store) ── */
-  (function() {
-    var epsCartForm = document.getElementById('eps-form-{{ sid }}');
-    if (!epsCartForm) return;
-    epsCartForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var radio = epsCartForm.querySelector('input[name="id"]:checked') || epsCartForm.querySelector('input[name="id"]');
-      var variantId = radio ? radio.value : null;
-      if (!variantId) return;
-      var qtyEl = epsCartForm.querySelector('input[name="quantity"]');
-      var qty = qtyEl ? (parseInt(qtyEl.value, 10) || 1) : 1;
-      var btn = epsCartForm.querySelector('[type="submit"]');
-      var origText = btn ? btn.textContent.trim() : '';
-      if (btn) { btn.disabled = true; btn.textContent = '...'; }
-      fetch('/api/2024-10/graphql.json', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: 'mutation C($i:CartInput!){cartCreate(input:$i){cart{checkoutUrl}userErrors{message}}}',
-          {%- case request.locale.iso_code -%}
-          {%- when 'it' -%}{%- assign _buyer_cc = 'IT' -%}
-          {%- when 'fr' -%}{%- assign _buyer_cc = 'FR' -%}
-          {%- when 'de' -%}{%- assign _buyer_cc = 'DE' -%}
-          {%- when 'es' -%}{%- assign _buyer_cc = 'ES' -%}
-          {%- else -%}{%- assign _buyer_cc = '' -%}
-          {%- endcase -%}variables: { i: {
-            lines: [{ merchandiseId: 'gid://shopify/ProductVariant/' + variantId, quantity: qty }]{%- if _buyer_cc != '' -%},
-            buyerIdentity: { countryCode: '{{ _buyer_cc }}' }{%- endif -%}
-          } }
-        })
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        var cart = d && d.data && d.data.cartCreate && d.data.cartCreate.cart;
-        var errs = d && d.data && d.data.cartCreate && d.data.cartCreate.userErrors;
-        if (cart && cart.checkoutUrl) {
-          window.location.href = cart.checkoutUrl;
-        } else {
-          var msg = (errs && errs.length) ? errs[0].message : 'Errore. Riprova.';
-          if (btn) { btn.disabled = false; btn.textContent = origText; }
-          console.error('cartCreate error:', msg);
-        }
-      })
-      .catch(function(err) {
-        console.error('cartCreate fetch error:', err);
-        if (btn) { btn.disabled = false; btn.textContent = origText; }
-      });
-    });
-  })();
 })();
 </script>
 
@@ -841,4 +818,3 @@
   "presets": [{ "name": "Prodotto — Simple" }]
 }
 {% endschema %}
-

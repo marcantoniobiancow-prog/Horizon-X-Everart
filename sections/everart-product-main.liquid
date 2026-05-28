@@ -214,15 +214,6 @@
       margin-bottom: 8px;
     }
 
-    .epm-edition-lbl {
-      font-size: 12px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--epm-fg);
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
     .epm-edition-count {
       font-size: 13px;
       color: var(--epm-muted);
@@ -746,6 +737,23 @@
   }
 }
 
+/* ── Sticky CTA — flat fallback for Safari iOS < 17.2 (no CSS nesting support) ── */
+.epm-sticky .sc-name { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.epm-sticky .sc-prices { display: flex; align-items: baseline; gap: 8px; }
+.epm-sticky .sc-price { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+.epm-sticky .sc-compare { font-size: 14px; font-weight: 400; color: rgb(255 255 255 / 0.45); text-decoration: line-through; }
+.epm-sticky .sc-ed { font-size: 10px; color: rgb(255 255 255 / 0.55); letter-spacing: .06em; margin-top: 2px; }
+.epm-sticky .sc-btn { background: #8b1a1a; color: #ffffff; border: none; padding: 14px 32px; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; cursor: pointer; font-family: var(--font-body-family, 'Instrument Sans', sans-serif); transition: background .2s; white-space: nowrap; }
+.epm-sticky .sc-btn:hover { background: #a52020; }
+.epm-sticky.vis { transform: translateY(0); }
+@media (max-width: 767px) {
+  .epm-sticky .sc-name { font-size: 13px; }
+  .epm-sticky .sc-prices { gap: 6px; }
+  .epm-sticky .sc-price { font-size: 22px; }
+  .epm-sticky .sc-compare { font-size: 13px; }
+  .epm-sticky .sc-btn { width: 100%; text-align: center; padding: 14px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .epm-zoom-img,
   .epm-edition-fill,
@@ -829,15 +837,50 @@
 <div class="epm-wrapper" id="epm-wrapper-{{ sid }}">
 
   {%- comment -%} Breadcrumb {%- endcomment -%}
-  <div class="epm-breadcrumb">
-    <a href="/">Home</a>
+  <nav class="epm-breadcrumb" aria-label="Breadcrumb">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "{{ shop.name | escape }}",
+          "item": "{{ shop.url }}"
+        }
+        {%- if p.collections.size > 0 -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ p.collections[0].title | escape }}",
+          "item": "{{ shop.url }}{{ p.collections[0].url }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ p.title | escape }}",
+          "item": "{{ shop.url }}{{ p.url }}"
+        }
+        {%- else -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ p.title | escape }}",
+          "item": "{{ shop.url }}{{ p.url }}"
+        }
+        {%- endif -%}
+      ]
+    }
+    </script>
+    <a href="{{ routes.root_url }}">Home</a>
     <span>/</span>
     {%- if p.collections.size > 0 -%}
       <a href="{{ p.collections[0].url }}">{{ p.collections[0].title }}</a>
       <span>/</span>
     {%- endif -%}
     <span class="epm-bc-current">{{ p.title }}</span>
-  </div>
+  </nav>
 
   <div class="epm-grid">
 
@@ -1077,7 +1120,9 @@
                   assign acc_content = 'everart.product.refund_text' | t | default: acc_content
                 endif
               -%}
-              <button class="epm-acc-h" onclick="epmToggleAcc_{{ sid }}(this)">
+              <button class="epm-acc-h"
+                      onclick="epmToggleAcc_{{ sid }}(this)"
+                      aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
                 {{ acc_heading }}
                 <span class="epm-acc-arrow {% if forloop.first %}open{% endif %}">&#8964;</span>
               </button>
@@ -1142,6 +1187,7 @@
     var open  = body.classList.contains('open');
     body.classList.toggle('open', !open);
     if (arrow) arrow.classList.toggle('open', !open);
+    header.setAttribute('aria-expanded', String(!open));
   }
   window.epmToggleAcc_{{ sid }} = epmToggleAcc_{{ sid }};
 
@@ -1300,8 +1346,8 @@
       "name": "Bundle item",
       "limit": 10,
       "settings": [
-        { "type": "text", "id": "item",  "label": "sections.everart_product_main.schema.descrizione" },
-        { "type": "text", "id": "price", "label": "sections.everart_product_main.schema.prezzo_nota_es_760_o_incl" }
+        { "type": "text", "id": "item",  "label": "Description" },
+        { "type": "text", "id": "price", "label": "Price / note (e.g. €760 or incl.)" }
       ]
     },
     {
@@ -1309,8 +1355,8 @@
       "name": "Accordion",
       "limit": 6,
       "settings": [
-        { "type": "text",     "id": "heading", "label": "Titolo",    "default": "Product Details" },
-        { "type": "richtext", "id": "content", "label": "Contenuto" }
+        { "type": "text",     "id": "heading", "label": "Title",   "default": "Product Details" },
+        { "type": "richtext", "id": "content", "label": "Content" }
       ]
     },
     {
@@ -1319,36 +1365,36 @@
       "limit": 2,
       "settings": [
         { "type": "text", "id": "label",  "label": "Label",  "default": "Pay in full" },
-        { "type": "text", "id": "amount", "label": "Importo","default": "€700" },
-        { "type": "text", "id": "note",   "label": "Nota" }
+        { "type": "text", "id": "amount", "label": "Amount", "default": "€700" },
+        { "type": "text", "id": "note",   "label": "Note" }
       ]
     }
   ],
   "settings": [
-    { "type": "text",     "id": "display_title",         "label": "Titolo display (breve, sovrascrive titolo SEO)" },
-    { "type": "text",     "id": "collection_label",      "label": "sections.everart_product_main.schema.label_collezione_override_auto" },
-    { "type": "text",     "id": "subtitle",              "label": "sections.everart_product_main.schema.sottotitolo_italic" },
+    { "type": "text",     "id": "display_title",         "label": "Display title (short, overrides SEO title)" },
+    { "type": "text",     "id": "collection_label",      "label": "Collection label (overrides auto)" },
+    { "type": "text",     "id": "subtitle",              "label": "Subtitle (italic)" },
     { "type": "header",   "content": "Edition counter" },
-    { "type": "checkbox", "id": "show_edition",          "label": "sections.everart_product_main.schema.mostra_edition_counter", "default": false },
-    { "type": "number",   "id": "edition_claimed",       "label": "sections.everart_product_main.schema.pezzi_reclamati",        "default": 0 },
-    { "type": "number",   "id": "edition_total",         "label": "Edizione totale",        "default": 100 },
-    { "type": "text",     "id": "edition_ships",         "label": "sections.everart_product_main.schema.testo_spedizione" },
-    { "type": "header",   "content": "sections.everart_product_main.schema.bundle_box" },
-    { "type": "text",     "id": "bundle_title",          "label": "sections.everart_product_main.schema.titolo_box" },
-    { "type": "text",     "id": "bundle_original_price", "label": "sections.everart_product_main.schema.valore_bundle_barrato" },
-    { "type": "text",     "id": "bundle_discount_label", "label": "Label sconto" },
-    { "type": "text",     "id": "bundle_discount_amount","label": "Importo sconto" },
-    { "type": "text",     "id": "bundle_total_label",    "label": "sections.everart_product_main.schema.label_prezzo_totale",    "default": "Your price today" },
+    { "type": "checkbox", "id": "show_edition",          "label": "Show edition counter", "default": false },
+    { "type": "number",   "id": "edition_claimed",       "label": "Pieces claimed",       "default": 0 },
+    { "type": "number",   "id": "edition_total",         "label": "Edition total",        "default": 100 },
+    { "type": "text",     "id": "edition_ships",         "label": "Shipping text" },
+    { "type": "header",   "content": "Bundle box" },
+    { "type": "text",     "id": "bundle_title",          "label": "Box title" },
+    { "type": "text",     "id": "bundle_original_price", "label": "Bundle total value (strikethrough)" },
+    { "type": "text",     "id": "bundle_discount_label", "label": "Discount label" },
+    { "type": "text",     "id": "bundle_discount_amount","label": "Discount amount" },
+    { "type": "text",     "id": "bundle_total_label",    "label": "Total price label",    "default": "Your price today" },
     { "type": "text",     "id": "bundle_save_note",      "label": "Save note" },
-    { "type": "header",   "content": "sections.everart_product_main.schema.acquisto" },
-    { "type": "text",     "id": "btn_text",              "label": "sections.everart_product_main.schema.testo_bottone",          "default": "Add to Cart" },
-    { "type": "text",     "id": "atc_note",              "label": "sections.everart_product_main.schema.nota_sotto_bottone" },
+    { "type": "header",   "content": "Purchase" },
+    { "type": "text",     "id": "btn_text",              "label": "Button text",          "default": "Add to Cart" },
+    { "type": "text",     "id": "atc_note",              "label": "Note below button" },
     { "type": "number",   "id": "balance_note_price",    "label": "Variant ID that shows balance note" },
     { "type": "text",     "id": "balance_note",          "label": "Balance note text (e.g. Pay €540 before ship)" },
-    { "type": "checkbox", "id": "show_sticky",           "label": "sections.everart_product_main.schema.mostra_sticky_cta",     "default": true },
+    { "type": "checkbox", "id": "show_sticky",           "label": "Show sticky CTA",      "default": true },
     { "type": "header",   "content": "SEO — Rich Results" },
-    { "type": "number",   "id": "jsonld_rating",        "label": "Rating medio (1-5, es. 5)" },
-    { "type": "number",   "id": "jsonld_review_count",  "label": "Numero recensioni totali (es. 47)" }
+    { "type": "number",   "id": "jsonld_rating",        "label": "Average rating (1-5, e.g. 5)" },
+    { "type": "number",   "id": "jsonld_review_count",  "label": "Total review count (e.g. 47)" }
   ],
   "presets": [{ "name": "Product - Main" }]
 }

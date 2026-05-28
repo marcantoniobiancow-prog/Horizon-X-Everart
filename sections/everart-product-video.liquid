@@ -196,7 +196,7 @@
 
           {%- assign cover_img = s.cover_image -%}
           {%- if cover_img == blank -%}
-             {%- assign asset_test = 'final_unboxing_cover_16_9.png' | asset_img_url: '1200x' -%}
+             {%- assign asset_test = 'final_unboxing_cover_16_9.png' | asset_url -%}
              {%- unless asset_test contains 'no-image' -%}
                {%- assign cover_img = asset_test -%}
              {%- endunless -%}
@@ -215,7 +215,7 @@
                      width="1200"
                      loading="lazy">
               {%- else -%}
-                <img src="{{ 'final_unboxing_cover_16_9.png' | asset_img_url: '1200x' }}"
+                <img src="{{ 'final_unboxing_cover_16_9.png' | asset_url }}"
                      alt="{{ s.heading }}"
                      width="1200"
                      loading="lazy">
@@ -232,6 +232,7 @@
             <iframe
               src="{{ yt_embed }}?rel=0"
               title="{{ s.heading | default: 'Video' }}"
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
             </iframe>
@@ -244,7 +245,7 @@
                 <polygon points="9,6 20,12 9,18" fill="white"/>
               </svg>
             </div>
-            <span class="epv-play-label">Unboxing Video</span>
+            <span class="epv-play-label">{{ s.play_label | default: 'Video' }}</span>
           </div>
         {%- endif -%}
 
@@ -253,44 +254,20 @@
       <div class="epv-cells">
         {%- if s.cell1_label != blank or s.cell1_value != blank -%}
           <div class="epv-cell">
-            {%- liquid
-              assign c1_label = s.cell1_label
-              assign c1_value = s.cell1_value
-              if c1_label == 'Packaging' or c1_label == 'Confezione'
-                 assign c1_label = 'everart.video.packaging' | t | default: c1_label
-                 assign c1_value = 'everart.video.packaging_value' | t | default: c1_value
-              endif
-            -%}
-            <div class="epv-cell-label">{{ c1_label }}</div>
-            <div class="epv-cell-value">{{ c1_value }}</div>
+            <div class="epv-cell-label">{{ s.cell1_label }}</div>
+            <div class="epv-cell-value">{{ s.cell1_value }}</div>
           </div>
         {%- endif -%}
         {%- if s.cell2_label != blank or s.cell2_value != blank -%}
           <div class="epv-cell">
-            {%- liquid
-              assign c2_label = s.cell2_label
-              assign c2_value = s.cell2_value
-              if c2_label == 'Shipping' or c2_label == 'Spedizione'
-                 assign c2_label = 'everart.video.shipping' | t | default: c2_label
-                 assign c2_value = 'everart.video.shipping_value' | t | default: c2_value
-              endif
-            -%}
-            <div class="epv-cell-label">{{ c2_label }}</div>
-            <div class="epv-cell-value">{{ c2_value }}</div>
+            <div class="epv-cell-label">{{ s.cell2_label }}</div>
+            <div class="epv-cell-value">{{ s.cell2_value }}</div>
           </div>
         {%- endif -%}
         {%- if s.cell3_label != blank or s.cell3_value != blank -%}
           <div class="epv-cell">
-            {%- liquid
-              assign c3_label = s.cell3_label
-              assign c3_value = s.cell3_value
-              if c3_label == 'Condition' or c3_label == 'Condizione'
-                 assign c3_label = 'everart.video.condition' | t | default: c3_label
-                 assign c3_value = 'everart.video.condition_value' | t | default: c3_value
-              endif
-            -%}
-            <div class="epv-cell-label">{{ c3_label }}</div>
-            <div class="epv-cell-value">{{ c3_value }}</div>
+            <div class="epv-cell-label">{{ s.cell3_label }}</div>
+            <div class="epv-cell-value">{{ s.cell3_value }}</div>
           </div>
         {%- endif -%}
       </div>
@@ -334,6 +311,7 @@
     { "type": "textarea",     "id": "description", "label": "Descrizione" },
     { "type": "text",         "id": "youtube_url", "label": "URL YouTube (qualsiasi formato: watch, youtu.be, embed)" },
     { "type": "image_picker", "id": "cover_image", "label": "Copertina video (opzionale — click per avviare)" },
+    { "type": "text",         "id": "play_label",  "label": "Play button label",  "default": "Unboxing Video" },
     { "type": "header",       "content": "Celle informative" },
     { "type": "text", "id": "cell1_label", "label": "Cella 1 — label",  "default": "Packaging" },
     { "type": "text", "id": "cell1_value", "label": "Cella 1 — valore", "default": "Custom protective box" },

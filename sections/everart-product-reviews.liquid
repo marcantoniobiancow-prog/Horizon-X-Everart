@@ -101,7 +101,9 @@
         <div class="epr-card" {{ block.shopify_attributes }}>
           {%- assign stars = block.settings.stars | default: 5 -%}
           <div class="epr-stars">
-            {%- for i in (1..stars) -%}★{%- endfor -%}
+            <span role="img" aria-label="{{ stars }}/5 {{ 'accessibility.star_rating' | t | default: 'stars' }}">
+              {%- for i in (1..stars) -%}★{%- endfor -%}
+            </span>
           </div>
           {%- if block.settings.text != blank -%}
             <div class="epr-text">"{{ block.settings.text }}"</div>

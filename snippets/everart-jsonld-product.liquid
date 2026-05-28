@@ -8,8 +8,6 @@
   assign variant = p.selected_or_first_available_variant
   assign p_price = variant.price | divided_by: 100.0
   assign p_currency = cart.currency.iso_code | default: shop.currency
-  assign p_availability = 'https://schema.org/InStock'
-  assign p_inventory_value = 50
   assign p_image = p.featured_image | image_url: width: 1200
   assign p_url   = shop.url | append: p.url
   assign is_preorder = false
@@ -18,6 +16,14 @@
   endif
   assign return_policy_url = shop.url | append: '/policies/refund-policy'
 -%}
+
+{%- assign p_availability = 'https://schema.org/OutOfStock' -%}
+{%- for _v in product.variants -%}
+  {%- if _v.available or _v.inventory_policy == 'continue' -%}
+    {%- assign p_availability = 'https://schema.org/InStock' -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
 
 <script type="application/ld+json">
 {
@@ -44,10 +50,6 @@
     "priceCurrency": {{ p_currency | json }},
     "price": {{ p_price }},
     "availability": {{ p_availability | json }},
-    "inventoryLevel": {
-      "@type": "QuantitativeValue",
-      "value": {{ p_inventory_value }}
-    },
     "seller": {
       "@type": "Organization",
       "name": "Studio Everart"
@@ -88,7 +90,7 @@
     },
     "hasMerchantReturnPolicy": {
       "@type": "MerchantReturnPolicy",
-      "applicableCountry": "IT",
+      "applicableCountry": ["IT","DE","FR","ES","NL","BE","AT","PT"],
       "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
       "merchantReturnDays": 14,
       "returnMethod": "https://schema.org/ReturnByMail",
