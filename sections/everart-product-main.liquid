@@ -975,9 +975,6 @@
                   assign is_deposit_variant = true
                 endif
               -%}
-              {%- if epm_show_alma and is_deposit_variant -%}
-                {%- comment -%} Deposit card sostituita dal blocco Alma sotto {%- endcomment -%}
-              {%- else -%}
               <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
                 <input type="radio"
                        id="epm-var-{{ sid }}-{{ forloop.index0 }}"
@@ -997,7 +994,6 @@
                   <span class="epm-vc-note">Sold out</span>
                 {%- endunless -%}
               </label>
-              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- else -%}
