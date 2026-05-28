@@ -16,21 +16,21 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Product Details",
-            "content": "<p>An ancient tome bound in flesh and madness. This exclusive Necronomicon collectible merges grotesque detail with mythic craftsmanship. Veins, claws, and tentacles writhe across its cursed cover, guarding the secrets of forgotten dimensions. A true relic for collectors of the arcane.</p><p><strong>Material:</strong> High-density polystone<br><strong>Painting:</strong> Hand-painted by professional artists<br><strong>Classic size:</strong> H. 12 cm<br><strong>Large size:</strong> H. 20 cm<br><strong>Finish:</strong> Matte with aged patina detailing</p><p>Part of the H.P. Lovecraft Forbidden Edition universe — designed as a companion piece to Chapter I of the Masters of Madness collection.</p>"
+            "content": "<p>An ancient tome bound in flesh and madness. This exclusive Necronomicon collectible merges grotesque detail with mythic craftsmanship. Veins, claws, and tentacles writhe across its cursed cover, guarding the secrets of forgotten dimensions. A true relic for collectors of the arcane.</p><p><strong>Material:</strong> High-density polystone<br><strong>Painting:</strong> Hand-painted by professional artists<br><strong>Classic size:</strong> H. 12 cm<br><strong>Large size:</strong> H. 20 cm<br><strong>Finish:</strong> Matte with aged patina detailing</p><p>Part of the H.P. Lovecraft Forbidden Edition universe \u2014 designed as a companion piece to Chapter I of the Masters of Madness collection.</p>"
           }
         },
         "acc-2": {
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
+            "content": "<p>Ships from production: June 2026 \u00b7 Estimated delivery: August\u2013September 2026. Flat rate EU shipping: \u20ac20. All orders are insured and tracked. Packed in our custom protective box \u2014 the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy \u2192</a></p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
             "heading": "Refund Policy",
-            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy \u2192</a></p>"
           }
         }
       },
@@ -55,10 +55,15 @@
         "eyebrow": "The Collection",
         "limit": 4
       }
+    },
+    "everart-product-write-review": {
+      "type": "everart-product-write-review",
+      "settings": {}
     }
   },
   "order": [
     "everart-product-simple",
+    "everart-product-write-review",
     "everart-product-suggestions"
   ]
 }

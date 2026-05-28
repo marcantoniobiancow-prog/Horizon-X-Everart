@@ -15,8 +15,8 @@
         "bundle-1": {
           "type": "bundle_item",
           "settings": {
-            "item": "H.P. Lovecraft Statue 1/10 — Hand painted polystone",
-            "price": "€760"
+            "item": "H.P. Lovecraft Statue 1/10 \u2014 Hand painted polystone",
+            "price": "\u20ac760"
           }
         },
         "bundle-2": {
@@ -29,15 +29,15 @@
         "bundle-3": {
           "type": "bundle_item",
           "settings": {
-            "item": "The Necronomicon — 12cm resin replica",
-            "price": "incl. (€90)"
+            "item": "The Necronomicon \u2014 12cm resin replica",
+            "price": "incl. (\u20ac90)"
           }
         },
         "bundle-4": {
           "type": "bundle_item",
           "settings": {
-            "item": "Art Print 30×40cm — B&W, by Francesco Manna",
-            "price": "incl. (€40)"
+            "item": "Art Print 30\u00d740cm \u2014 B&W, by Francesco Manna",
+            "price": "incl. (\u20ac40)"
           }
         },
         "bundle-5": {
@@ -51,21 +51,21 @@
           "type": "accordion_item",
           "settings": {
             "heading": "Product Details",
-            "content": "<p>Limited edition H.P. Lovecraft statue — a hand-painted polystone masterpiece that brings the essence of cosmic horror into your collection.</p><p><strong>Edition size:</strong> 100 pieces worldwide — produced in two runs of 50. First run nearly complete.<br><strong>Height:</strong> 42 cm<br><strong>Width / Depth:</strong> 23.2 cm / 26.6 cm<br><strong>Material:</strong> Polystone<br><strong>Painting:</strong> Hand painted<br><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro<br><strong>Art Print:</strong> by Francesco Manna<br><strong>Scale:</strong> 1/10</p>"
+            "content": "<p>Limited edition H.P. Lovecraft statue \u2014 a hand-painted polystone masterpiece that brings the essence of cosmic horror into your collection.</p><p><strong>Edition size:</strong> 100 pieces worldwide \u2014 produced in two runs of 50. First run nearly complete.<br><strong>Height:</strong> 42 cm<br><strong>Width / Depth:</strong> 23.2 cm / 26.6 cm<br><strong>Material:</strong> Polystone<br><strong>Painting:</strong> Hand painted<br><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro<br><strong>Art Print:</strong> by Francesco Manna<br><strong>Scale:</strong> 1/10</p>"
           }
         },
         "acc-2": {
           "type": "accordion_item",
           "settings": {
             "heading": "Shipping",
-            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
+            "content": "<p>Ships from production: June 2026 \u00b7 Estimated delivery: August\u2013September 2026. Flat rate EU shipping: \u20ac20. All orders are insured and tracked. Packed in our custom protective box \u2014 the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy \u2192</a></p>"
           }
         },
         "acc-3": {
           "type": "accordion_item",
           "settings": {
             "heading": "Refund & Damaged Item Policy",
-            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy \u2192</a></p>"
           }
         }
       },
@@ -80,19 +80,19 @@
         "acc-3"
       ],
       "settings": {
-        "collection_label": "Masters of Madness · Chapter I",
+        "collection_label": "Masters of Madness \u00b7 Chapter I",
         "subtitle": "The Forbidden Edition",
         "show_edition": false,
         "edition_claimed": 46,
         "edition_total": 100,
-        "edition_ships": "Ships from production: June 2026 · Estimated delivery: August–September 2026",
-        "bundle_title": "What's Included — Preorder Bundle",
-        "bundle_original_price": "€890",
+        "edition_ships": "Ships from production: June 2026 \u00b7 Estimated delivery: August\u2013September 2026",
+        "bundle_title": "What's Included \u2014 Preorder Bundle",
+        "bundle_original_price": "\u20ac890",
         "bundle_discount_label": "Preorder discount",
-        "bundle_discount_amount": "−€60",
+        "bundle_discount_amount": "\u2212\u20ac60",
         "bundle_total_label": "Your price today",
-        "bundle_save_note": "Preorder offer — you pay only the statue price, extras included · EU shipping: €20",
-        "btn_text": "Preorder — Secure Your Number",
+        "bundle_save_note": "Preorder offer \u2014 you pay only the statue price, extras included \u00b7 EU shipping: \u20ac20",
+        "btn_text": "Preorder \u2014 Secure Your Number",
         "atc_note": "Once gone, it's forever.",
         "balance_note": "",
         "show_sticky": true
@@ -106,8 +106,8 @@
           "settings": {
             "stars": 5,
             "text": "I was a bit skeptical for a thousand different reasons... that skepticism vanished the moment I unboxed it.",
-            "author": "Marco A. — Italy",
-            "via": "Verified collector · Facebook"
+            "author": "Marco A. \u2014 Italy",
+            "via": "Verified collector \u00b7 Facebook"
           }
         },
         "rev-2": {
@@ -115,8 +115,8 @@
           "settings": {
             "stars": 5,
             "text": "I had my doubts about the final result. I can honestly say the product is top-tier. The level of detail is insane.",
-            "author": "Luca G. — Italy",
-            "via": "Verified collector · Facebook"
+            "author": "Luca G. \u2014 Italy",
+            "via": "Verified collector \u00b7 Facebook"
           }
         },
         "rev-3": {
@@ -124,8 +124,8 @@
           "settings": {
             "stars": 5,
             "text": "Mine arrived. Long story short... it's stunning. Photos wouldn't do it justice. Great job.",
-            "author": "Alessandro A. — Italy",
-            "via": "Verified collector · Facebook"
+            "author": "Alessandro A. \u2014 Italy",
+            "via": "Verified collector \u00b7 Facebook"
           }
         }
       },
@@ -144,7 +144,7 @@
       "settings": {
         "eyebrow": "Real. Unfiltered.",
         "heading": "See what arrives at your door.",
-        "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
+        "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector \u2014 the same experience you'll have when your numbered piece arrives.",
         "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
         "cell1_label": "Packaging",
         "cell1_value": "Custom protective box",
@@ -178,7 +178,7 @@
           "settings": {
             "number": "03",
             "title": "Hand Painting",
-            "description": "Each piece painted by hand. No two are identical — the craft leaves its mark on every piece."
+            "description": "Each piece painted by hand. No two are identical \u2014 the craft leaves its mark on every piece."
           }
         },
         "step-4": {
@@ -199,7 +199,7 @@
       "settings": {
         "eyebrow": "Crafting the Cosmic Creature",
         "headline": "200+ hours.\nOne masterpiece.",
-        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness — not just his creatures.",
+        "description": "Our first official project after years exploring custom production and the craft of series manufacturing. A genuine tribute to H.P. Lovecraft's narrative madness \u2014 not just his creatures.",
         "image": "shopify://shop_images/Everart_H.P.Lovecraft_Resin_statue_skull_detail.jpg",
         "image_fit": "cover"
       }
@@ -220,18 +220,18 @@
           "type": "feature_card",
           "settings": {
             "image": "shopify://shop_images/IMG_Necronomicon_HPL.jpg",
-            "tag": "Included — Complete Edition",
+            "tag": "Included \u2014 Complete Edition",
             "title": "The Necronomicon",
-            "description": "A 12cm resin replica of the forbidden tome. A standalone collectible valued at €90."
+            "description": "A 12cm resin replica of the forbidden tome. A standalone collectible valued at \u20ac90."
           }
         },
         "feat-3": {
           "type": "feature_card",
           "settings": {
             "image": "shopify://shop_images/IMG_Twoheads_HPL-Recuperato.jpg",
-            "tag": "Included — Complete Edition",
+            "tag": "Included \u2014 Complete Edition",
             "title": "Original Art Print",
-            "description": "30×40cm black and white print by Francesco Manna. Fine paper, exhibition quality. Valued at €40."
+            "description": "30\u00d740cm black and white print by Francesco Manna. Fine paper, exhibition quality. Valued at \u20ac40."
           }
         },
         "feat-4": {
@@ -257,9 +257,9 @@
       "settings": {
         "eyebrow": "For real collectors",
         "heading": "Behind the madness.",
-        "description": "40 pages. The full making of Chapter I — free, for our collector list.",
-        "lead_icon": "📄",
-        "lead_title": "The Making of Chapter I — PDF",
+        "description": "40 pages. The full making of Chapter I \u2014 free, for our collector list.",
+        "lead_icon": "\ud83d\udcc4",
+        "lead_title": "The Making of Chapter I \u2014 PDF",
         "lead_desc": "Concept sketches, sculpting, painting, the narrative choices. Exclusive to our collector list.",
         "input_placeholder": "Your email address",
         "btn_text": "Get it free",
@@ -272,11 +272,16 @@
         "eyebrow": "The Collection",
         "limit": 4
       }
+    },
+    "everart-product-write-review": {
+      "type": "everart-product-write-review",
+      "settings": {}
     }
   },
   "order": [
     "everart-product-main",
     "everart-product-reviews",
+    "everart-product-write-review",
     "everart-product-video",
     "everart-product-process",
     "everart-product-features",
