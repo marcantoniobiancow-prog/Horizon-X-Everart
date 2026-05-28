@@ -9,16 +9,93 @@
  */
 {
   "sections": {
-    "everart_product_simple_RaB7gd": {
-      "type": "everart-product-simple",
-      "name": "Prodotto — Simple",
+    "everart-product-main": {
+      "type": "everart-product-main",
+      "blocks": {
+        "bundle-1": {
+          "type": "bundle_item",
+          "settings": {
+            "item": "H.P. Lovecraft Statue 1/10 — Hand painted polystone",
+            "price": "€760"
+          }
+        },
+        "bundle-2": {
+          "type": "bundle_item",
+          "settings": {
+            "item": "Two interchangeable portrait heads",
+            "price": "incl."
+          }
+        },
+        "bundle-3": {
+          "type": "bundle_item",
+          "settings": {
+            "item": "The Necronomicon — 12cm resin replica",
+            "price": "incl. (€90)"
+          }
+        },
+        "bundle-4": {
+          "type": "bundle_item",
+          "settings": {
+            "item": "Art Print 30×40cm — B&W, by Francesco Manna",
+            "price": "incl. (€40)"
+          }
+        },
+        "bundle-5": {
+          "type": "bundle_item",
+          "settings": {
+            "item": "Numbered Certificate of Authenticity",
+            "price": "incl."
+          }
+        },
+        "acc-1": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Product Details",
+            "content": "<p>Limited edition H.P. Lovecraft statue — a hand-painted polystone masterpiece that brings the essence of cosmic horror into your collection.</p><p><strong>Edition size:</strong> 100 pieces worldwide — produced in two runs of 50. First run nearly complete.<br><strong>Height:</strong> 42 cm<br><strong>Width / Depth:</strong> 23.2 cm / 26.6 cm<br><strong>Material:</strong> Polystone<br><strong>Painting:</strong> Hand painted<br><strong>Artists:</strong> Giacinto Platania, Simona Bordonaro<br><strong>Art Print:</strong> by Francesco Manna<br><strong>Scale:</strong> 1/10</p>"
+          }
+        },
+        "acc-2": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Shipping",
+            "content": "<p>Ships from production: June 2026 · Estimated delivery: August–September 2026. Flat rate EU shipping: €20. All orders are insured and tracked. Packed in our custom protective box — the packaging is part of the experience.</p><p><a href=\"/policies/shipping-policy\">View full shipping policy →</a></p>"
+          }
+        },
+        "acc-3": {
+          "type": "accordion_item",
+          "settings": {
+            "heading": "Refund & Damaged Item Policy",
+            "content": "<p>Every piece is inspected before shipping. In the event of transit damage, contact us at info@studioeverart.com with photos within 48 hours. Preorder cancellations accepted within 14 days of payment.</p><p><a href=\"/policies/refund-policy\">View full refund policy →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "bundle-1",
+        "bundle-2",
+        "bundle-3",
+        "bundle-4",
+        "bundle-5",
+        "acc-1",
+        "acc-2",
+        "acc-3"
+      ],
       "settings": {
-        "collection_label": "",
-        "subtitle": "",
-        "btn_text": "Add to Cart",
-        "atc_note": "",
-        "secondary_btn_text": "",
-        "secondary_btn_url": "",
+        "display_title": "",
+        "collection_label": "Masters of Madness · Chapter I",
+        "subtitle": "The Forbidden Edition",
+        "show_edition": true,
+        "edition_claimed": 46,
+        "edition_total": 100,
+        "edition_ships": "Ships from production: June 2026 · Estimated delivery: August–September 2026",
+        "bundle_title": "What's Included — Preorder Bundle",
+        "bundle_original_price": "€890",
+        "bundle_discount_label": "Preorder discount",
+        "bundle_discount_amount": "−€60",
+        "bundle_total_label": "Your price today",
+        "bundle_save_note": "Preorder offer — you pay only the statue price, extras included · EU shipping: €20",
+        "btn_text": "Preorder — Secure Your Number",
+        "atc_note": "Once gone, it's forever.",
+        "balance_note": "",
         "show_sticky": true
       }
     },
@@ -219,7 +296,7 @@
     }
   },
   "order": [
-    "everart_product_simple_RaB7gd",
+    "everart-product-main",
     "everart-product-reviews",
     "everart-product-write-review",
     "everart-product-video",
