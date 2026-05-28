@@ -35,6 +35,9 @@
 
     <meta name="google-site-verification" content="8Eb6g6D9CLQy-P_Y48xFj_scP647_hI87jl1BTWPTEk" />
     {%- render 'meta-tags' -%}
+    {%- if template.name == 'search' -%}
+      <meta name="robots" content="noindex,follow">
+    {%- endif -%}
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
