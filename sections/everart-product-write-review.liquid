@@ -1,0 +1,471 @@
+{%- comment -%}
+  EverArt — Write a Review
+  Form nativo Shopify product_review + display stelle aggregate da metafield
+  Palette dark coerente con le altre sezioni prodotto
+{%- endcomment -%}
+
+{%- assign s   = section.settings -%}
+{%- assign sid = section.id -%}
+
+{%- liquid
+  assign rating       = product.metafields.reviews.rating.value.rating
+  assign scale_max    = product.metafields.reviews.rating.value.scale_max | default: 5
+  assign rating_count = product.metafields.reviews.rating_count
+
+  if rating != blank
+    assign decimal = rating | modulo: 1
+    assign decimal_rating = 0
+    if decimal >= 0.3 and decimal <= 0.7
+      assign decimal_rating = 0.5
+    elsif decimal > 0.7
+      assign decimal_rating = 1
+    endif
+    assign decimal_rounded = decimal_rating | ceil
+    assign svg_filled_stars = rating | floor | plus: decimal_rounded
+  endif
+-%}
+
+<style>
+#ewr-{{ sid }} {
+  background: #0f0f0f;
+  border-top: 1px solid #2a2a2a;
+  padding: 80px 0;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+#ewr-{{ sid }} .ewr-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+#ewr-{{ sid }} .ewr-label {
+  font-size: 9.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 14px;
+}
+#ewr-{{ sid }} .ewr-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #fff;
+  margin: 0 0 48px;
+  line-height: 1.1;
+}
+
+/* Aggregate rating */
+#ewr-{{ sid }} .ewr-aggregate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #2a2a2a;
+}
+#ewr-{{ sid }} .ewr-stars-display {
+  display: flex;
+  gap: 3px;
+}
+#ewr-{{ sid }} .ewr-star-svg {
+  width: 20px;
+  height: 20px;
+}
+#ewr-{{ sid }} .ewr-star-svg.filled { fill: #c4a030; }
+#ewr-{{ sid }} .ewr-star-svg.empty  { fill: rgba(196,160,48,.2); }
+#ewr-{{ sid }} .ewr-score {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+#ewr-{{ sid }} .ewr-count {
+  font-size: 13px;
+  color: #888;
+  letter-spacing: .05em;
+}
+
+/* Form layout */
+#ewr-{{ sid }} .ewr-form-wrap {
+  max-width: 680px;
+}
+#ewr-{{ sid }} .ewr-form-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 32px;
+  letter-spacing: -.01em;
+}
+
+/* Star picker */
+#ewr-{{ sid }} .ewr-star-picker {
+  display: flex;
+  gap: 6px;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-bottom: 28px;
+}
+#ewr-{{ sid }} .ewr-star-picker input[type="radio"] {
+  display: none;
+}
+#ewr-{{ sid }} .ewr-star-picker label {
+  cursor: pointer;
+  font-size: 28px;
+  color: rgba(196,160,48,.25);
+  transition: color .15s ease;
+  line-height: 1;
+}
+#ewr-{{ sid }} .ewr-star-picker label:hover,
+#ewr-{{ sid }} .ewr-star-picker label:hover ~ label,
+#ewr-{{ sid }} .ewr-star-picker input[type="radio"]:checked ~ label {
+  color: #c4a030;
+}
+#ewr-{{ sid }} .ewr-star-label {
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Fields */
+#ewr-{{ sid }} .ewr-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+#ewr-{{ sid }} .ewr-field {
+  margin-bottom: 16px;
+}
+#ewr-{{ sid }} .ewr-field label {
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+#ewr-{{ sid }} .ewr-field input,
+#ewr-{{ sid }} .ewr-field textarea {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #fff;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  padding: 14px 16px;
+  border-radius: 2px;
+  transition: border-color .15s ease;
+  outline: none;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+#ewr-{{ sid }} .ewr-field input:focus,
+#ewr-{{ sid }} .ewr-field textarea:focus {
+  border-color: #c4a030;
+}
+#ewr-{{ sid }} .ewr-field input::placeholder,
+#ewr-{{ sid }} .ewr-field textarea::placeholder {
+  color: #555;
+}
+#ewr-{{ sid }} .ewr-field textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Submit */
+#ewr-{{ sid }} .ewr-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  color: #0f0f0f;
+  font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+  margin-top: 8px;
+}
+#ewr-{{ sid }} .ewr-submit:hover {
+  background: #c4a030;
+  color: #0f0f0f;
+}
+
+/* Messages */
+#ewr-{{ sid }} .ewr-message {
+  padding: 16px 20px;
+  border-radius: 2px;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+#ewr-{{ sid }} .ewr-message--success {
+  background: rgba(90,154,90,.15);
+  border: 1px solid rgba(90,154,90,.4);
+  color: #8ecb8e;
+}
+#ewr-{{ sid }} .ewr-message--error {
+  background: rgba(139,26,26,.2);
+  border: 1px solid rgba(139,26,26,.5);
+  color: #e08080;
+}
+
+/* Note pending moderation */
+#ewr-{{ sid }} .ewr-note {
+  font-size: 11px;
+  color: #555;
+  margin-top: 16px;
+  letter-spacing: .03em;
+}
+
+@media (max-width: 767px) {
+  #ewr-{{ sid }} { padding: 60px 0; }
+  #ewr-{{ sid }} .ewr-inner { padding: 0 20px; }
+  #ewr-{{ sid }} .ewr-row { grid-template-columns: 1fr; }
+}
+</style>
+
+<div id="ewr-{{ sid }}">
+  <div class="ewr-inner">
+
+    {%- if s.eyebrow != blank -%}
+      <span class="ewr-label">{{ s.eyebrow }}</span>
+    {%- endif -%}
+    <h2 class="ewr-title">{{ s.heading }}</h2>
+
+    {%- if rating != blank -%}
+      <div class="ewr-aggregate">
+        <svg class="visually-hidden" style="width:0;height:0;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ewr-half-{{ sid }}" x1="0" x2="100%" y1="0" y2="0">
+              <stop offset="50%" stop-color="#c4a030"></stop>
+              <stop offset="50%" stop-color="rgba(196,160,48,.2)"></stop>
+            </linearGradient>
+            <symbol id="ewr-star-{{ sid }}" viewBox="0 0 32 32">
+              <path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z"/>
+            </symbol>
+          </defs>
+        </svg>
+        <div class="ewr-stars-display" aria-label="{{ 'accessibility.rating' | t: rating: rating }}">
+          {%- for star in (1..scale_max) -%}
+            <svg
+              class="ewr-star-svg {% if star <= svg_filled_stars %}filled{% else %}empty{% endif %}"
+              viewBox="0 0 32 32"
+              role="presentation"
+            >
+              <use xlink:href="#ewr-star-{{ sid }}"{% if rating != blank and decimal_rating == 0.5 and star == svg_filled_stars %} fill="url(#ewr-half-{{ sid }})"{% endif %}></use>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <span class="ewr-score">{{ rating | round: 1 }}</span>
+        <span class="ewr-count">{{ rating_count }} {{ 'content.reviews' | t }}</span>
+      </div>
+    {%- endif -%}
+
+    <div class="ewr-form-wrap">
+      <p class="ewr-form-title">{{ s.form_heading }}</p>
+
+      {%- if product.metafields.reviews.form_state == 'published' or true -%}
+        {%- form 'product_review', product -%}
+
+          {%- if form.posted_successfully? -%}
+            <div class="ewr-message ewr-message--success">
+              {{ s.success_msg | default: 'Thank you — your review has been submitted and is pending approval.' }}
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="ewr-message ewr-message--error">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <span class="ewr-star-label">{{ s.rating_label }}</span>
+          <div class="ewr-star-picker" role="group" aria-label="{{ s.rating_label }}">
+            {%- for i in (5..1) -%}
+              {%- assign star_val = i | minus: 0 -%}
+              <input
+                type="radio"
+                name="review[rating]"
+                id="ewr-star-{{ sid }}-{{ i }}"
+                value="{{ i }}"
+                {%- if form.review.rating == i -%} checked{%- endif -%}
+                required
+              >
+              <label for="ewr-star-{{ sid }}-{{ i }}" aria-label="{{ i }} {{ 'accessibility.star' | t | default: 'star' }}">★</label>
+            {%- endfor -%}
+          </div>
+
+          <div class="ewr-field">
+            <label for="ewr-title-{{ sid }}">{{ s.title_label }}</label>
+            <input
+              type="text"
+              name="review[title]"
+              id="ewr-title-{{ sid }}"
+              placeholder="{{ s.title_placeholder }}"
+              value="{{ form.review.title }}"
+            >
+          </div>
+
+          <div class="ewr-field">
+            <label for="ewr-body-{{ sid }}">{{ s.body_label }}</label>
+            <textarea
+              name="review[body]"
+              id="ewr-body-{{ sid }}"
+              placeholder="{{ s.body_placeholder }}"
+              required
+            >{{ form.review.body }}</textarea>
+          </div>
+
+          <div class="ewr-row">
+            <div class="ewr-field">
+              <label for="ewr-author-{{ sid }}">{{ s.author_label }}</label>
+              <input
+                type="text"
+                name="review[author]"
+                id="ewr-author-{{ sid }}"
+                placeholder="{{ s.author_placeholder }}"
+                value="{{ form.review.author }}"
+                required
+              >
+            </div>
+            <div class="ewr-field">
+              <label for="ewr-email-{{ sid }}">{{ s.email_label }}</label>
+              <input
+                type="email"
+                name="review[email]"
+                id="ewr-email-{{ sid }}"
+                placeholder="{{ s.email_placeholder }}"
+                value="{{ form.review.email }}"
+                required
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="ewr-submit">
+            {{ s.btn_label }}
+          </button>
+
+          <p class="ewr-note">{{ s.note }}</p>
+
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "EA — Write Review",
+  "tag": "section",
+  "templates": ["product"],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Verified Collectors"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo sezione",
+      "default": "Share your experience."
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Sottotitolo form",
+      "default": "Write a review"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Label stelle",
+      "default": "Your Rating"
+    },
+    {
+      "type": "text",
+      "id": "title_label",
+      "label": "Label titolo",
+      "default": "Review Title"
+    },
+    {
+      "type": "text",
+      "id": "title_placeholder",
+      "label": "Placeholder titolo",
+      "default": "Give your review a title"
+    },
+    {
+      "type": "text",
+      "id": "body_label",
+      "label": "Label testo",
+      "default": "Your Review"
+    },
+    {
+      "type": "text",
+      "id": "body_placeholder",
+      "label": "Placeholder testo",
+      "default": "Tell us about your experience with this piece"
+    },
+    {
+      "type": "text",
+      "id": "author_label",
+      "label": "Label nome",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "author_placeholder",
+      "label": "Placeholder nome",
+      "default": "Your name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Label email",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Placeholder email",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Testo bottone",
+      "default": "Submit Review"
+    },
+    {
+      "type": "text",
+      "id": "success_msg",
+      "label": "Messaggio successo",
+      "default": "Thank you — your review has been submitted and is pending approval."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Nota sotto form",
+      "default": "Reviews are moderated and published within 48 hours."
+    }
+  ],
+  "presets": [
+    {
+      "name": "EA — Write Review"
+    }
+  ]
+}
+{% endschema %}
