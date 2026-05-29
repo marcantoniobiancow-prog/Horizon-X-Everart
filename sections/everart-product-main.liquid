@@ -922,18 +922,11 @@
       {%- comment -%} Quantità + ATC {%- endcomment -%}
       {%- form 'product', p, id: _form_id -%}
 
-        {%- comment -%} Variant cards — dentro il form così name="id" viene inviato {%- endcomment -%}
-        {%- unless p.has_only_default_variant -%}
+        {%- comment -%} Variant cards — solo se ci sono 2+ varianti {%- endcomment -%}
+        {%- if p.variants.size > 1 -%}
           <span class="epm-vc-label">{{ 'everart.product.payment_options' | t | default: 'Payment options' }}</span>
           <div class="epm-vc-grid">
             {%- for v in p.variants -%}
-              {%- liquid
-                assign is_deposit_variant = false
-                assign v_title_lower = v.title | downcase
-                if v_title_lower contains 'acconto' or v_title_lower contains 'deposit' or v_title_lower contains 'caparra'
-                  assign is_deposit_variant = true
-                endif
-              -%}
               <label class="epm-vc-card" for="epm-var-{{ sid }}-{{ forloop.index0 }}">
                 <input type="radio"
                        id="epm-var-{{ sid }}-{{ forloop.index0 }}"
@@ -945,7 +938,7 @@
                 <span class="epm-vc-title">{{ v.title }}</span>
                 <div class="epm-vc-price-row">
                   <span class="epm-vc-price">{{ v.price | money }}</span>
-                  {%- if v.compare_at_price > v.price and is_deposit_variant == false -%}
+                  {%- if v.compare_at_price > v.price -%}
                     <span class="epm-vc-original">{{ v.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
@@ -957,7 +950,7 @@
           </div>
         {%- else -%}
           <input type="hidden" name="id" value="{{ variant.id }}">
-        {%- endunless -%}
+        {%- endif -%}
 
         <div class="epm-qty-row">
           <span class="epm-qty-lbl">{{ 'everart.product.qty' | t | default: 'Qty' }}</span>
