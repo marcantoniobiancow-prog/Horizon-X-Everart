@@ -26,6 +26,15 @@
             "price": "incl."
           }
         },
+        "alma_widget_alma_widget_block_gLYXGm": {
+          "type": "shopify://apps/alma-widget/blocks/alma_widget_block/4f38fc15-ea4e-44b3-96e0-0c0f2daa413f",
+          "settings": {
+            "display_widget_not_eligible": true,
+            "widget_position": "flex-start",
+            "update_quantity_in_widget": true,
+            "widget_monochrome": false
+          }
+        },
         "bundle-3": {
           "type": "bundle_item",
           "settings": {
@@ -72,6 +81,7 @@
       "block_order": [
         "bundle-1",
         "bundle-2",
+        "alma_widget_alma_widget_block_gLYXGm",
         "bundle-3",
         "bundle-4",
         "bundle-5",
