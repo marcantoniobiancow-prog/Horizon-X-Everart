@@ -1211,7 +1211,12 @@
         var cart = d && d.data && d.data.cartCreate && d.data.cartCreate.cart;
         var errs = d && d.data && d.data.cartCreate && d.data.cartCreate.userErrors;
         if (cart && cart.checkoutUrl) {
-          window.location.href = cart.checkoutUrl;
+          var url = cart.checkoutUrl;
+          var loc = '{{ request.locale.iso_code }}';
+          if (loc && loc !== 'en') {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + 'locale=' + loc;
+          }
+          window.location.href = url;
         } else {
           var msg = (errs && errs.length) ? errs[0].message : 'Errore. Riprova.';
           if (btn) { btn.disabled = false; btn.textContent = origText; }
