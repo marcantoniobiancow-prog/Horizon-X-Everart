@@ -30,6 +30,14 @@
       assign can_buy = true
     endif
   endfor
+  unless can_buy
+    assign can_buy = product.available
+  endunless
+  unless can_buy
+    if p.selected_or_first_available_variant != blank
+      assign can_buy = true
+    endif
+  endunless
 -%}
 
 {%- render 'everart-jsonld-product', rating_value: s.jsonld_rating, review_count: s.jsonld_review_count -%}
