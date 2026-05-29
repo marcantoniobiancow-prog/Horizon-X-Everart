@@ -140,27 +140,6 @@
         "heading": "What they said when they unboxed it."
       }
     },
-    "everart-product-write-review": {
-      "type": "everart-product-write-review",
-      "settings": {
-        "eyebrow": "Verified Collectors",
-        "heading": "Share your experience.",
-        "form_heading": "Write a review",
-        "rating_label": "Your Rating",
-        "title_label": "Review Title",
-        "title_placeholder": "Give your review a title",
-        "body_label": "Your Review",
-        "body_placeholder": "Tell us about your experience with this piece",
-        "author_label": "Name",
-        "author_placeholder": "Your name",
-        "email_label": "Email",
-        "email_placeholder": "your@email.com",
-        "btn_label": "Submit Review",
-        "success_msg": "Thank you — your review has been submitted and is pending approval.",
-        "error_msg": "Please fill in all required fields.",
-        "note": "Reviews are moderated and published within 48 hours."
-      }
-    },
     "everart-product-video": {
       "type": "everart-product-video",
       "settings": {
@@ -168,6 +147,7 @@
         "heading": "See what arrives at your door.",
         "description": "No CGI. No studio lighting tricks. This is a real unboxing from a real collector — the same experience you'll have when your numbered piece arrives.",
         "youtube_url": "https://youtube.com/shorts/Va1ncU0BBlg?feature=share",
+        "play_label": "Unboxing Video",
         "cell1_label": "Packaging",
         "cell1_value": "Custom protective box",
         "cell2_label": "Shipping",
@@ -292,6 +272,7 @@
       "type": "everart-product-suggestions",
       "settings": {
         "eyebrow": "The Collection",
+        "heading": "You may also like",
         "limit": 4
       }
     }
@@ -299,7 +280,6 @@
   "order": [
     "everart-product-main",
     "everart-product-reviews",
-    "everart-product-write-review",
     "everart-product-video",
     "everart-product-process",
     "everart-product-features",
