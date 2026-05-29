@@ -13,33 +13,6 @@
 {%- assign variant = p.selected_or_first_available_variant -%}
 {%- assign media   = p.media -%}
 
-{%- comment -%} Alma: mercato FR/DE/IT via handle o country code {%- endcomment -%}
-{%- assign epm_market  = localization.market.handle | downcase -%}
-{%- assign epm_country = localization.country.iso_code | upcase -%}
-{%- assign epm_is_fr = false -%}
-{%- if epm_market == 'france' or epm_country == 'FR' -%}
-  {%- assign epm_is_fr = true -%}
-{%- endif -%}
-{%- assign epm_is_it = false -%}
-{%- if epm_market == 'italy' or epm_country == 'IT' -%}
-  {%- assign epm_is_it = true -%}
-{%- endif -%}
-{%- assign epm_show_alma = true -%}
-
-{%- comment -%} Trova la variante full-price (non deposit) per il pulsante Alma {%- endcomment -%}
-{%- assign epm_full_variant = nil -%}
-{%- for _kv in p.variants -%}
-  {%- assign _kv_title = _kv.title | downcase -%}
-  {%- unless _kv_title contains 'acconto' or _kv_title contains 'deposit' or _kv_title contains 'caparra' -%}
-    {%- if epm_full_variant == nil -%}
-      {%- assign epm_full_variant = _kv -%}
-    {%- endif -%}
-  {%- endunless -%}
-{%- endfor -%}
-{%- if epm_full_variant == nil -%}
-  {%- assign epm_full_variant = variant -%}
-{%- endif -%}
-{%- comment -%} epm_klarna_installment rimosso: Alma mostra 2×·3×·4× generici {%- endcomment -%}
 
 {%- liquid
   assign col_title = s.collection_label
@@ -64,19 +37,19 @@
 {% stylesheet %}
 
 /* ─────────────────────────────────────────
-   Variabili locali Everart (definite una sola volta)
+   Variabili locali — usa sempre le vars di everart.css (:root)
    ───────────────────────────────────────── */
 .epm-wrapper {
-  --epm-bg:      #0a0a0a;
-  --epm-surf:    #121212;
-  --epm-bdr:     rgb(var(--color-foreground-rgb, 255 255 255) / 0.1);
-  --epm-red:     #8b1a1a;
-  --epm-red2:    #a52020;
-  --epm-fg:      var(--color-foreground, #ffffff);
-  --epm-muted:   rgb(var(--color-foreground-rgb, 255 255 255) / 0.55);
-  --epm-dim:     rgb(var(--color-foreground-rgb, 255 255 255) / 0.4);
+  --epm-bg:      var(--bg, #0a0a0a);
+  --epm-surf:    var(--surf, #121212);
+  --epm-bdr:     var(--bdr, #2a2a2a);
+  --epm-red:     var(--red, #8b1a1a);
+  --epm-red2:    var(--red2, #a52020);
+  --epm-fg:      var(--white, #ffffff);
+  --epm-muted:   var(--muted, #888888);
+  --epm-dim:     var(--dim, #666666);
   --epm-green:   #5a9a5a;
-  --epm-font:    var(--font-body-family, 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif);
+  --epm-font:    var(--sans, 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif);
 
   background: var(--epm-bg);
   color: var(--epm-fg);
@@ -135,7 +108,7 @@
     .epm-img-cell {
       aspect-ratio: 1;
       overflow: hidden;
-      background: #212121;
+      background: var(--surf, #212121);
       cursor: zoom-in;
       position: relative;
 
@@ -348,7 +321,7 @@
     font-size: 13px;
   }
   .epm-bundle-line:last-of-type { border: none; }
-  .epm-bundle-item { color: rgb(var(--color-foreground-rgb, 255 255 255) / 0.8); font-weight: 400; }
+  .epm-bundle-item { color: rgba(255,255,255,.8); font-weight: 400; }
   .epm-bundle-price { color: var(--epm-muted); font-weight: 500; font-size: 14px; }
   .epm-bundle-footer {
     padding: 0 24px 20px;
@@ -573,7 +546,7 @@
     font-size: 11px;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: rgba(255,255,255,.8);
+    color: var(--epm-fg);
     font-weight: 600;
     user-select: none;
     background: none;
@@ -696,7 +669,7 @@
   .sc-ed      { font-size: 10px; color: rgb(255 255 255 / 0.55); letter-spacing: .06em; margin-top: 2px; }
 
   .sc-btn {
-    background: #8b1a1a;
+    background: var(--red, #8b1a1a);
     color: #ffffff;
     border: none;
     padding: 14px 32px;
@@ -709,7 +682,7 @@
     transition: background .2s;
     white-space: nowrap;
 
-    &:hover { background: #a52020; }
+    &:hover { background: var(--red2, #a52020); }
   }
 
   @media (max-width: 767px) {
@@ -743,8 +716,8 @@
 .epm-sticky .sc-price { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
 .epm-sticky .sc-compare { font-size: 14px; font-weight: 400; color: rgb(255 255 255 / 0.45); text-decoration: line-through; }
 .epm-sticky .sc-ed { font-size: 10px; color: rgb(255 255 255 / 0.55); letter-spacing: .06em; margin-top: 2px; }
-.epm-sticky .sc-btn { background: #8b1a1a; color: #ffffff; border: none; padding: 14px 32px; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; cursor: pointer; font-family: var(--font-body-family, 'Instrument Sans', sans-serif); transition: background .2s; white-space: nowrap; }
-.epm-sticky .sc-btn:hover { background: #a52020; }
+.epm-sticky .sc-btn { background: var(--red, #8b1a1a); color: #ffffff; border: none; padding: 14px 32px; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; cursor: pointer; font-family: var(--font-body-family, 'Instrument Sans', sans-serif); transition: background .2s; white-space: nowrap; }
+.epm-sticky .sc-btn:hover { background: var(--red2, #a52020); }
 .epm-sticky.vis { transform: translateY(0); }
 @media (max-width: 767px) {
   .epm-sticky .sc-name { font-size: 13px; }
@@ -760,76 +733,6 @@
   .epm-bundle-acc-arrow,
   .epm-acc-arrow { transition: none; }
   .epm-sticky { transition: none; }
-}
-
-.epm-alma-widget {
-  margin-top: 14px;
-  border: 1px solid var(--epm-bdr);
-  border-radius: 8px;
-  padding: 14px 16px;
-
-  .epm-alma-widget__top {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .epm-alma-widget__logo {
-    font-size: 17px;
-    font-weight: 800;
-    color: #FA5022;
-    letter-spacing: .01em;
-    flex-shrink: 0;
-  }
-
-  .epm-alma-widget__pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .epm-alma-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 11px;
-    border: 1px solid var(--epm-bdr);
-    border-radius: 5px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--epm-muted);
-    background: transparent;
-    cursor: default;
-    transition: none;
-
-    &.is-active {
-      background: var(--epm-fg);
-      color: var(--epm-bg);
-      border-color: var(--epm-fg);
-      font-weight: 700;
-    }
-  }
-
-  .epm-alma-widget__link {
-    display: inline-block;
-    margin-top: 9px;
-    font-size: 11px;
-    color: var(--epm-muted);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-
-    &:hover { color: var(--epm-fg); }
-  }
-
-  @media (max-width: 480px) {
-    .epm-alma-widget__top { gap: 10px; }
-    .epm-alma-pill { padding: 4px 9px; font-size: 12px; }
-  }
 }
 
 {% endstylesheet %}
@@ -1066,24 +969,6 @@
           {%- endif -%}
         </button>
       {%- endform -%}
-
-      {%- if epm_show_alma -%}
-      <div class="epm-alma-widget">
-        <div class="epm-alma-widget__top">
-          <span class="epm-alma-widget__logo">Alma</span>
-          <div class="epm-alma-widget__pills">
-            <span class="epm-alma-pill">2×</span>
-            <span class="epm-alma-pill">3×</span>
-            <span class="epm-alma-pill">4×</span>
-            <span class="epm-alma-pill">10×</span>
-            <span class="epm-alma-pill is-active">12×</span>
-          </div>
-        </div>
-        <a href="https://www.almapay.com/compradores" target="_blank" rel="noopener" class="epm-alma-widget__link">
-          {%- if epm_is_fr -%}En savoir plus{%- elsif epm_is_it -%}Scopri di più{%- else -%}Click to find out more{%- endif -%}
-        </a>
-      </div>
-      {%- endif -%}
 
       <div class="epm-secure-checkout">
         <span class="epm-secure-checkout__label">
