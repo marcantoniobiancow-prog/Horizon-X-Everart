@@ -32,17 +32,8 @@
     assign should_noindex = true
   endif
 
-  if request.page_type == 'index' and shop.metafields.global.title_tag != blank
-    assign og_title = shop.metafields.global.title_tag
-  else
-    assign og_title = page_title | default: shop.name
-  endif
-
-  if request.page_type == 'index' and shop.metafields.global.description_tag != blank
-    assign og_description = shop.metafields.global.description_tag
-  else
-    assign og_description = page_description | default: shop.description | default: shop.name
-  endif
+  assign og_title = page_title | default: shop.name
+  assign og_description = page_description | default: shop.description | default: shop.name
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -128,14 +119,10 @@
 >
 
 <title>
-  {%- if request.page_type == 'index' and shop.metafields.global.title_tag != blank -%}
-    {{- shop.metafields.global.title_tag | escape -}}
-  {%- else -%}
-    {{- page_title -}}
-    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-  {%- endif -%}
+  {{- page_title -}}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
 <link
@@ -143,11 +130,7 @@
   href="{{ canonical_url }}"
 >
 
-{%- if request.page_type == 'index' -%}
-  {%- assign meta_description = shop.metafields.global.description_tag | default: page_description | default: shop.description -%}
-{%- else -%}
-  {%- assign meta_description = page_description -%}
-{%- endif -%}
+{%- assign meta_description = page_description -%}
 {%- if meta_description != blank -%}
   <meta
     name="description"
