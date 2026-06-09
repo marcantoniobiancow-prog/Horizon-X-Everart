@@ -83,7 +83,9 @@
     "featured_product": "Producto destacado",
     "search_suggestions_available": "Buscar sugerencias disponibles de \"{{ query }}\"",
     "price_filter_low": "Precio bajo",
-    "price_filter_high": "Precio alto"
+    "price_filter_high": "Precio alto",
+    "star_rating": "estrellas",
+    "go_to_slide": "Ir a la diapositiva {{ slide }}"
   },
   "actions": {
     "add_to_cart": "Agregar al carrito",
@@ -451,9 +453,13 @@
         "aumenta": "Aumentar cantidad",
         "diminuisci": "Disminuir cantidad"
       }
+    },
+    "product_simple": {
+      "secure_checkout": "Pago seguro"
     }
   },
   "jsonld": {
-    "shipping_label_standard": "Envío Estándar"
+    "shipping_label_standard": "Envío Estándar",
+    "shipping_label_preorder": "Envío internacional — aprox. 2 meses después de la producción"
   }
 }

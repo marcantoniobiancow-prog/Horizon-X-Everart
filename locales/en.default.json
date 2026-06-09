@@ -62,7 +62,9 @@
     "find_country": "Find country",
     "view_pricing_info": "View pricing information",
     "price_filter_low": "Low price",
-    "price_filter_high": "High price"
+    "price_filter_high": "High price",
+    "star_rating": "stars",
+    "go_to_slide": "Go to slide {{ slide }}"
   },
   "actions": {
     "add": "Add",
@@ -444,9 +446,13 @@
         "aumenta": "Increase quantity",
         "diminuisci": "Decrease quantity"
       }
+    },
+    "product_simple": {
+      "secure_checkout": "Secure Checkout"
     }
   },
   "jsonld": {
-    "shipping_label_standard": "Standard Shipping"
+    "shipping_label_standard": "Standard Shipping",
+    "shipping_label_preorder": "International shipping — approx. 2 months after production"
   }
 }
