@@ -318,7 +318,7 @@
   {%- comment -%} ── FEATURED ── {%- endcomment -%}
   {%- if feat1 != blank or feat2 != blank -%}
     <div class="eb-featured">
-      <p class="eb-featured-label">{{ s.featured_label | default: 'In evidenza' }}</p>
+      <p class="eb-featured-label">{{ s.featured_label | default: 'Featured' }}</p>
       <div class="eb-feat-grid">
 
         {%- for i in (1..2) -%}
@@ -368,7 +368,7 @@
     {%- if preview_count > 0 -%}
       <div class="eb-latest">
         <div class="eb-latest-inner">
-          <p class="eb-latest-label">{{ s.latest_label | default: 'Ultimi articoli' }}</p>
+          <p class="eb-latest-label">{{ s.latest_label | default: 'Latest articles' }}</p>
           <div class="eb-latest-grid">
             {%- assign rendered = 0 -%}
             {%- for art in latest_articles -%}

@@ -15,6 +15,7 @@
 
   function kvSubscribe(email, onSuccess, onError) {
     fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + API_KEY, {
+      keepalive: true,
       method: 'POST',
       headers: {
         'content-type': 'application/json',
