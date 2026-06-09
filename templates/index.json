@@ -56,7 +56,7 @@
               "type": "image",
               "name": "t:names.image",
               "settings": {
-                "image": "shopify:\/\/shop_images\/H.P.Lovecraft-Limited.svg",
+                "image": "shopify://shop_images/H.P.Lovecraft-Limited.svg",
                 "link": "",
                 "image_ratio": "adapt",
                 "width": "fill",
@@ -84,7 +84,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>THE FIRST MASTER  ·  LIMITED EDITION  ·  100 PIECES WORLDWIDE<\/p>",
+            "text": "<p>THE FIRST MASTER  ·  LIMITED EDITION  ·  100 PIECES WORLDWIDE</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -110,8 +110,8 @@
           "type": "button",
           "name": "Hero CTA",
           "settings": {
-            "label": "SCOPRI LA FORBIDDEN EDITION",
-            "link": "shopify:\/\/products\/h-p-lovecraft-the-forbidden-edition",
+            "label": "DISCOVER THE FORBIDDEN EDITION",
+            "link": "shopify://products/h-p-lovecraft-the-forbidden-edition",
             "open_in_new_tab": false,
             "width": "fit-content"
           },
@@ -126,14 +126,14 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "video",
-        "image_1": "shopify:\/\/shop_images\/HPL-Banner_Home.jpg",
-        "video_1": "shopify:\/\/files\/videos\/hero-lovecraft-540p.mp4",
+        "image_1": "shopify://shop_images/HPL-Banner_Home.jpg",
+        "video_1": "shopify://files/videos/hero-lovecraft-540p.mp4",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
         "media_type_2_mobile": "image",
-        "link": "shopify:\/\/products\/h-p-lovecraft-the-forbidden-edition",
+        "link": "shopify://products/h-p-lovecraft-the-forbidden-edition",
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -235,18 +235,18 @@
         "eyebrow": "Masters of Madness — Next Chapters",
         "heading": "The collection continues.",
         "description": "Two masters await. Be the first to know — and secure your place before the public announcement.",
-        "card1_image": "shopify:\/\/shop_images\/Frankenstein_preview.jpg",
+        "card1_image": "shopify://shop_images/Frankenstein_preview.jpg",
         "card1_tag": "Masters of Madness — Chapter II",
-        "card1_name": "Frankensteinby Mary Shelley",
+        "card1_name": "Frankenstein\nby Mary Shelley",
         "card1_sub": "The creature meets its creator.",
         "card1_btn": "Discover Chapter II",
-        "card1_url": "shopify:\/\/pages\/mary-shelley-teaser",
-        "card2_image": "shopify:\/\/shop_images\/Banner_BS_179031d0-68e7-4ad0-aeb3-4063e088f2a9.jpg",
+        "card1_url": "shopify://pages/autore-mary-shelley",
+        "card2_image": "shopify://shop_images/Banner_BS_179031d0-68e7-4ad0-aeb3-4063e088f2a9.jpg",
         "card2_tag": "Masters of Madness — Chapter III",
-        "card2_name": "Draculaby Bram Stoker",
+        "card2_name": "Dracula\nby Bram Stoker",
         "card2_sub": "Immortality has a price.",
         "card2_btn": "Discover Chapter III",
-        "card2_url": "shopify:\/\/pages\/dracula-by-bram-stocker"
+        "card2_url": "shopify://pages/dracula-by-bram-stoker"
       }
     },
     "everart-blog-page": {
@@ -255,10 +255,10 @@
         "eyebrow": "Studio Everart",
         "heading": "Horror Collecting",
         "description": "Stories from the studio. The craft, the culture, the collectors. We write when we have something worth saying.",
-        "featured_label": "In evidenza",
-        "featured_article_1": "horror-collecting\/cthulhu-pop-culture-statue",
-        "featured_article_2": "horror-collecting\/resin-vs-polystone-guide-collectors",
-        "latest_label": "Ultimi articoli",
+        "featured_label": "Featured",
+        "featured_article_1": "horror-collecting/cthulhu-pop-culture-statue",
+        "featured_article_2": "horror-collecting/resin-vs-polystone-guide-collectors",
+        "latest_label": "Latest articles",
         "blog": "horror-collecting"
       }
     }
