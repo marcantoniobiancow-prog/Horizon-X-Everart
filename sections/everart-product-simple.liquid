@@ -401,70 +401,6 @@
   }
 }
 
-/* ── Sticky CTA ── */
-#eps-sticky-{{ sid }} {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(10,10,10,.97);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255,255,255,.1);
-  padding: 14px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 300;
-  transform: translateY(100%);
-  transition: transform .3s ease;
-  font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
-  color: #ffffff;
-
-  &.vis { transform: translateY(0); }
-
-  .sc-name    { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
-  .sc-prices  { display: flex; align-items: baseline; gap: 8px; }
-  .sc-price   { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
-  .sc-compare { font-size: 14px; font-weight: 400; color: rgba(255,255,255,.45); text-decoration: line-through; }
-
-  .sc-btn {
-    background: var(--eps-red, #8b1a1a);
-    color: #ffffff;
-    border: none;
-    padding: 14px 32px;
-    font-size: 10px;
-    letter-spacing: .24em;
-    text-transform: uppercase;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
-    transition: background .2s;
-    white-space: nowrap;
-
-    &:hover { background: var(--eps-red2, #a52020); }
-  }
-
-  @media (max-width: 767px) {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px 40px;
-    gap: 10px;
-
-    .sc-name    { font-size: 13px; }
-    .sc-prices  { align-items: baseline; gap: 6px; }
-    .sc-price   { font-size: 22px; }
-    .sc-compare { font-size: 13px; }
-
-    .sc-btn {
-      width: 100%;
-      text-align: center;
-      padding: 14px;
-    }
-  }
-}
-
-/* ── Sticky CTA — flat fallback per CSS nesting (Safari iOS < 17.2) ── */
-/* Flat equivalents of nested selectors inside #eps-sticky-{{ sid }} */
-#eps-sticky-{{ sid }}.vis            { transform: translateY(0); }
-#eps-sticky-{{ sid }} .sc-btn:hover  { background: var(--eps-red2, #a52020); }
 
 /* Flat fallbacks per .eps-wrapper figli nested */
 .eps-wrapper .eps-breadcrumb a               { color: var(--eps-muted); text-decoration: none; transition: color .2s; }
@@ -490,6 +426,59 @@
 .eps-wrapper .eps-secure-checkout__icons img { height: 26px; width: auto; }
 
 {% endstylesheet %}
+
+<style>
+/* ── Sticky CTA — scoped a {{ sid }} (Liquid interpolato in <style>) ── */
+#eps-sticky-{{ sid }} {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,10,.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 14px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 300;
+  transform: translateY(100%);
+  transition: transform .3s ease;
+  font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
+  color: #ffffff;
+}
+#eps-sticky-{{ sid }} .sc-name    { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+#eps-sticky-{{ sid }} .sc-prices  { display: flex; align-items: baseline; gap: 8px; }
+#eps-sticky-{{ sid }} .sc-price   { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+#eps-sticky-{{ sid }} .sc-compare { font-size: 14px; font-weight: 400; color: rgba(255,255,255,.45); text-decoration: line-through; }
+#eps-sticky-{{ sid }} .sc-btn {
+  background: var(--eps-red, #8b1a1a);
+  color: #ffffff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 10px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body-family, 'Instrument Sans', sans-serif);
+  transition: background .2s;
+  white-space: nowrap;
+}
+#eps-sticky-{{ sid }}.vis              { transform: translateY(0); }
+#eps-sticky-{{ sid }} .sc-btn:hover    { background: var(--eps-red2, #a52020); }
+@media (max-width: 767px) {
+  #eps-sticky-{{ sid }} {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 40px;
+    gap: 10px;
+  }
+  #eps-sticky-{{ sid }} .sc-name    { font-size: 13px; }
+  #eps-sticky-{{ sid }} .sc-prices  { align-items: baseline; gap: 6px; }
+  #eps-sticky-{{ sid }} .sc-price   { font-size: 22px; }
+  #eps-sticky-{{ sid }} .sc-compare { font-size: 13px; }
+  #eps-sticky-{{ sid }} .sc-btn     { width: 100%; text-align: center; padding: 14px; }
+}
+</style>
 
 <div class="eps-wrapper" id="eps-wrapper-{{ sid }}">
 
