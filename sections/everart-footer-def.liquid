@@ -398,7 +398,7 @@
         {%- endif -%}
 
         <div class="ef-legal">
-          <span class="ef-legal-text">{{ s.copyright | default: '© 2026 — Everart Studio' }}</span>
+          <span class="ef-legal-text">{%- if s.copyright != blank -%}{{ s.copyright }}{%- else -%}© {{ 'now' | date: '%Y' }} — Studio Everart{%- endif -%}</span>
           {%- if s.privacy_url != blank -%}
             <a href="{{ s.privacy_url }}" class="ef-legal-text">Privacy</a>
           {%- endif -%}

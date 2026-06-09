@@ -49,32 +49,24 @@
     {% endif %}
 
   {%- unless request.design_mode -%}
-  <script>
-    (function () {
-      var COOKIE = 'ea_geo_v2';
-      function getCookie(n) {
-        var m = document.cookie.match('(^|;) ?' + n + '=([^;]*)(;|$)');
-        return m ? m[2] : null;
-      }
-      function setCookie(n, v) {
-        var d = new Date();
-        d.setFullYear(d.getFullYear() + 1);
-        document.cookie = n + '=' + v + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
-      }
-      var current = '{{ request.locale.iso_code }}';
-      if (current !== 'en') return;
-      if (getCookie(COOKIE)) return;
-      setCookie(COOKIE, '1');
-      var map = { it: 'it', fr: 'fr', de: 'de', es: 'es' };
-      var countryMap = { IT: 'it', FR: 'fr', DE: 'de', ES: 'es' };
-      var lang = (navigator.language || 'en').split('-')[0].toLowerCase();
-      var shopifyCountry = '{{ localization.country.iso_code }}';
-      var target = map[lang] || countryMap[shopifyCountry] || '';
-      if (!target) return;
-      location.replace('/' + target + location.pathname + location.search + location.hash);
-    })();
-  </script>
-  {%- endunless -%}
+{%- capture published_locales -%}{%- for loc in shop.published_locales -%}{{ loc.iso_code }},{%- endfor -%}{%- endcapture -%}
+<script>
+  (function () {
+    var COOKIE = 'ea_geo_v2';
+    if (document.cookie.indexOf(COOKIE + '=') !== -1) return;
+    if ('{{ request.locale.iso_code }}' !== 'en') return;
+    var published = '{{ published_locales }}'.split(',').filter(Boolean);
+    var lang = (navigator.language || 'en').split('-')[0].toLowerCase();
+    var country = '{{ localization.country.iso_code }}';
+    var countryMap = { IT: 'it', FR: 'fr', DE: 'de', ES: 'es' };
+    var target = published.indexOf(lang) !== -1 ? lang : (countryMap[country] || '');
+    var d = new Date(); d.setFullYear(d.getFullYear() + 1);
+    document.cookie = COOKIE + '=1;expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+    if (!target || published.indexOf(target) === -1 || target === 'en') return;
+    location.replace('/' + target + location.pathname + location.search + location.hash);
+  })();
+</script>
+{%- endunless -%}
 
         {{ content_for_header }}
     {% # theme-check-enable RemoteAsset %}
