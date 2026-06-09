@@ -519,6 +519,7 @@
       <a
         href="{{ section.settings.link }}"
         class="hero__link"
+        aria-label="{{ section.settings.link_label | default: 'Discover more' | escape }}"
         {% if section.settings.open_in_new_tab %}
           target="_blank" rel="noopener"
         {% endif %}

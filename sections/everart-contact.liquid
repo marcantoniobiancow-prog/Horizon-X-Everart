@@ -63,7 +63,7 @@
 #eac-{{ sid }} .eac-hp {
   position: absolute; left: -9999px; top: -9999px;
   width: 1px; height: 1px; overflow: hidden; opacity: 0;
-  pointer-events: none; tab-index: -1;
+  pointer-events: none;
 }
 
 #eac-{{ sid }} .eac-submit {
@@ -222,14 +222,20 @@
           {%- if s.info_social != blank -%}
             <div class="eac-ci-item">
               <span class="eac-label" style="margin-bottom:8px;display:block">{{ 'everart_contact.label_social' | t }}</span>
-              <p>{{ s.info_social }}</p>
+              <p>{%- if s.instagram_url != blank or s.facebook_url != blank -%}
+  {%- if s.instagram_url != blank -%}<a href="{{ s.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+  {%- if s.instagram_url != blank and s.facebook_url != blank %} · {% endif -%}
+  {%- if s.facebook_url != blank -%}<a href="{{ s.facebook_url }}" target="_blank" rel="noopener">Facebook</a>{%- endif -%}
+{%- else -%}
+  {{ s.info_social }}
+{%- endif -%}</p>
             </div>
           {%- endif -%}
           <div class="eac-divider">
             <span class="eac-label" style="margin-bottom:14px;display:block">
               {{ 'everart_contact.coll_label' | t }}
             </span>
-            <a href="/collections/all" class="eac-coll-btn">Masters of Madness →</a>
+            <a href="{{ s.coll_link | default: routes.all_products_collection_url }}" class="eac-coll-btn">{{ s.coll_text | default: 'Masters of Madness' }} →</a>
           </div>
         </div>
 
