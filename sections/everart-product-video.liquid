@@ -213,12 +213,14 @@
                 <img src="{{ s.cover_image | image_url: width: 1200 }}"
                      alt="{{ s.cover_image.alt | default: s.heading }}"
                      width="1200"
-                     loading="lazy">
+                     loading="lazy"
+                   height="auto">
               {%- else -%}
                 <img src="{{ 'final_unboxing_cover_16_9.png' | asset_url }}"
                      alt="{{ s.heading }}"
                      width="1200"
-                     loading="lazy">
+                     loading="lazy"
+                   height="auto">
               {%- endif -%}
               <div class="epv-cover-overlay"></div>
               <div class="epv-play-btn">
@@ -304,7 +306,7 @@
 {
   "name": "Prodotto — Video",
   "tag": "section",
-  "templates": ["product"],
+  "enabled_on": { "templates": ["product"] },
   "settings": [
     { "type": "text",         "id": "eyebrow",     "label": "Eyebrow",      "default": "Real. Unfiltered." },
     { "type": "text",         "id": "heading",     "label": "Titolo",       "default": "See what arrives at your door." },

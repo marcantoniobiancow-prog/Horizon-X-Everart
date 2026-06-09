@@ -162,14 +162,16 @@
                      src="{{ sug_p.featured_image | image_url: width: 800 }}"
                      loading="lazy"
                      alt="{{ sug_p.featured_image.alt | default: sug_p.title }}"
-                     width="800">
+                     width="800"
+                   height="auto">
               {%- endif -%}
               {%- if sug_p.images.size > 1 -%}
                 <img class="eps-img-2"
                      src="{{ sug_p.images[1] | image_url: width: 800 }}"
                      loading="lazy"
                      alt="{{ sug_p.images[1].alt | default: sug_p.title }}"
-                     width="800">
+                     width="800"
+                   height="auto">
               {%- endif -%}
             </div>
             <div class="eps-body">
@@ -193,7 +195,7 @@
 {
   "name": "Prodotti suggeriti",
   "tag": "section",
-  "templates": ["product"],
+  "enabled_on": { "templates": ["product"] },
   "settings": [
     {
       "type": "text",

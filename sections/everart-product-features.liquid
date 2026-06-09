@@ -102,7 +102,8 @@
             <img src="{{ block.settings.image | image_url: width: 600 }}"
                  alt="{{ block.settings.image.alt | default: block.settings.title }}"
                  width="600"
-                 loading="lazy">
+                 loading="lazy"
+                   height="auto">
           {%- endif -%}
         </div>
         <div class="epf-body">

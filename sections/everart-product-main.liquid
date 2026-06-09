@@ -811,12 +811,14 @@
                  alt="{{ m.alt | default: p.title }}"
                  class="epm-base-img"
                  width="900"
-                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                   height="auto">
             <img src="{{ m | image_url: width: 1600 }}"
                  alt="{{ m.alt | default: p.title }}"
                  class="epm-zoom-img"
                  width="1600"
-                 loading="lazy">
+                 loading="lazy"
+                   height="auto">
           </div>
         {%- endfor -%}
       </div>
